@@ -1,0 +1,6 @@
+C:\Users\drnag\Documents\NET2\Rubric Project\RubricNormingSolution\DataObjects\bin\Debug\DataObjects.dll
+C:\Users\drnag\Documents\NET2\Rubric Project\RubricNormingSolution\DataObjects\bin\Debug\DataObjects.pdb
+C:\Users\drnag\Documents\NET2\Rubric Project\RubricNormingSolution\DataObjects\obj\Debug\DataObjects.csproj.CoreCompileInputs.cache
+C:\Users\drnag\Documents\NET2\Rubric Project\RubricNormingSolution\DataObjects\obj\Debug\DataObjects.dll
+C:\Users\drnag\Documents\NET2\Rubric Project\RubricNormingSolution\DataObjects\obj\Debug\DataObjects.pdb
+C:\Users\drnag\Documents\NET2\Rubric Project\RubricNormingSolution\DataObjects\obj\Debug\DataObjects.csproj.AssemblyReference.cache

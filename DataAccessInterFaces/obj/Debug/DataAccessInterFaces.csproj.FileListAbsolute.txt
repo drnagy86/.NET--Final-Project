@@ -1,0 +1,9 @@
+C:\Users\drnag\Documents\NET2\Rubric Project\RubricNormingSolution\DataAccessInterFaces\bin\Debug\DataAccessInterFaces.dll
+C:\Users\drnag\Documents\NET2\Rubric Project\RubricNormingSolution\DataAccessInterFaces\bin\Debug\DataAccessInterFaces.pdb
+C:\Users\drnag\Documents\NET2\Rubric Project\RubricNormingSolution\DataAccessInterFaces\obj\Debug\DataAccessInterFaces.csproj.CoreCompileInputs.cache
+C:\Users\drnag\Documents\NET2\Rubric Project\RubricNormingSolution\DataAccessInterFaces\obj\Debug\DataAccessInterFaces.dll
+C:\Users\drnag\Documents\NET2\Rubric Project\RubricNormingSolution\DataAccessInterFaces\obj\Debug\DataAccessInterFaces.pdb
+C:\Users\drnag\Documents\NET2\Rubric Project\RubricNormingSolution\DataAccessInterFaces\bin\Debug\DataObjects.dll
+C:\Users\drnag\Documents\NET2\Rubric Project\RubricNormingSolution\DataAccessInterFaces\bin\Debug\DataObjects.pdb
+C:\Users\drnag\Documents\NET2\Rubric Project\RubricNormingSolution\DataAccessInterFaces\obj\Debug\DataAccessInterFaces.csproj.AssemblyReference.cache
+C:\Users\drnag\Documents\NET2\Rubric Project\RubricNormingSolution\DataAccessInterFaces\obj\Debug\DataAccessInterFaces.csproj.CopyComplete

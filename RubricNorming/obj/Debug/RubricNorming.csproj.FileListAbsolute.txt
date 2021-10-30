@@ -1,0 +1,15 @@
+C:\Users\drnag\Documents\NET2\Rubric Project\RubricNormingSolution\RubricNorming\bin\Debug\RubricNorming.exe.config
+C:\Users\drnag\Documents\NET2\Rubric Project\RubricNormingSolution\RubricNorming\bin\Debug\RubricNorming.exe
+C:\Users\drnag\Documents\NET2\Rubric Project\RubricNormingSolution\RubricNorming\bin\Debug\RubricNorming.pdb
+C:\Users\drnag\Documents\NET2\Rubric Project\RubricNormingSolution\RubricNorming\obj\Debug\RubricNorming.csproj.AssemblyReference.cache
+C:\Users\drnag\Documents\NET2\Rubric Project\RubricNormingSolution\RubricNorming\obj\Debug\MainWindow.g.cs
+C:\Users\drnag\Documents\NET2\Rubric Project\RubricNormingSolution\RubricNorming\obj\Debug\App.g.cs
+C:\Users\drnag\Documents\NET2\Rubric Project\RubricNormingSolution\RubricNorming\obj\Debug\RubricNorming_MarkupCompile.cache
+C:\Users\drnag\Documents\NET2\Rubric Project\RubricNormingSolution\RubricNorming\obj\Debug\RubricNorming_MarkupCompile.lref
+C:\Users\drnag\Documents\NET2\Rubric Project\RubricNormingSolution\RubricNorming\obj\Debug\MainWindow.baml
+C:\Users\drnag\Documents\NET2\Rubric Project\RubricNormingSolution\RubricNorming\obj\Debug\RubricNorming.g.resources
+C:\Users\drnag\Documents\NET2\Rubric Project\RubricNormingSolution\RubricNorming\obj\Debug\RubricNorming.Properties.Resources.resources
+C:\Users\drnag\Documents\NET2\Rubric Project\RubricNormingSolution\RubricNorming\obj\Debug\RubricNorming.csproj.GenerateResource.cache
+C:\Users\drnag\Documents\NET2\Rubric Project\RubricNormingSolution\RubricNorming\obj\Debug\RubricNorming.csproj.CoreCompileInputs.cache
+C:\Users\drnag\Documents\NET2\Rubric Project\RubricNormingSolution\RubricNorming\obj\Debug\RubricNorming.exe
+C:\Users\drnag\Documents\NET2\Rubric Project\RubricNormingSolution\RubricNorming\obj\Debug\RubricNorming.pdb
