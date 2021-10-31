@@ -24,3 +24,5 @@ C:\Users\drnag\Documents\NET2\Rubric Project\RubricNormingSolution\RubricNorming
 C:\Users\drnag\Documents\NET2\Rubric Project\RubricNormingSolution\RubricNorming\obj\Debug\RubricNorming.pdb
 C:\Users\drnag\Documents\NET2\Rubric Project\RubricNormingSolution\RubricNorming\bin\Debug\DataAccessLayer.dll
 C:\Users\drnag\Documents\NET2\Rubric Project\RubricNormingSolution\RubricNorming\bin\Debug\DataAccessLayer.pdb
+C:\Users\drnag\Documents\NET2\Rubric Project\RubricNormingSolution\RubricNorming\obj\Debug\UpdatePasswordWindow.g.cs
+C:\Users\drnag\Documents\NET2\Rubric Project\RubricNormingSolution\RubricNorming\obj\Debug\UpdatePasswordWindow.baml

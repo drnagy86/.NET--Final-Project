@@ -32,29 +32,76 @@ namespace RubricNorming
             var userID = this.txtUserID.Text;
             var pwd = this.pwdPassword.Password;
 
-            try
-            {
-                _user = _userManager.LoginUser(userID, pwd);
 
-                string rolesList = "";
-                foreach (var role in _user.Roles)
+            if (btnLogin.Content.ToString() == "Login")
+            {
+
+                try
                 {
-                    rolesList += " " + role;
+                    _user = _userManager.LoginUser(userID, pwd);
+
+
+                    string instructions = "On first login, all new users must choose a password to continue.";
+
+                    if (_user != null && pwd == "newuser")
+                    {
+                        var upDateWindow = new UpdatePasswordWindow(_userManager, _user, instructions, true);
+
+                        bool? result = upDateWindow.ShowDialog();
+                        if (result == true)
+                        {
+                            //updateUIForUser();
+                            string rolesList = "";
+                            foreach (var role in _user.Roles)
+                            {
+                                rolesList += " " + role;
+                            }
+                            MessageBox.Show("Welcome back, " + _user.GivenName +
+                                "\n\n" + "Your roles are:" + rolesList);
+                        }
+                        else
+                        {
+                            _user = null;
+                            //updateUIforLogOut();
+                            MessageBox.Show("You did not update your password. You will be logged out.");
+                        }
+                    }
+                    else if (_user != null)
+                    {
+                        //updateUIforUser();
+                    }
+
+
+
+                    //string rolesList = "";
+                    //foreach (var role in _user.Roles)
+                    //{
+                    //    rolesList += " " + role;
+                    //}
+                    //MessageBox.Show("Welcome back, " + _user.GivenName +
+                    //    "\n\n" + "Your roles are:" + rolesList);
                 }
-                MessageBox.Show("Welcome back, " + _user.GivenName +
-                    "\n\n" + "Your roles are:" + rolesList);
+                catch (Exception ex)
+                {
+
+                    MessageBox.Show(ex.Message + "\n\n" +
+                        ex.InnerException.Message,
+                        "Alert!",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error);
+
+                    pwdPassword.Password = "";
+                    txtUserID.Select(0, Int32.MaxValue);
+                    txtUserID.Focus();
+                }
+
             }
-            catch (Exception ex)
+            else
             {
-
-                MessageBox.Show(ex.Message + "\n\n" +
-                    ex.InnerException.Message,
-                    "Alert!",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error);
-
-                pwdPassword.Password = "";
+                //upDateUIforLogOut();
             }
+
+            
         }
     }
 }
