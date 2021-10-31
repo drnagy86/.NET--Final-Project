@@ -16,6 +16,8 @@ namespace LogicLayer
         User GetUserByUserID(string userID);
         List<string> GetRolesForUser(string userID);
 
+        bool ResetPassword(string userID, string oldPassword, string newPassword);
+
 
 
     }

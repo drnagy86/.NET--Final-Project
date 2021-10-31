@@ -143,5 +143,30 @@ namespace LogicLayer
 
             return loggedInUser;
         }
+
+        public bool ResetPassword(string userID, string oldPassword, string newPassword)
+        {
+            bool result = false;
+
+            try
+            {
+                result = (1 == _userAccessor.UpdatePasswordHash(
+                    userID.ToLower(),
+                    HashSha256(oldPassword),
+                    HashSha256(newPassword)
+                    )
+                    );
+
+                if (!result)
+                {
+                    throw new ApplicationException("Update Failed");
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return result;
+        }
     }
 }

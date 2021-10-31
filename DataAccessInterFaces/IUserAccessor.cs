@@ -12,8 +12,9 @@ namespace DataAccessInterFaces
     {
         int AuthenticateUserWithUserIDAndPasswordHash(string userID, string passwordHash);
         User SelectUserByUserID(string userID);
-
         List<string> SelectRolesByUserID(string userID);
+        int UpdatePasswordHash(string userID, string oldPassword, string newPassword);
+
 
     }
 }
