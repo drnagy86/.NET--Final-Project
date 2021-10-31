@@ -185,6 +185,60 @@ namespace LogicLayerTests
 
         }
 
+        [TestMethod]
+        public void TestRestPasswordWorksWithValidPasswords()
+        {
+            // arrange
+            const string userID = "tess@company.com";
+            const string oldPassword = "newuser";
+            const string newPassword = "password";
+            bool expectedResult = true;
+            bool actualResult;
+
+            //act
+            actualResult = userManager.ResetPassword(userID, oldPassword, newPassword);
+
+            // assert
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
+
+        [TestMethod]
+        [ExpectedException(typeof(ApplicationException))]
+        public void TestRestPasswordWithBadOldPassword()
+        {
+            // arrange
+            const string userID = "tess@company.com";
+            const string oldPassword = "xnewuser";
+            const string newPassword = "password";
+            bool expectedResult = true;
+            bool actualResult;
+
+            //act
+            actualResult = userManager.ResetPassword(userID, oldPassword, newPassword);
+
+            // assert
+            // exception checking
+        }
+
+
+        [TestMethod]
+        [ExpectedException(typeof(ApplicationException))]
+        public void TestRestPasswordWithBadUserID()
+        {
+            // arrange
+            const string userID = "xtess@company.com";
+            const string oldPassword = "newuser";
+            const string newPassword = "password";
+            bool expectedResult = true;
+            bool actualResult;
+
+            //act
+            actualResult = userManager.ResetPassword(userID, oldPassword, newPassword);
+
+            // assert
+            // exception checking
+        }
 
     }
 }

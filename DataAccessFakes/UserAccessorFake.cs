@@ -115,14 +115,29 @@ namespace DataAccessFakes
                 {
                     throw new ApplicationException("User not found");
                 }
-
-
             }
 
-
             return user;
+        }
 
+        public int UpdatePasswordHash(string userID, string oldPassword, string newPassword)
+        {
+            int rowsAffected = 0;
 
+            for (int i = 0; i < fakeUsers.Count; i++)
+            {
+                if (fakeUsers[i].UserID == userID)
+                {
+                    if (passwordHashes[i] == oldPassword)
+                    {
+                        passwordHashes[i] = newPassword;
+                        rowsAffected = 1;
+                        break;
+                    }
+                }
+            }
+
+            return rowsAffected;
         }
     }
 }

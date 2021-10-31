@@ -155,6 +155,50 @@ namespace DataAccessLayer
 
         }
 
+        public int UpdatePasswordHash(string userID, string oldPassword, string newPassword)
+        {
+            int rowsAffected = 0;
 
+            //connection
+            var conn = DBConnection.GetConnection();
+            // set cmd Text
+            var cmdText = "sp_update_passwordHash";
+            // create command object
+            var cmd = new SqlCommand(cmdText, conn);
+            // command type
+            cmd.CommandType = CommandType.StoredProcedure;
+
+
+            // add parameters
+            cmd.Parameters.Add("@UserID", SqlDbType.NVarChar, 50);
+            cmd.Parameters.Add("@OldPasswordHash", SqlDbType.NVarChar, 100);
+            cmd.Parameters.Add("@NewPasswordHash", SqlDbType.NVarChar, 100);
+            // param values
+            cmd.Parameters["@UserID"].Value = userID;
+            cmd.Parameters["@OldPasswordHash"].Value = oldPassword;
+            cmd.Parameters["@NewPasswordHash"].Value = newPassword;
+
+            try
+            {
+                conn.Open();
+
+                rowsAffected = cmd.ExecuteNonQuery();
+
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return rowsAffected;
+
+
+        }
     }
 }
