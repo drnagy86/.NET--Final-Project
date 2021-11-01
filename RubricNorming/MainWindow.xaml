@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:RubricNorming"
         mc:Ignorable="d"
         x:Name="frmMainWindow"
-        Title="Rubric Norming" Height="900" Width="1200" WindowStartupLocation="CenterScreen">
+        Title="Rubric Norming" Height="900" Width="1200" WindowStartupLocation="CenterScreen" Loaded="frmMainWindow_Loaded">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>

@@ -7,9 +7,6 @@ using System.Windows;
 namespace RubricNorming
 {
 
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
 
@@ -50,7 +47,7 @@ namespace RubricNorming
                         bool? result = upDateWindow.ShowDialog();
                         if (result == true)
                         {
-                            //updateUIForUser();
+                            updateUIforUser();
                             string rolesList = "";
                             foreach (var role in _user.Roles)
                             {
@@ -62,24 +59,15 @@ namespace RubricNorming
                         else
                         {
                             _user = null;
-                            //updateUIforLogOut();
+                            updateUIforLogOut();
                             MessageBox.Show("You did not update your password. You will be logged out.");
                         }
                     }
                     else if (_user != null)
                     {
-                        //updateUIforUser();
+                        updateUIforUser();
                     }
 
-
-
-                    //string rolesList = "";
-                    //foreach (var role in _user.Roles)
-                    //{
-                    //    rolesList += " " + role;
-                    //}
-                    //MessageBox.Show("Welcome back, " + _user.GivenName +
-                    //    "\n\n" + "Your roles are:" + rolesList);
                 }
                 catch (Exception ex)
                 {
@@ -98,10 +86,72 @@ namespace RubricNorming
             }
             else
             {
-                //upDateUIforLogOut();
+                updateUIforLogOut();
             }
 
             
+        }
+
+        private void updateUIforUser()
+        {
+            string rolesList = "";
+            for (int i = 0; i < _user.Roles.Count; i++)
+            {
+                rolesList += " " + _user.Roles[i];
+                if (i == _user.Roles.Count -2)
+                {
+                    rolesList += " and";
+                }
+                else if (i< _user.Roles.Count-2)
+                {
+                    rolesList += ",";
+                }
+            }
+            MessageBox.Show("Welcome back, " + _user.GivenName +
+                "\n\n" + "Your roles are:" + rolesList);
+
+            lblLogin.Content = "";
+            staMessage.Content = _user.UserID + " logged in as" + rolesList + " on " + DateTime.Now.ToShortTimeString();
+
+            txtUserID.Text = "";
+            pwdPassword.Password = "";
+            txtUserID.Visibility = Visibility.Hidden;
+            pwdPassword.Visibility = Visibility.Hidden;
+            lblUserID.Visibility = Visibility.Hidden;
+            lblPassword.Visibility = Visibility.Hidden;
+
+            btnLogin.Content = "Log Out";
+            btnLogin.IsDefault = false;
+
+            //showTabsForUser();
+
+        }
+
+        private void updateUIforLogOut()
+        {
+            _user = null;
+
+            staMessage.Content = "Welcome. Please log in to continue.";
+
+            txtUserID.Visibility = Visibility.Visible;
+            pwdPassword.Visibility = Visibility.Visible;
+            lblUserID.Visibility = Visibility.Visible;
+            lblPassword.Visibility = Visibility.Visible;
+
+            btnLogin.Content = "Login";
+            btnLogin.Focus();
+
+            btnLogin.IsDefault = true;
+
+            //hide all user tabs
+
+            txtUserID.Focus();
+        }
+
+        private void frmMainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.txtUserID.Focus();
+            //hideAllUserTabs();
         }
     }
 }
