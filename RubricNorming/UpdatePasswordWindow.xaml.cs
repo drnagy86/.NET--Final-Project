@@ -78,14 +78,14 @@ namespace RubricNorming
             catch (Exception ex)
             {
 
-                MessageBox.Show("Update faile.\n\n" + ex.Message);
+                MessageBox.Show("Update failed.\n\n" + ex.Message);
             }
 
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
-            
+            this.Close();
         }
     }
 }
