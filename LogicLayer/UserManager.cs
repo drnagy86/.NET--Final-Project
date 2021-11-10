@@ -73,10 +73,10 @@ namespace LogicLayer
             {
                 requestedUser = _userAccessor.SelectUserByUserID(userID);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                throw ex;
             }
 
             return requestedUser;
