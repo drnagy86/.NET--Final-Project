@@ -12,14 +12,18 @@ namespace RubricNorming
 
         UserManager _userManager = null;
         User _user = null;
+        RubricManager _rubricManager = null;
+
 
         public MainWindow()
         {
             // uses default user accessor
             _userManager = new UserManager();
+            _rubricManager = new RubricManager();
 
             // uses the fake user accessor
             //_userManager = new UserManager(new UserAccessorFake());
+            //_rubricManager = new RubricManager(new RubricAccessorFake());
 
             InitializeComponent();
         }
@@ -120,6 +124,10 @@ namespace RubricNorming
             lblUserID.Visibility = Visibility.Hidden;
             lblPassword.Visibility = Visibility.Hidden;
 
+            stkRubricControls.Visibility = Visibility.Visible;
+            datActiveRubrics.Visibility = Visibility.Visible;
+            viewAllActiveRubrics();
+
             btnLogin.Content = "Log Out";
             btnLogin.IsDefault = false;
 
@@ -138,6 +146,9 @@ namespace RubricNorming
             lblUserID.Visibility = Visibility.Visible;
             lblPassword.Visibility = Visibility.Visible;
 
+            stkRubricControls.Visibility = Visibility.Hidden;
+            datActiveRubrics.Visibility = Visibility.Hidden;
+
             btnLogin.Content = "Login";
             btnLogin.Focus();
 
@@ -151,7 +162,24 @@ namespace RubricNorming
         private void frmMainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             this.txtUserID.Focus();
+
+            // function that toggles visablity on all controls would be nice
+            // or like a flag that controls visiablity
+            stkRubricControls.Visibility = Visibility.Hidden;
+
             //hideAllUserTabs();
+        }
+
+        private void viewAllActiveRubrics()
+        {
+            try
+            {
+                datActiveRubrics.ItemsSource = _rubricManager.RetrieveActiveRubrics();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("There was a problem retrieving the list of rubrics." + ex.Message);
+            }
         }
     }
 }

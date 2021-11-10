@@ -15,22 +15,21 @@
             <RowDefinition Height="25"/>
             <RowDefinition Height="35"/>
         </Grid.RowDefinitions>
+        
         <Menu Grid.Row="0" Padding="20px, 0px">
             <MenuItem x:Name="mnuFile" Header="File">
                 <MenuItem x:Name="mnuLog" Header="Log In/Log Out"></MenuItem>
                 <MenuItem x:Name="mnuExit" Header="Exit"></MenuItem>
             </MenuItem>
-
             <MenuItem x:Name="mnuHelp" Header="Help">
                 <MenuItem x:Name="mnuAbout" Header="About"></MenuItem>
             </MenuItem>
         </Menu>
-
+        
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
-                <RowDefinition/>
-                
-                <RowDefinition Height="20"/>
+                <RowDefinition/>                
+                <RowDefinition Height="25"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
@@ -38,6 +37,11 @@
                 <ColumnDefinition Width="240"/>
                 <ColumnDefinition Width="120" />
             </Grid.ColumnDefinitions>
+
+            <StackPanel x:Name="stkRubricControls" Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Margin="10px">
+                <Button x:Name="btnRetrieveActiveRubrics" Content="All Rubrics" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            </StackPanel>
+            <Label x:Name="lblRubricControls" Grid.Row="1" Grid.Column="0" FontSize="10" HorizontalAlignment="Center">Rubric Controls</Label>
 
             <Grid Grid.Row="0" Grid.Column="1">
                 <Grid.RowDefinitions>
@@ -66,8 +70,12 @@
             </Grid>
             <Button Margin="10px" Grid.Column="3" Grid.Row="0" Content="Login" x:Name="btnLogin" Click="btnLogin_Click" />
 
-            <Label x:Name="lblLogin" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" FontSize="8" HorizontalAlignment="Center">Login</Label>
+            <Label x:Name="lblLogin" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" FontSize="10" HorizontalAlignment="Center">Login</Label>
 
+        </Grid>
+
+        <Grid Grid.Row="2">
+            <DataGrid x:Name="datActiveRubrics"/>
         </Grid>
 
 
