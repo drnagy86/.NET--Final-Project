@@ -9,3 +9,14 @@ C:\Users\drnag\Documents\NET2\Rubric Project\RubricNormingSolution\DataAccessLay
 C:\Users\drnag\Documents\NET2\Rubric Project\RubricNormingSolution\DataAccessLayer\bin\Debug\DataAccessInterFaces.pdb
 C:\Users\drnag\Documents\NET2\Rubric Project\RubricNormingSolution\DataAccessLayer\bin\Debug\DataObjects.pdb
 C:\Users\drnag\Documents\NET2\Rubric Project\RubricNormingSolution\DataAccessLayer\obj\Debug\DataAccessLayer.csproj.CopyComplete
+C:\Users\drnag\Documents\NET2\Rubric Project\NET2-RubricNormingSolution\DataAccessLayer\bin\Debug\DataAccessLayer.dll
+C:\Users\drnag\Documents\NET2\Rubric Project\NET2-RubricNormingSolution\DataAccessLayer\bin\Debug\DataAccessLayer.pdb
+C:\Users\drnag\Documents\NET2\Rubric Project\NET2-RubricNormingSolution\DataAccessLayer\bin\Debug\DataAccessInterFaces.dll
+C:\Users\drnag\Documents\NET2\Rubric Project\NET2-RubricNormingSolution\DataAccessLayer\bin\Debug\DataObjects.dll
+C:\Users\drnag\Documents\NET2\Rubric Project\NET2-RubricNormingSolution\DataAccessLayer\bin\Debug\DataAccessInterFaces.pdb
+C:\Users\drnag\Documents\NET2\Rubric Project\NET2-RubricNormingSolution\DataAccessLayer\bin\Debug\DataObjects.pdb
+C:\Users\drnag\Documents\NET2\Rubric Project\NET2-RubricNormingSolution\DataAccessLayer\obj\Debug\DataAccessLayer.csproj.AssemblyReference.cache
+C:\Users\drnag\Documents\NET2\Rubric Project\NET2-RubricNormingSolution\DataAccessLayer\obj\Debug\DataAccessLayer.csproj.CoreCompileInputs.cache
+C:\Users\drnag\Documents\NET2\Rubric Project\NET2-RubricNormingSolution\DataAccessLayer\obj\Debug\DataAccessLayer.csproj.CopyComplete
+C:\Users\drnag\Documents\NET2\Rubric Project\NET2-RubricNormingSolution\DataAccessLayer\obj\Debug\DataAccessLayer.dll
+C:\Users\drnag\Documents\NET2\Rubric Project\NET2-RubricNormingSolution\DataAccessLayer\obj\Debug\DataAccessLayer.pdb
