@@ -16,7 +16,7 @@ namespace LogicLayerTests
         [TestInitialize]
         public void TestSetup()
         {
-            rubricManager = new RubricManager(new RubricAccessorFake());
+            rubricManager = new RubricManager(new RubricAccessorFake(), new UserAccessorFake());
         }
 
         [TestMethod]
@@ -80,9 +80,25 @@ namespace LogicLayerTests
             // act
             rubric = rubricManager.RetrieveRubricByRubricID(expectedRubricID);
             actualRubricID = rubric.RubricID;
-
             // assert
             // nothing to assert, exception testing
+        }
+
+        [TestMethod]
+        public void TestRetrieveRubricReturnsCorrectRubricCreator()
+        {
+            // arrange
+            Rubric rubric = null;
+            const string expectedUserID = "tess@company.com";
+            string actualUserID;
+
+            // act
+            rubric = rubricManager.RetrieveRubricByRubricID(100000);
+            actualUserID = rubric.RubricCreator.UserID;
+
+            // assert
+            Assert.AreEqual(expectedUserID, actualUserID);
+
         }
 
 

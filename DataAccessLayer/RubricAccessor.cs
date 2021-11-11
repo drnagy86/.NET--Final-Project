@@ -52,8 +52,10 @@ namespace DataAccessLayer
                             //ScoreType = null,
                             //RubricCreator = null
 
-                            ScoreType = new ScoreType() { ScoreTypeID = reader.GetString(5) },
+                            ScoreTypeID = reader.GetString(5), 
                             RubricCreator = new User() { UserID = reader.GetString(6) }
+
+                            // with the score type id, I would need to make another call to that table to get the rest of that information?
 
                         };
 

@@ -13,7 +13,7 @@ namespace DataObjects
         public string Description { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime DateUpdated { get; set; }
-        public ScoreType ScoreType { get; set; }
+        public String ScoreTypeID { get; set; }
         public User RubricCreator { get; set; }
         public bool Active { get; set; }
 

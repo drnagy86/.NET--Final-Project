@@ -22,11 +22,9 @@ namespace DataAccessFakes
                 Description = "A long description of the rubric.",
                 DateCreated = DateTime.Now,
                 DateUpdated = DateTime.Now,
-                ScoreType = new ScoreType() { 
-                    ScoreTypeID = "Percentage",
-                    Description = "Correct divided by total as a percent",
-                    Active = true
-                },
+                ScoreTypeID = "Percentage",
+                    
+                
                 RubricCreator = new User()
                 {
                     UserID = "tess@company.com",
@@ -46,12 +44,8 @@ namespace DataAccessFakes
                 Description = "A long description of the rubric asfgsdfsdh.",
                 DateCreated = DateTime.Now,
                 DateUpdated = DateTime.Now,
-                ScoreType = new ScoreType()
-                {
-                    ScoreTypeID = "Percentage",
-                    Description = "Correct divided by total as a percent",
-                    Active = true
-                },
+                ScoreTypeID = "Percentage",
+                    
                 RubricCreator = new User()
                 {
                     UserID = "tess@company.com",
@@ -71,12 +65,8 @@ namespace DataAccessFakes
                 Description = "A long description of the rubric asfgsdfsdh.",
                 DateCreated = DateTime.Now,
                 DateUpdated = DateTime.Now,
-                ScoreType = new ScoreType()
-                {
-                    ScoreTypeID = "Avg. Facet Score Round Down",
-                    Description = "Correct divided by total as a percent",
-                    Active = true
-                },
+                ScoreTypeID = "Avg. Facet Score Round Down",
+                    
                 RubricCreator = new User()
                 {
                     UserID = "another@company.com",
@@ -96,12 +86,7 @@ namespace DataAccessFakes
                 Description = "A long description of the rubric asfgsdfsdh.",
                 DateCreated = DateTime.Now,
                 DateUpdated = DateTime.Now,
-                ScoreType = new ScoreType()
-                {
-                    ScoreTypeID = "Avg. Facet Score Round",
-                    Description = "Correct divided by total as a percent",
-                    Active = true
-                },
+                ScoreTypeID =  "Avg. Facet Score Round",
                 RubricCreator = new User()
                 {
                     UserID = "dup@company.com",
@@ -121,12 +106,8 @@ namespace DataAccessFakes
                 Description = "A long description of the rubric asfgsdfsdh.",
                 DateCreated = DateTime.Now,
                 DateUpdated = DateTime.Now,
-                ScoreType = new ScoreType()
-                {
-                    ScoreTypeID = "Avg. Facet Score Round",
-                    Description = "Correct divided by total as a percent",
-                    Active = true
-                },
+                ScoreTypeID = "Avg. Facet Score Round",
+                    
                 RubricCreator = new User()
                 {
                     UserID = "dup@company.com",
@@ -139,7 +120,6 @@ namespace DataAccessFakes
                 Active = false
             });
 
-
         }
 
         public Rubric SelectRubricByRubricID(int rubricID)
@@ -147,8 +127,7 @@ namespace DataAccessFakes
             Rubric rubric = null;
 
             try
-            {
-                
+            {              
                 
                 if (_fakeRubrics.Exists(r => r.RubricID == rubricID))
                 {
