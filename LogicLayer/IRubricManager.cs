@@ -12,6 +12,7 @@ namespace LogicLayer
     {
         Rubric RetrieveRubricByRubricID(int rubricID);
         List<Rubric> RetrieveActiveRubrics();
+        
 
     }
 }

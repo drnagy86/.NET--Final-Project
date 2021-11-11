@@ -211,7 +211,7 @@ namespace LogicLayerTests
             const string userID = "tess@company.com";
             const string oldPassword = "xnewuser";
             const string newPassword = "password";
-            bool expectedResult = true;
+            
             bool actualResult;
 
             //act
@@ -230,7 +230,7 @@ namespace LogicLayerTests
             const string userID = "xtess@company.com";
             const string oldPassword = "newuser";
             const string newPassword = "password";
-            bool expectedResult = true;
+            
             bool actualResult;
 
             //act

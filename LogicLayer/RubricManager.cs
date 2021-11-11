@@ -12,15 +12,18 @@ namespace LogicLayer
     public class RubricManager : IRubricManager
     {
         private IRubricAccessor _rubricAccessor = null;
+        private IUserAccessor _userAccessoer = null;
 
         public RubricManager()
         {
             _rubricAccessor = new RubricAccessor();
+            _userAccessoer = new UserAccessor();
         }
 
-        public RubricManager(IRubricAccessor rubricAccessor)
+        public RubricManager(IRubricAccessor rubricAccessor, IUserAccessor userAccessor)
         {
             _rubricAccessor = rubricAccessor;
+            _userAccessoer = userAccessor;
         }
 
         public List<Rubric> RetrieveActiveRubrics()
@@ -34,16 +37,22 @@ namespace LogicLayer
             {
                 throw ex;
             }
+
             return rubricList;
         }
 
         public Rubric RetrieveRubricByRubricID(int rubricID)
         {
             Rubric rubric = null;
+            User rubricCreator = null;
 
             try
             {
                 rubric = _rubricAccessor.SelectRubricByRubricID(rubricID);
+                // need to get the user information
+                rubricCreator = _userAccessoer.SelectUserByUserID(rubric.RubricCreator.UserID);
+                rubric.RubricCreator = rubricCreator;
+                
             }
             catch (Exception ex)
             {
@@ -51,6 +60,7 @@ namespace LogicLayer
             }
 
             return rubric;
+
         }
 
 

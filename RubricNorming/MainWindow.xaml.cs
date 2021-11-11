@@ -3,6 +3,7 @@ using DataObjects;
 using LogicLayer;
 using System;
 using System.Windows;
+using System.Collections.Generic;
 
 namespace RubricNorming
 {
@@ -167,19 +168,60 @@ namespace RubricNorming
             // or like a flag that controls visiablity
             stkRubricControls.Visibility = Visibility.Hidden;
 
+            // what it should be for none-testing purposes
+            //datActiveRubrics.Visibility = Visibility.Hidden;
+
+            //viewAllActiveRubrics();
             //hideAllUserTabs();
         }
 
         private void viewAllActiveRubrics()
         {
+            List<Rubric> rubricList = null;
             try
             {
-                datActiveRubrics.ItemsSource = _rubricManager.RetrieveActiveRubrics();
+                rubricList = _rubricManager.RetrieveActiveRubrics();
+
             }
             catch (Exception ex)
             {
                 MessageBox.Show("There was a problem retrieving the list of rubrics." + ex.Message);
             }
+
+            //List<List<String>> sortedRubricList = new List<List<string>>();
+
+            // attempt at a better sorted list
+            //if (rubricList != null)
+            //{
+            //    rubricList.ForEach(rubric => {
+
+            //        List<string> rubToString = new List<string>();
+            //        rubToString.Add(rubric.Name);
+            //        rubToString.Add(rubric.Description);
+            //        rubToString.Add(rubric.DateCreated.ToString());
+            //        rubToString.Add(rubric.DateUpdated.ToString());
+
+            //        // these two return null until I figure out how to create rubric object that pulls from more than on table
+            //        rubToString.Add(rubric.ScoreType.Description);
+            //        rubToString.Add(rubric.RubricCreator.GivenName + " " + rubric.RubricCreator.FamilyName);
+
+            //        sortedRubricList.Add(rubToString);
+            //    });
+            //}            
+
+            datActiveRubrics.ItemsSource = rubricList;
+            
+
+        }
+
+        private void btnRetrieveActiveRubrics_Click(object sender, RoutedEventArgs e)
+        {
+            viewAllActiveRubrics();
+        }
+
+        private void mnuViewAllRubrics_Click(object sender, RoutedEventArgs e)
+        {
+            viewAllActiveRubrics();
         }
     }
 }

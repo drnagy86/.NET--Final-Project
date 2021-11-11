@@ -21,6 +21,9 @@
                 <MenuItem x:Name="mnuLog" Header="Log In/Log Out"></MenuItem>
                 <MenuItem x:Name="mnuExit" Header="Exit"></MenuItem>
             </MenuItem>
+            <MenuItem x:Name="mnuView" Header="View">
+                <MenuItem x:Name="mnuViewAllRubrics" Header="View All Rubrics" Click="mnuViewAllRubrics_Click"></MenuItem>
+            </MenuItem>
             <MenuItem x:Name="mnuHelp" Header="Help">
                 <MenuItem x:Name="mnuAbout" Header="About"></MenuItem>
             </MenuItem>
@@ -39,7 +42,7 @@
             </Grid.ColumnDefinitions>
 
             <StackPanel x:Name="stkRubricControls" Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Margin="10px">
-                <Button x:Name="btnRetrieveActiveRubrics" Content="All Rubrics" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                <Button x:Name="btnRetrieveActiveRubrics" Content="All Rubrics" HorizontalAlignment="Left" VerticalAlignment="Top" Click="btnRetrieveActiveRubrics_Click"/>
             </StackPanel>
             <Label x:Name="lblRubricControls" Grid.Row="1" Grid.Column="0" FontSize="10" HorizontalAlignment="Center">Rubric Controls</Label>
 
