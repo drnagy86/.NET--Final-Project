@@ -49,14 +49,12 @@ namespace DataAccessLayer
                             Description = reader.GetString(2),
                             DateCreated = reader.GetDateTime(3),
                             DateUpdated = reader.GetDateTime(4),
-                            //ScoreType = null,
-                            //RubricCreator = null
-
                             ScoreTypeID = reader.GetString(5), 
-                            RubricCreator = new User() { UserID = reader.GetString(6) }
-
-                            // with the score type id, I would need to make another call to that table to get the rest of that information?
-
+                            RubricCreator = new User() { 
+                                UserID = reader.GetString(6),
+                                GivenName = reader.GetString(7),
+                                FamilyName = reader.GetString(8)
+                            }
                         };
 
                         rubrics.Add(rubric);
