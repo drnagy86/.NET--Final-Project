@@ -4,6 +4,7 @@ using LogicLayer;
 using System;
 using System.Windows;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace RubricNorming
 {
@@ -181,35 +182,15 @@ namespace RubricNorming
             try
             {
                 rubricList = _rubricManager.RetrieveActiveRubrics();
-
             }
             catch (Exception ex)
             {
                 MessageBox.Show("There was a problem retrieving the list of rubrics." + ex.Message);
             }
 
-            //List<List<String>> sortedRubricList = new List<List<string>>();
+            var rubricListSorted = rubricList.Select(r => new { r.Name, r.Description, r.DateCreated, r.DateUpdated, r.ScoreTypeID, RubricCreatorName = r.RubricCreator.GivenName + " " + r.RubricCreator.FamilyName });
 
-            // attempt at a better sorted list
-            //if (rubricList != null)
-            //{
-            //    rubricList.ForEach(rubric => {
-
-            //        List<string> rubToString = new List<string>();
-            //        rubToString.Add(rubric.Name);
-            //        rubToString.Add(rubric.Description);
-            //        rubToString.Add(rubric.DateCreated.ToString());
-            //        rubToString.Add(rubric.DateUpdated.ToString());
-
-            //        // these two return null until I figure out how to create rubric object that pulls from more than on table
-            //        rubToString.Add(rubric.ScoreType.Description);
-            //        rubToString.Add(rubric.RubricCreator.GivenName + " " + rubric.RubricCreator.FamilyName);
-
-            //        sortedRubricList.Add(rubToString);
-            //    });
-            //}            
-
-            datActiveRubrics.ItemsSource = rubricList;
+            datActiveRubrics.ItemsSource = rubricListSorted;
             
 
         }
