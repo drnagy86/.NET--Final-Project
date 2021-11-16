@@ -92,14 +92,11 @@ namespace RubricNorming
                     txtUserID.Select(0, Int32.MaxValue);
                     txtUserID.Focus();
                 }
-
             }
             else
             {
                 updateUIforLogOut();
-            }
-
-            
+            }            
         }
 
         private void updateUIforUser()
@@ -157,6 +154,7 @@ namespace RubricNorming
             datViewList.Visibility = Visibility.Hidden;
             mnuView.Visibility = Visibility.Hidden;
 
+
             btnLogin.Content = "Login";
             btnLogin.Focus();
 
@@ -167,13 +165,25 @@ namespace RubricNorming
             txtUserID.Focus();
         }
 
+        private void prepareDckFormForRetrieveFacetsByRubricID()
+        {
+            txtblkDockPanelTitle.Text = "Retrieve Facet by Rubric ID Test";
+            lblInput1.Content = "Rubric ID:";
+            dckForm.Visibility = Visibility.Visible;
+
+        }
+
         private void frmMainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             this.txtUserID.Focus();
 
             stkRubricControls.Visibility = Visibility.Hidden;
             datViewList.Visibility = Visibility.Hidden;
-            mnuView.Visibility = Visibility.Hidden;
+            dckForm.Visibility = Visibility.Hidden;
+            
+            // for testing purposes, comment out
+            //mnuView.Visibility = Visibility.Hidden;
+            
 
             //viewAllActiveRubrics();
             //hideAllUserTabs();
@@ -194,7 +204,6 @@ namespace RubricNorming
             // needs better time formating and column names
             var rubricListSorted = rubricList.Select(r => new { r.Name, r.Description, r.DateCreated, r.DateUpdated, r.ScoreTypeID, RubricCreatorName = r.RubricCreator.GivenName + " " + r.RubricCreator.FamilyName });
 
-
             datViewList.ItemsSource = rubricListSorted;
         }
 
@@ -210,9 +219,29 @@ namespace RubricNorming
             {
                 MessageBox.Show("There was a problem retrieving the list of facets." + ex.Message);
             }
-            
-            datViewList.ItemsSource = facets;
 
+            var facetListSorted = facets.Select(f => new { f.FacetID, f.Description, f.DateCreated, f.DateUpdated });            
+            
+            datViewList.ItemsSource = facetListSorted;
+            datViewList.Visibility = Visibility.Visible;
+        }
+
+        private void btnConfirmForm_Click(object sender, RoutedEventArgs e)
+        {
+            List<Facet> facets = null;
+            try
+            {
+                facets = _facetManager.RetrieveFacetsByRubricID(Int32.Parse(txtBoxInput1.Text));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("There was a problem retrieving the list of facets." + ex.Message);
+            }
+
+            var facetListSorted = facets.Select(f => new { f.FacetID, f.Description, f.DateCreated, f.DateUpdated });
+
+            datViewList.ItemsSource = facetListSorted;
+            datViewList.Visibility = Visibility.Visible;
 
         }
 
@@ -230,5 +259,12 @@ namespace RubricNorming
         {
             viewAllActivateFacets();
         }
+        private void mnuRetrieveFacetsByRubricID_Click(object sender, RoutedEventArgs e)
+        {
+            prepareDckFormForRetrieveFacetsByRubricID();
+        }
+
+
+
     }
 }

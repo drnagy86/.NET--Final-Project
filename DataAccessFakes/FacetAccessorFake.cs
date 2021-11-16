@@ -72,7 +72,11 @@ namespace DataAccessFakes
 
         public List<Facet> SelectFacetsByRubricID(int rubricID)
         {
-            throw new NotImplementedException();
+
+            var facetByID = _fakeFacetList.FindAll(f => f.RubricID == rubricID);
+
+            return facetByID;
+
         }
     }
 }
