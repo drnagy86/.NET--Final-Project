@@ -15,6 +15,7 @@ namespace DataObjects
         public DateTime DateUpdated { get; set; }
         public bool Active { get; set; }
         public int RubricID { get; set; }
+        public string FacetType { get; set; }
 
     }
 }
