@@ -21,7 +21,8 @@ namespace DataAccessFakes
                 DateCreated = DateTime.Now,
                 DateUpdated = DateTime.Now,
                 Active = true,
-                RubricID = 100000
+                RubricID = 100000,
+                FacetType = "Type1"
             });
 
             _fakeFacetList.Add(new Facet()
@@ -31,7 +32,8 @@ namespace DataAccessFakes
                 DateCreated = DateTime.Now,
                 DateUpdated = DateTime.Now,
                 Active = true,
-                RubricID = 100000
+                RubricID = 100000,
+                FacetType = "Type2"
             });
 
             _fakeFacetList.Add(new Facet()
@@ -41,7 +43,8 @@ namespace DataAccessFakes
                 DateCreated = DateTime.Now,
                 DateUpdated = DateTime.Now,
                 Active = true,
-                RubricID = 100000
+                RubricID = 100000,
+                FacetType = "Type3"
             });
 
             _fakeFacetList.Add(new Facet()
@@ -51,7 +54,8 @@ namespace DataAccessFakes
                 DateCreated = DateTime.Now,
                 DateUpdated = DateTime.Now,
                 Active = true,
-                RubricID = 100001
+                RubricID = 100001,
+                FacetType = "Type1"
             });
 
             _fakeFacetList.Add(new Facet()
@@ -61,7 +65,8 @@ namespace DataAccessFakes
                 DateCreated = DateTime.Now,
                 DateUpdated = DateTime.Now,
                 Active = true,
-                RubricID = 100001
+                RubricID = 100001,
+                FacetType = "Type2"
             });
         }
 

@@ -40,7 +40,8 @@ namespace DataAccessLayer
                             DateCreated = reader.GetDateTime(2),
                             DateUpdated = reader.GetDateTime(3),
                             Active = reader.GetBoolean(4),
-                            RubricID = reader.GetInt32(5)
+                            RubricID = reader.GetInt32(5),
+                            FacetType = reader.GetString(6)
                         };
                         facets.Add(facet);
                     }
@@ -93,7 +94,8 @@ namespace DataAccessLayer
                             DateCreated = reader.GetDateTime(2),
                             DateUpdated = reader.GetDateTime(3),
                             Active = reader.GetBoolean(4),
-                            RubricID = reader.GetInt32(5)
+                            RubricID = reader.GetInt32(5),
+                            FacetType = reader.GetString(6)
                         };
                         facets.Add(facet);
                     }
