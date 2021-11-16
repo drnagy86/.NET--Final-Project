@@ -220,7 +220,7 @@ namespace RubricNorming
                 MessageBox.Show("There was a problem retrieving the list of facets." + ex.Message);
             }
 
-            var facetListSorted = facets.Select(f => new { f.FacetID, f.Description, f.DateCreated, f.DateUpdated });            
+            var facetListSorted = facets.Select(f => new { f.FacetID, f.Description, f.DateCreated, f.DateUpdated, f.FacetType });            
             
             datViewList.ItemsSource = facetListSorted;
             datViewList.Visibility = Visibility.Visible;
@@ -238,7 +238,7 @@ namespace RubricNorming
                 MessageBox.Show("There was a problem retrieving the list of facets." + ex.Message);
             }
 
-            var facetListSorted = facets.Select(f => new { f.FacetID, f.Description, f.DateCreated, f.DateUpdated });
+            var facetListSorted = facets.Select(f => new { f.FacetID, f.Description, f.DateCreated, f.DateUpdated, f.FacetType });
 
             datViewList.ItemsSource = facetListSorted;
             datViewList.Visibility = Visibility.Visible;
