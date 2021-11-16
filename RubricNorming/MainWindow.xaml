@@ -23,6 +23,7 @@
             </MenuItem>
             <MenuItem x:Name="mnuView" Header="View">
                 <MenuItem x:Name="mnuViewAllRubrics" Header="View All Rubrics" Click="mnuViewAllRubrics_Click"></MenuItem>
+                <MenuItem x:Name="mnuViewAllFacets" Header="View All Facets" Click="mnuViewAllFacets_Click"></MenuItem>
             </MenuItem>
             <MenuItem x:Name="mnuHelp" Header="Help">
                 <MenuItem x:Name="mnuAbout" Header="About"></MenuItem>
@@ -78,7 +79,7 @@
         </Grid>
 
         <Grid Grid.Row="2">
-            <DataGrid x:Name="datActiveRubrics"/>
+            <DataGrid x:Name="datViewList"/>
         </Grid>
 
 

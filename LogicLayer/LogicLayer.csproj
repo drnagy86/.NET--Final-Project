@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FacetManager.cs" />
+    <Compile Include="IFacetManager.cs" />
     <Compile Include="IRubricManager.cs" />
     <Compile Include="IUserManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
