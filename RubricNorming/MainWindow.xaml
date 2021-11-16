@@ -23,7 +23,9 @@
             </MenuItem>
             <MenuItem x:Name="mnuView" Header="View">
                 <MenuItem x:Name="mnuViewAllRubrics" Header="View All Rubrics" Click="mnuViewAllRubrics_Click"></MenuItem>
-                <MenuItem x:Name="mnuViewAllFacets" Header="View All Facets" Click="mnuViewAllFacets_Click"></MenuItem>
+                <MenuItem x:Name="mnuViewAllFacets" Header="All Facets" Click="mnuViewAllFacets_Click"></MenuItem>
+                <MenuItem x:Name="mnuRetrieveFacetsByRubricID" Header="Facets for a Rubric" Click="mnuRetrieveFacetsByRubricID_Click"></MenuItem>
+
             </MenuItem>
             <MenuItem x:Name="mnuHelp" Header="Help">
                 <MenuItem x:Name="mnuAbout" Header="About"></MenuItem>
@@ -79,8 +81,48 @@
         </Grid>
 
         <Grid Grid.Row="2">
-            <DataGrid x:Name="datViewList"/>
+
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                
+            </Grid.ColumnDefinitions>
+            
+            
+            <DataGrid x:Name="datViewList" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"/>
+
+            <DockPanel Grid.Row="2" x:Name="dckForm">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition/>
+                        <RowDefinition Height="50"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock x:Name="txtblkDockPanelTitle" Grid.Row="0" Grid.ColumnSpan="2" TextWrapping="Wrap" TextAlignment="Center" FontWeight="Bold">Dock Panel Title</TextBlock>
+                    <Label Grid.Row="1" Grid.Column="0" x:Name="lblInput1"  VerticalAlignment="Center" HorizontalAlignment="Right" Content="What the input does:" Margin="10"></Label>
+                    <TextBox Grid.Row="1" Grid.Column="1" x:Name="txtBoxInput1" VerticalAlignment="Center" Margin="10px" VerticalContentAlignment="Center"></TextBox>
+                    <Button x:Name="btnConfirmForm" Content="Confirm" Grid.Row="3" Grid.Column="0" Margin="10px" Click="btnConfirmForm_Click"/>
+
+                </Grid>
+            </DockPanel>
+
+
         </Grid>
+
+
+        
 
 
 

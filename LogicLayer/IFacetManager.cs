@@ -11,7 +11,7 @@ namespace LogicLayer
     {
         //Rubric RetrieveRubricByRubricID(int rubricID);
         //List<Rubric> RetrieveActiveRubrics();
-        Facet RetrieveFacetByFacetID(int facetID);
+        List<Facet> RetrieveFacetsByRubricID(int rubricID);
         List<Facet> RetrieveActiveFacets();
 
 

@@ -40,9 +40,21 @@ namespace LogicLayer
             return facets;
         }
 
-        public Facet RetrieveFacetByFacetID(int facetID)
+        public List<Facet> RetrieveFacetsByRubricID(int rubricID)
         {
-            throw new NotImplementedException();
+            List<Facet> facets = null;
+
+            try
+            {
+                facets = _facetAccesor.SelectFacetsByRubricID(rubricID);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            
+            return facets;
+
         }
     }
 }
