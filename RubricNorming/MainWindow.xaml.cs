@@ -15,17 +15,21 @@ namespace RubricNorming
         UserManager _userManager = null;
         User _user = null;
         RubricManager _rubricManager = null;
+        FacetManager _facetManager = null;
 
 
         public MainWindow()
         {
-            // uses default user accessor
+            // uses default accessors
             _userManager = new UserManager();
             _rubricManager = new RubricManager();
+            _facetManager = new FacetManager();
 
-            // uses the fake user accessor
+            // uses the fake accessors
             //_userManager = new UserManager(new UserAccessorFake());
-            //_rubricManager = new RubricManager(new RubricAccessorFake());
+            //_rubricManager = new RubricManager(new RubricAccessorFake(), new UserAccessorFake());
+            //_facetManager = new FacetManager(new FacetAccessorFake());
+
 
             InitializeComponent();
         }
@@ -127,7 +131,8 @@ namespace RubricNorming
             lblPassword.Visibility = Visibility.Hidden;
 
             stkRubricControls.Visibility = Visibility.Visible;
-            datActiveRubrics.Visibility = Visibility.Visible;
+            datViewList.Visibility = Visibility.Visible;
+            mnuView.Visibility = Visibility.Visible;
             viewAllActiveRubrics();
 
             btnLogin.Content = "Log Out";
@@ -149,7 +154,8 @@ namespace RubricNorming
             lblPassword.Visibility = Visibility.Visible;
 
             stkRubricControls.Visibility = Visibility.Hidden;
-            datActiveRubrics.Visibility = Visibility.Hidden;
+            datViewList.Visibility = Visibility.Hidden;
+            mnuView.Visibility = Visibility.Hidden;
 
             btnLogin.Content = "Login";
             btnLogin.Focus();
@@ -165,12 +171,9 @@ namespace RubricNorming
         {
             this.txtUserID.Focus();
 
-            // function that toggles visablity on all controls would be nice
-            // or like a flag that controls visiablity
             stkRubricControls.Visibility = Visibility.Hidden;
-
-            // what it should be for none-testing purposes
-            //datActiveRubrics.Visibility = Visibility.Hidden;
+            datViewList.Visibility = Visibility.Hidden;
+            mnuView.Visibility = Visibility.Hidden;
 
             //viewAllActiveRubrics();
             //hideAllUserTabs();
@@ -188,10 +191,28 @@ namespace RubricNorming
                 MessageBox.Show("There was a problem retrieving the list of rubrics." + ex.Message);
             }
 
+            // needs better time formating and column names
             var rubricListSorted = rubricList.Select(r => new { r.Name, r.Description, r.DateCreated, r.DateUpdated, r.ScoreTypeID, RubricCreatorName = r.RubricCreator.GivenName + " " + r.RubricCreator.FamilyName });
 
-            datActiveRubrics.ItemsSource = rubricListSorted;
+
+            datViewList.ItemsSource = rubricListSorted;
+        }
+
+        private void viewAllActivateFacets()
+        {
+            List<Facet> facets = null;
+
+            try
+            {
+                facets = _facetManager.RetrieveActiveFacets();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("There was a problem retrieving the list of facets." + ex.Message);
+            }
             
+            datViewList.ItemsSource = facets;
+
 
         }
 
@@ -203,6 +224,11 @@ namespace RubricNorming
         private void mnuViewAllRubrics_Click(object sender, RoutedEventArgs e)
         {
             viewAllActiveRubrics();
+        }
+
+        private void mnuViewAllFacets_Click(object sender, RoutedEventArgs e)
+        {
+            viewAllActivateFacets();
         }
     }
 }

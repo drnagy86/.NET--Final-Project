@@ -49,6 +49,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FacetManagerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RubricManagerTests.cs" />
     <Compile Include="UserManagerTests.cs" />
@@ -64,6 +65,10 @@
     <ProjectReference Include="..\DataAccessInterFaces\DataAccessInterfaces.csproj">
       <Project>{aa74b107-2c55-4c1c-90e7-16bc42388d10}</Project>
       <Name>DataAccessInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataAccessLayer\DataAccessLayer.csproj">
+      <Project>{9212FC6A-3A80-4AA3-9556-B2991A680A44}</Project>
+      <Name>DataAccessLayer</Name>
     </ProjectReference>
     <ProjectReference Include="..\DataObjects\DataObjects.csproj">
       <Project>{5663aacf-9e4f-4062-be48-1efc0737d01d}</Project>

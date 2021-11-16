@@ -71,6 +71,11 @@ namespace DataAccessLayer
 
                 throw ex;
             }
+            finally
+            {
+                conn.Close();
+            }
+
             return rubrics;
         }
     }

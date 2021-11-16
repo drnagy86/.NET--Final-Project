@@ -7,7 +7,7 @@ using System.Data.SqlClient;
 
 namespace DataAccessLayer
 {
-    class DBConnection
+    public class DBConnection
     {
         public static SqlConnection GetConnection()
         {
