@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DBConnection.cs" />
+    <Compile Include="FacetAccessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RubricAccessor.cs" />
     <Compile Include="UserAccessor.cs" />
