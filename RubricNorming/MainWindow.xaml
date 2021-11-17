@@ -25,6 +25,7 @@
                 <MenuItem x:Name="mnuViewAllRubrics" Header="View All Rubrics" Click="mnuViewAllRubrics_Click"></MenuItem>
                 <MenuItem x:Name="mnuViewAllFacets" Header="All Facets" Click="mnuViewAllFacets_Click"></MenuItem>
                 <MenuItem x:Name="mnuRetrieveFacetsByRubricID" Header="Facets for a Rubric" Click="mnuRetrieveFacetsByRubricID_Click"></MenuItem>
+                <MenuItem x:Name="mnuRetrieveCriteriaByRubricID" Header="Criteria for a Rubric" Click="mnuRetrieveCriteriaByRubricID_Click" />
 
             </MenuItem>
             <MenuItem x:Name="mnuHelp" Header="Help">
@@ -117,8 +118,6 @@
 
                 </Grid>
             </DockPanel>
-
-
         </Grid>
 
 
