@@ -16,6 +16,9 @@ namespace RubricNorming
         User _user = null;
         RubricManager _rubricManager = null;
         FacetManager _facetManager = null;
+        CriteriaManager _criteriaManager = null;
+
+        string _executionChoice = "";
 
 
         public MainWindow()
@@ -24,12 +27,13 @@ namespace RubricNorming
             _userManager = new UserManager();
             _rubricManager = new RubricManager();
             _facetManager = new FacetManager();
+            _criteriaManager = new CriteriaManager();
 
             // uses the fake accessors
             //_userManager = new UserManager(new UserAccessorFake());
             //_rubricManager = new RubricManager(new RubricAccessorFake(), new UserAccessorFake());
             //_facetManager = new FacetManager(new FacetAccessorFake());
-
+            //_criteriaManager = new CriteriaManager(new CriteriaAccessorFake());
 
             InitializeComponent();
         }
@@ -167,10 +171,22 @@ namespace RubricNorming
 
         private void prepareDckFormForRetrieveFacetsByRubricID()
         {
-            txtblkDockPanelTitle.Text = "Retrieve Facet by Rubric ID Test";
+            txtblkDockPanelTitle.Text = "Retrieve Facet by Rubric ID";
             lblInput1.Content = "Rubric ID:";
-            dckForm.Visibility = Visibility.Visible;
+            _executionChoice = "FacetsByRubricID";
 
+            dckForm.Visibility = Visibility.Visible;
+            txtBoxInput1.Focus();
+        }
+
+        private void prepareDckFormForRetrieveCriteriaByRubicID()
+        {
+            txtblkDockPanelTitle.Text = "Retrieve Criteria by Rubric ID";
+            lblInput1.Content = "Rubric ID:";
+            _executionChoice = "CriteriaByRubricID";
+
+            dckForm.Visibility = Visibility.Visible;
+            txtBoxInput1.Focus();
         }
 
         private void frmMainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -228,20 +244,48 @@ namespace RubricNorming
 
         private void btnConfirmForm_Click(object sender, RoutedEventArgs e)
         {
-            List<Facet> facets = null;
-            try
+            switch (_executionChoice)
             {
-                facets = _facetManager.RetrieveFacetsByRubricID(Int32.Parse(txtBoxInput1.Text));
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("There was a problem retrieving the list of facets." + ex.Message);
-            }
+                case "FacetsByRubricID":
 
-            var facetListSorted = facets.Select(f => new { f.FacetID, f.Description, f.DateCreated, f.DateUpdated, f.FacetType });
+                    List<Facet> facetList = null;
+                    try
+                    {
+                        facetList = _facetManager.RetrieveFacetsByRubricID(Int32.Parse(txtBoxInput1.Text));
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("There was a problem retrieving the list of facets." + ex.Message);
+                    }
 
-            datViewList.ItemsSource = facetListSorted;
-            datViewList.Visibility = Visibility.Visible;
+                    var facetListSorted = facetList.Select(f => new { f.FacetID, f.Description, f.FacetType });
+
+                    datViewList.ItemsSource = facetListSorted;
+                    datViewList.Visibility = Visibility.Visible;
+
+                    break;
+                case "CriteriaByRubricID":
+
+                    List<Criteria> criteriaList = null;
+                    try
+                    {
+                        criteriaList = _criteriaManager.RetrieveCriteriasForRubricByRubricID(Int32.Parse(txtBoxInput1.Text));
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("There was a problem retrieving the list of criteria." + ex.Message);
+                    }
+
+                    var criteriaListSorted = criteriaList.Select(c => new { c.FacetID, c.CriteriaID, c.Content, c.Score });
+
+
+                    datViewList.ItemsSource = criteriaListSorted;
+                    datViewList.Visibility = Visibility.Visible;
+
+                    break;
+                default:
+                    break;
+            }           
 
         }
 
@@ -264,7 +308,9 @@ namespace RubricNorming
             prepareDckFormForRetrieveFacetsByRubricID();
         }
 
-
-
+        private void mnuRetrieveCriteriaByRubricID_Click(object sender, RoutedEventArgs e)
+        {
+            prepareDckFormForRetrieveCriteriaByRubicID();
+        }
     }
 }

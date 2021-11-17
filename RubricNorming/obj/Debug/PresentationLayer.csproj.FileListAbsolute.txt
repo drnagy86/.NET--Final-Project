@@ -54,3 +54,5 @@ C:\Users\drnag\Documents\NET2\Rubric Project\NET2-RubricNormingSolution\RubricNo
 C:\Users\drnag\Documents\NET2\Rubric Project\NET2-RubricNormingSolution\RubricNorming\obj\Debug\PresentationLayer.csproj.CopyComplete
 C:\Users\drnag\Documents\NET2\Rubric Project\NET2-RubricNormingSolution\RubricNorming\obj\Debug\RubricNorming.exe
 C:\Users\drnag\Documents\NET2\Rubric Project\NET2-RubricNormingSolution\RubricNorming\obj\Debug\RubricNorming.pdb
+C:\Users\drnag\Documents\NET2\Rubric Project\NET2-RubricNormingSolution\RubricNorming\obj\Debug\EnterRubricIDForCriteria.g.cs
+C:\Users\drnag\Documents\NET2\Rubric Project\NET2-RubricNormingSolution\RubricNorming\obj\Debug\EnterRubricIDForCriteria.baml

@@ -41,7 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CriteriaManager.cs" />
     <Compile Include="FacetManager.cs" />
+    <Compile Include="ICriteriaManager.cs" />
     <Compile Include="IFacetManager.cs" />
     <Compile Include="IRubricManager.cs" />
     <Compile Include="IUserManager.cs" />
