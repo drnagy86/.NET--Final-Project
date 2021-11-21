@@ -359,10 +359,10 @@ namespace RubricNorming
             this.DataContext = _rubricVM;
             
 
-            icFacetCriteria.ItemsSource = _rubricVM.Facets;
+            icFacetCriteria.ItemsSource = _rubricVM.FacetCriteria;
 
-
-
+            icFacetCriteria.Visibility = Visibility.Visible;
+            
 
         // Build rubric the hard way
 
