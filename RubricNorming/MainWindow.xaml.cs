@@ -201,11 +201,11 @@ namespace RubricNorming
             stkRubricControls.Visibility = Visibility.Hidden;
             datViewList.Visibility = Visibility.Hidden;
             dckForm.Visibility = Visibility.Hidden;
-            
+
             // for testing purposes, comment out
             //mnuView.Visibility = Visibility.Hidden;
-            
 
+            datViewList.Visibility = Visibility.Visible;
             viewAllActiveRubrics();
             //hideAllUserTabs();
         }
@@ -345,32 +345,53 @@ namespace RubricNorming
         }
 
         private void datViewList_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            // Build rubric the hard way
-
-
+        {            
             var rubric = (Rubric)datViewList.SelectedItem;
 
             datViewList.Visibility = Visibility.Collapsed;
-
+            btnConfirmEdits.Visibility = Visibility.Visible;
 
             _rubricVM = createRubricVM(rubric);
-
             this.DataContext = _rubricVM;
-            
 
             icFacetCriteria.ItemsSource = _rubricVM.FacetCriteria;
 
+            icScores.ItemsSource = _rubricVM.RubricScoreColumn();
+
+            lblDetailRubricTitle.Visibility = Visibility.Visible;
             icFacetCriteria.Visibility = Visibility.Visible;
             
+        }
+
+        private void mnuConfirmUpdatesToRubric_Click(object sender, RoutedEventArgs e)
+        {
+
+            Dictionary<Facet, List<Criteria>> textBoxes = (Dictionary <Facet, List<Criteria>>) icFacetCriteria.ItemsSource;
+
+            string test = "";
+
+            foreach (var entry in textBoxes)
+            {
+                foreach (var criteria in entry.Value)
+                {
+                    test += criteria.Content + "    \n";
+                }
+                test += "\n\n";
+            }            
+
+            MessageBox.Show(test);
+
+        }
+
+
+
+
 
         // Build rubric the hard way
-
-
         //var rubric = (Rubric)datViewList.SelectedItem;
 
         //datViewList.Visibility = Visibility.Collapsed;
-            
+
 
         //    _rubricVM = createRubricVM(rubric);
 
@@ -384,93 +405,92 @@ namespace RubricNorming
 
 
 
-            //int rowCount = 0;
+        //int rowCount = 0;
 
-            //for (int i = 0; i < _rubricVM.FacetCriteria.Count; i++)
-            //{
-            //    ColumnDefinition column = new ColumnDefinition();
-            //    grdActionArea.ColumnDefinitions.Add(column);
+        //for (int i = 0; i < _rubricVM.FacetCriteria.Count; i++)
+        //{
+        //    ColumnDefinition column = new ColumnDefinition();
+        //    grdActionArea.ColumnDefinitions.Add(column);
 
-            //    if (_rubricVM.FacetCriteria.ElementAt(i).Value.Count > rowCount)
-            //    {
-            //        rowCount = _rubricVM.FacetCriteria.ElementAt(i).Value.Count;
-            //    }
-            //}
+        //    if (_rubricVM.FacetCriteria.ElementAt(i).Value.Count > rowCount)
+        //    {
+        //        rowCount = _rubricVM.FacetCriteria.ElementAt(i).Value.Count;
+        //    }
+        //}
 
-            //foreach (var entry in _rubricVM.FacetCriteria)
-            //{
-            //    ColumnDefinition column = new ColumnDefinition();
-            //    grdActionArea.ColumnDefinitions.Add(column);
+        //foreach (var entry in _rubricVM.FacetCriteria)
+        //{
+        //    ColumnDefinition column = new ColumnDefinition();
+        //    grdActionArea.ColumnDefinitions.Add(column);
 
-            //    if (entry.Value.Count > rowCount)
-            //    {
-            //        rowCount = entry.Value.Count;
-            //    }
-            //}
+        //    if (entry.Value.Count > rowCount)
+        //    {
+        //        rowCount = entry.Value.Count;
+        //    }
+        //}
 
-            //// add one extra row for the header
+        //// add one extra row for the header
 
-            //for (int i = 0; i < rowCount + 1; i++)
+        //for (int i = 0; i < rowCount + 1; i++)
 
-            //for (int i = 0; i < rowCount +1; i++)
+        //for (int i = 0; i < rowCount +1; i++)
 
-            //{
-            //    RowDefinition row = new RowDefinition();
-            //    grdActionArea.RowDefinitions.Add(row);
-            //}
-
-
-            //for (int i = 0; i < _rubricVM.FacetCriteria.Count; i++)
-            //{
-            //    Label facetHeader = new Label();
-            //    facetHeader.Content = _rubricVM.FacetCriteria.ElementAt(i).Key.FacetID;
-
-            //    // add more formating for header   
-            //    facetHeader.FontWeight = FontWeights.Bold;
-            //    facetHeader.FontSize = facetHeader.FontSize * HEADING_ONE_MULTIPLIER;
-            //    facetHeader.HorizontalAlignment = HorizontalAlignment.Center;
-            //    facetHeader.VerticalAlignment = VerticalAlignment.Center;
+        //{
+        //    RowDefinition row = new RowDefinition();
+        //    grdActionArea.RowDefinitions.Add(row);
+        //}
 
 
-            //    //Grid.SetColumn(facetHeader, i + 1);
-            //    //Grid.SetRow(facetHeader, 0);
-            //    //grdActionArea.Children.Add(facetHeader);
+        //for (int i = 0; i < _rubricVM.FacetCriteria.Count; i++)
+        //{
+        //    Label facetHeader = new Label();
+        //    facetHeader.Content = _rubricVM.FacetCriteria.ElementAt(i).Key.FacetID;
 
-            //    facetHeader.SetValue(Grid.ColumnProperty, i + 1);
-            //    facetHeader.SetValue(Grid.RowProperty, 0);
-            //    grdActionArea.Children.Add(facetHeader);
+        //    // add more formating for header   
+        //    facetHeader.FontWeight = FontWeights.Bold;
+        //    facetHeader.FontSize = facetHeader.FontSize * HEADING_ONE_MULTIPLIER;
+        //    facetHeader.HorizontalAlignment = HorizontalAlignment.Center;
+        //    facetHeader.VerticalAlignment = VerticalAlignment.Center;
 
-            //    foreach (Criteria criteria in _rubricVM.FacetCriteria.ElementAt(i).Value)
-            //    {
 
-            //        //TextBox textBox = new TextBox();
-            //        //textBox.Text = criteria.Content;
-            //        //Grid.SetColumn(textBox, i + 1);
-            //        //Grid.SetRow(textBox, rubricVM.FacetCriteria.ElementAt(i).Value.IndexOf(criteria) + 1);
-            //        //grdActionArea.Children.Add(textBox);
+        //    //Grid.SetColumn(facetHeader, i + 1);
+        //    //Grid.SetRow(facetHeader, 0);
+        //    //grdActionArea.Children.Add(facetHeader);
 
-            //        RichTextBox criteriaTxtBox = new RichTextBox();
-            //        FlowDocument document = new FlowDocument();
-            //        Paragraph paragraph = new Paragraph();
+        //    facetHeader.SetValue(Grid.ColumnProperty, i + 1);
+        //    facetHeader.SetValue(Grid.RowProperty, 0);
+        //    grdActionArea.Children.Add(facetHeader);
 
-            //        paragraph.Inlines.Add(criteria.Content);
-            //        document.Blocks.Add(paragraph);
-            //        criteriaTxtBox.Document.Blocks.Add(paragraph);
+        //    foreach (Criteria criteria in _rubricVM.FacetCriteria.ElementAt(i).Value)
+        //    {
 
-            //        //Grid.SetColumn(criteriaTxtBox, i + 1);
-            //        //Grid.SetRow(criteriaTxtBox, rubricVM.FacetCriteria.ElementAt(i).Value.IndexOf(criteria) + 1);
+        //        //TextBox textBox = new TextBox();
+        //        //textBox.Text = criteria.Content;
+        //        //Grid.SetColumn(textBox, i + 1);
+        //        //Grid.SetRow(textBox, rubricVM.FacetCriteria.ElementAt(i).Value.IndexOf(criteria) + 1);
+        //        //grdActionArea.Children.Add(textBox);
 
-            //        criteriaTxtBox.SetValue(Grid.ColumnProperty, i + 1);
-            //        criteriaTxtBox.SetValue(Grid.RowProperty, _rubricVM.FacetCriteria.ElementAt(i).Value.IndexOf(criteria) + 1);
+        //        RichTextBox criteriaTxtBox = new RichTextBox();
+        //        FlowDocument document = new FlowDocument();
+        //        Paragraph paragraph = new Paragraph();
 
-            //        grdActionArea.Children.Add(criteriaTxtBox);
-            //    }
-            //}
-        }
+        //        paragraph.Inlines.Add(criteria.Content);
+        //        document.Blocks.Add(paragraph);
+        //        criteriaTxtBox.Document.Blocks.Add(paragraph);
 
-            //        grdActionArea.Children.Add(criteriaTxtBox);                    
-            //    }
-            //}
+        //        //Grid.SetColumn(criteriaTxtBox, i + 1);
+        //        //Grid.SetRow(criteriaTxtBox, rubricVM.FacetCriteria.ElementAt(i).Value.IndexOf(criteria) + 1);
+
+        //        criteriaTxtBox.SetValue(Grid.ColumnProperty, i + 1);
+        //        criteriaTxtBox.SetValue(Grid.RowProperty, _rubricVM.FacetCriteria.ElementAt(i).Value.IndexOf(criteria) + 1);
+
+        //        grdActionArea.Children.Add(criteriaTxtBox);
+        //    }
+        //}
+
+        //        grdActionArea.Children.Add(criteriaTxtBox);                    
+        //    }
+        //}
 
     }
 }

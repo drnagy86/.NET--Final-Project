@@ -26,7 +26,7 @@ namespace DataObjects
             this.DateCreated = DateTime.Now;
             this.DateUpdated = DateTime.Now;
             this.Content = "";
-            this.Score = 0;
+            this.Score = 1;
             this.Active = true;
         }
 
@@ -38,7 +38,7 @@ namespace DataObjects
             this.DateCreated = DateTime.Now;
             this.DateUpdated = DateTime.Now;
             this.Content = "";
-            this.Score = 0;
+            this.Score = 1;
             this.Active = true;
         }
 
