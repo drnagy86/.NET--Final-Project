@@ -93,9 +93,9 @@
                 <ColumnDefinition/>
                 
             </Grid.ColumnDefinitions>
-            
-            
-            <DataGrid x:Name="datViewList" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"/>
+
+
+            <DataGrid x:Name="datViewList" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" IsReadOnly="True" MouseDoubleClick="datViewList_MouseDoubleClick"/>
 
             <Grid x:Name="grdActionArea" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" >
             <StackPanel>

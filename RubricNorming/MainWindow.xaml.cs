@@ -21,6 +21,8 @@ namespace RubricNorming
         string _executionChoice = "";
 
 
+        RubricVM _rubricVM = null;
+
         public MainWindow()
         {
             // uses default accessors
@@ -311,6 +313,109 @@ namespace RubricNorming
         private void mnuRetrieveCriteriaByRubricID_Click(object sender, RoutedEventArgs e)
         {
             prepareDckFormForRetrieveCriteriaByRubicID();
+        }
+
+        private void datViewList_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            // Build rubric the hard way
+
+
+            var rubric = (Rubric)datViewList.SelectedItem;
+
+            datViewList.Visibility = Visibility.Collapsed;
+
+
+            _rubricVM = createRubricVM(rubric);
+
+            this.DataContext = _rubricVM;
+
+
+            icFacetCriteria.ItemsSource = _rubricVM.Facets;
+
+
+
+
+
+            int rowCount = 0;
+
+            for (int i = 0; i < _rubricVM.FacetCriteria.Count; i++)
+            {
+                ColumnDefinition column = new ColumnDefinition();
+                grdActionArea.ColumnDefinitions.Add(column);
+
+                if (_rubricVM.FacetCriteria.ElementAt(i).Value.Count > rowCount)
+                {
+                    rowCount = _rubricVM.FacetCriteria.ElementAt(i).Value.Count;
+                }
+            }
+
+            foreach (var entry in _rubricVM.FacetCriteria)
+            {
+                ColumnDefinition column = new ColumnDefinition();
+                grdActionArea.ColumnDefinitions.Add(column);
+
+                if (entry.Value.Count > rowCount)
+                {
+                    rowCount = entry.Value.Count;
+                }
+            }
+
+            // add one extra row for the header
+            for (int i = 0; i < rowCount + 1; i++)
+            {
+                RowDefinition row = new RowDefinition();
+                grdActionArea.RowDefinitions.Add(row);
+            }
+
+
+            for (int i = 0; i < _rubricVM.FacetCriteria.Count; i++)
+            {
+                Label facetHeader = new Label();
+                facetHeader.Content = _rubricVM.FacetCriteria.ElementAt(i).Key.FacetID;
+
+                // add more formating for header   
+                facetHeader.FontWeight = FontWeights.Bold;
+                facetHeader.FontSize = facetHeader.FontSize * HEADING_ONE_MULTIPLIER;
+                facetHeader.HorizontalAlignment = HorizontalAlignment.Center;
+                facetHeader.VerticalAlignment = VerticalAlignment.Center;
+
+
+
+
+                //Grid.SetColumn(facetHeader, i + 1);
+                //Grid.SetRow(facetHeader, 0);
+                //grdActionArea.Children.Add(facetHeader);
+
+                facetHeader.SetValue(Grid.ColumnProperty, i + 1);
+                facetHeader.SetValue(Grid.RowProperty, 0);
+                grdActionArea.Children.Add(facetHeader);
+
+                foreach (Criteria criteria in _rubricVM.FacetCriteria.ElementAt(i).Value)
+                {
+
+                    //TextBox textBox = new TextBox();
+                    //textBox.Text = criteria.Content;
+                    //Grid.SetColumn(textBox, i + 1);
+                    //Grid.SetRow(textBox, rubricVM.FacetCriteria.ElementAt(i).Value.IndexOf(criteria) + 1);
+                    //grdActionArea.Children.Add(textBox);
+
+                    RichTextBox criteriaTxtBox = new RichTextBox();
+                    FlowDocument document = new FlowDocument();
+                    Paragraph paragraph = new Paragraph();
+
+                    paragraph.Inlines.Add(criteria.Content);
+                    document.Blocks.Add(paragraph);
+                    criteriaTxtBox.Document.Blocks.Add(paragraph);
+
+                    //Grid.SetColumn(criteriaTxtBox, i + 1);
+                    //Grid.SetRow(criteriaTxtBox, rubricVM.FacetCriteria.ElementAt(i).Value.IndexOf(criteria) + 1);
+
+                    criteriaTxtBox.SetValue(Grid.ColumnProperty, i + 1);
+                    criteriaTxtBox.SetValue(Grid.RowProperty, _rubricVM.FacetCriteria.ElementAt(i).Value.IndexOf(criteria) + 1);
+
+                    grdActionArea.Children.Add(criteriaTxtBox);
+                }
+            }
         }
     }
 }
