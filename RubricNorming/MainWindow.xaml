@@ -97,7 +97,36 @@
             
             <DataGrid x:Name="datViewList" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"/>
 
-            <DockPanel Grid.Row="2" x:Name="dckForm">
+            <Grid x:Name="grdActionArea" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" >
+            <StackPanel>
+                <ItemsControl x:Name="icFacetCriteria">
+
+                    <ItemsControl.ItemContainerStyle>
+                        <Style>
+                            <Setter Property="Grid.Row" Value="{Binding Path=RowCount}"/>
+                            <Setter Property="Grid.Column" Value="{Binding Path=ColumnCount}"/>
+                        </Style>
+                    </ItemsControl.ItemContainerStyle>
+
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <Grid></Grid>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding FacetID}"/>
+
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+
+
+                </ItemsControl>
+            </StackPanel>
+        </Grid>
+
+        <DockPanel Grid.Row="2" x:Name="dckForm">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="25"/>
