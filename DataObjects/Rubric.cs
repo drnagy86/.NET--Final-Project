@@ -55,6 +55,24 @@ namespace DataObjects
 
         }
 
+        public List<int> RubricScoreColumn()
+        {
+            List<int> rubricScores = new List<int>();
+
+            foreach (var entry in FacetCriteria)
+            {
+                foreach (var criteria in entry.Value)
+                {
+                    if (!rubricScores.Contains(criteria.Score))
+                    {
+                        rubricScores.Add(criteria.Score);
+                    }                    
+                }
+            }
+            
+            return rubricScores;
+        }
+
         private Dictionary<Facet, List<Criteria>> createFacetCriteriaDictionary(List<Facet> facets, List<Criteria> criteriaList)
         {
 

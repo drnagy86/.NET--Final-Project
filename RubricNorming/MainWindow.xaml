@@ -11,7 +11,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
-            <RowDefinition Height="70"/>
+            <RowDefinition Height="75"/>
             <RowDefinition/>
             <RowDefinition Height="25"/>
             <RowDefinition Height="35"/>
@@ -27,6 +27,7 @@
                 <MenuItem x:Name="mnuViewAllFacets" Header="All Facets" Click="mnuViewAllFacets_Click"></MenuItem>
                 <MenuItem x:Name="mnuRetrieveFacetsByRubricID" Header="Facets for a Rubric" Click="mnuRetrieveFacetsByRubricID_Click"></MenuItem>
                 <MenuItem x:Name="mnuRetrieveCriteriaByRubricID" Header="Criteria for a Rubric" Click="mnuRetrieveCriteriaByRubricID_Click" />
+                <MenuItem x:Name="mnuConfirmUpdatesToRubric" Header="Update Rubric" Click="mnuConfirmUpdatesToRubric_Click"/>
 
             </MenuItem>
             <MenuItem x:Name="mnuHelp" Header="Help">
@@ -84,70 +85,111 @@
 
         <Grid Grid.Row="2">
 
-            <Grid.RowDefinitions>
+            <Grid.RowDefinitions>                
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="300"/>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
-                
+
             </Grid.ColumnDefinitions>
 
+            <ScrollViewer Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" VerticalScrollBarVisibility="Auto">
+            <Grid Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition/>
+                    <RowDefinition Height="50" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
 
-            <DataGrid x:Name="datViewList" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" IsReadOnly="True" MouseDoubleClick="datViewList_MouseDoubleClick"/>
+                    <Grid Grid.Row="0" Grid.Column="1">
 
-            <Grid x:Name="grdActionArea" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
 
+                        <Label x:Name="lblDetailRubricTitle" Grid.Row="0" Grid.Column="0" Content="{Binding ElementName=frmMainWindow, Path=DataContext.Name}" Visibility="Hidden" HorizontalAlignment="Left" FontWeight="Bold" FontSize="16"/>
+                        <Button x:Name="btnConfirmEdits" Content="Save Changes" Grid.Row="0" Grid.Column="1" Margin="10,5" Visibility="Hidden" Width="100" HorizontalAlignment="Right"/>
 
+                    </Grid>
 
+                    <DataGrid x:Name="datViewList" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" IsReadOnly="True" MouseDoubleClick="datViewList_MouseDoubleClick"/>
+                <!--<Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Bottom">Score</Label>-->                
+                
+                    <ItemsControl Grid.Row="1" Grid.Column="0" x:Name="icScores">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel  Orientation="Vertical" Margin="0,25,0,0"></StackPanel>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Label HorizontalAlignment="Right" Height="150" Content="{Binding}"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+                <Grid x:Name="grdActionArea" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" >
                     <ItemsControl x:Name="icFacetCriteria">
-                    
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal"></StackPanel>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
 
-                            <StackPanel Orientation="Horizontal"></StackPanel>
+                        <!--<ItemsControl.ItemContainerStyle>
+                            <Style>
+                                <Setter Property="Grid.Row" Value="{Binding ElementName=frmMainWindow, Path=DataContext.RowCount}"/>
+                                <Setter Property="Grid.Column" Value="{Binding ElementName=frmMainWindow, Path=DataContext.ColumnCount}"/>
+                                
+                            </Style>
+                        </ItemsControl.ItemContainerStyle>-->
+                        
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Vertical" >
+                                    <Label Content="{Binding Key.FacetID}"/>
+                                    <ItemsControl ItemsSource="{Binding Value}" >
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Vertical">
 
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    
-                    <!--<ItemsControl.ItemContainerStyle>
-                        <Style>
-                            <Setter Property="Grid.Row" Value="{Binding ElementName=frmMainWindow, Path=DataContext.RowCount}"/>
-                            <Setter Property="Grid.Column" Value="{Binding ElementName=frmMainWindow, Path=DataContext.ColumnCount}"/>
-                        </Style>
-                    </ItemsControl.ItemContainerStyle>-->
+                                                        <TextBox Height="25" Width="150" Text="{Binding CriteriaID}" TextAlignment="Center" FontWeight="Bold" TextWrapping="Wrap"/>
+                                                        <TextBox Height="125" Width="150" Text="{Binding Content}" TextWrapping="Wrap"/>
+
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Grid>
+                    <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>                            
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="150" />
+                        </Grid.ColumnDefinitions>
+                        <!--<Button x:Name="btnConfirmEdits" Content="Save Changes" Grid.Row="0" Grid.Column="1" Margin="10,5" Visibility="Hidden"/>-->
+                    </Grid>
+                </Grid>
+
+            </ScrollViewer>
 
 
-
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Grid>
-                                <TextBlock Margin="5" Text="{Binding Key.FacetID}"/>
-                                <ItemsControl ItemsSource="{Binding Value}" >
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Margin="5" Text="{Binding Content}"></TextBlock>
-                                            </StackPanel>
-                                            
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                    
-                                </ItemsControl>
-                            </Grid>
-
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-
-                </ItemsControl>
-                
-                
-
-        </Grid>
-
-        <DockPanel Grid.Row="2" x:Name="dckForm">
+            <DockPanel Grid.Row="2" x:Name="dckForm" Grid.Column="0">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="25"/>
@@ -164,7 +206,7 @@
                     <TextBlock x:Name="txtblkDockPanelTitle" Grid.Row="0" Grid.ColumnSpan="2" TextWrapping="Wrap" TextAlignment="Center" FontWeight="Bold">Dock Panel Title</TextBlock>
                     <Label Grid.Row="1" Grid.Column="0" x:Name="lblInput1"  VerticalAlignment="Center" HorizontalAlignment="Right" Content="What the input does:" Margin="10"></Label>
                     <TextBox Grid.Row="1" Grid.Column="1" x:Name="txtBoxInput1" VerticalAlignment="Center" Margin="10px" VerticalContentAlignment="Center"></TextBox>
-                    <Button x:Name="btnConfirmForm" Content="Confirm" Grid.Row="3" Grid.Column="0" Margin="10px" Click="btnConfirmForm_Click"/>
+                    <Button x:Name="btnConfirmForm" Content="Confirm" Grid.Row="3" Grid.Column="0" Margin="10,5" Click="btnConfirmForm_Click"/>
 
                 </Grid>
             </DockPanel>
