@@ -99,14 +99,15 @@
             <DataGrid x:Name="datViewList" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" IsReadOnly="True" MouseDoubleClick="datViewList_MouseDoubleClick"/>
 
             <Grid x:Name="grdActionArea" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" >
-  
-                <ItemsControl x:Name="icFacetCriteria">
+
+
+
+                    <ItemsControl x:Name="icFacetCriteria">
                     
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
 
-                            <Grid local:GridHelpers.RowCount="{Binding ElementName=frmMainWindow, Path=DataContext.RowCount}" local:GridHelpers.ColumnCount="{Binding ElementName=frmMainWindow, Path=DataContext.ColumnCount}">
-                            </Grid>
+                            <StackPanel Orientation="Horizontal"></StackPanel>
 
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
@@ -121,12 +122,28 @@
 
 
                     <ItemsControl.ItemTemplate>
-                        <DataTemplate>                            
-                            <TextBlock Text="{Binding FacetID}"/>
+                        <DataTemplate>
+                            <Grid>
+                                <TextBlock Margin="5" Text="{Binding Key.FacetID}"/>
+                                <ItemsControl ItemsSource="{Binding Value}" >
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Margin="5" Text="{Binding Content}"></TextBlock>
+                                            </StackPanel>
+                                            
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                    
+                                </ItemsControl>
+                            </Grid>
+
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
 
                 </ItemsControl>
+                
+                
 
         </Grid>
 
