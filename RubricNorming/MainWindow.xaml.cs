@@ -5,6 +5,8 @@ using System;
 using System.Windows;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Controls;
+using System.Windows.Documents;
 
 namespace RubricNorming
 {
@@ -20,6 +22,9 @@ namespace RubricNorming
 
         string _executionChoice = "";
 
+        double HEADING_ONE_MULTIPLIER = 1.5;
+
+        RubricVM _rubricVM = null;
 
         public MainWindow()
         {
@@ -201,7 +206,7 @@ namespace RubricNorming
             //mnuView.Visibility = Visibility.Hidden;
             
 
-            //viewAllActiveRubrics();
+            viewAllActiveRubrics();
             //hideAllUserTabs();
         }
 
@@ -218,9 +223,9 @@ namespace RubricNorming
             }
 
             // needs better time formating and column names
-            var rubricListSorted = rubricList.Select(r => new { r.Name, r.Description, r.DateCreated, r.DateUpdated, r.ScoreTypeID, RubricCreatorName = r.RubricCreator.GivenName + " " + r.RubricCreator.FamilyName });
+            //var rubricListSorted = rubricList.Select(r => new { r.Name, r.Description, r.DateCreated, r.DateUpdated, r.ScoreTypeID, RubricCreatorName = r.RubricCreator.GivenName + " " + r.RubricCreator.FamilyName });
 
-            datViewList.ItemsSource = rubricListSorted;
+            datViewList.ItemsSource = rubricList;
         }
 
         private void viewAllActivateFacets()
@@ -314,6 +319,49 @@ namespace RubricNorming
         }
 
 
+        private RubricVM createRubricVM(Rubric rubric)
+        {
+            List<Facet> facetList = null;
+            List<Criteria> criteriaList = null;
+            try
+            {
+                facetList = _facetManager.RetrieveFacetsByRubricID(rubric.RubricID);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("There was a problem retrieving the list of facets." + ex.Message);
+            }
+            try
+            {
+                criteriaList = _criteriaManager.RetrieveCriteriasForRubricByRubricID(rubric.RubricID);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("There was a problem retrieving the list of criteria." + ex.Message);
+            }
+
+            RubricVM rubricVM = new RubricVM(rubric, facetList, criteriaList);
+            return rubricVM;
+        }
+
+        private void datViewList_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            // Build rubric the hard way
+
+
+            var rubric = (Rubric)datViewList.SelectedItem;
+
+            datViewList.Visibility = Visibility.Collapsed;
+
+
+            _rubricVM = createRubricVM(rubric);
+
+            this.DataContext = _rubricVM;
+            
+
+            icFacetCriteria.ItemsSource = _rubricVM.Facets;
+
+
 
 
         // Build rubric the hard way
@@ -330,6 +378,7 @@ namespace RubricNorming
 
 
         //    icFacetCriteria.ItemsSource = _rubricVM.Facets;
+
 
 
 
@@ -360,7 +409,11 @@ namespace RubricNorming
             //}
 
             //// add one extra row for the header
+
+            //for (int i = 0; i < rowCount + 1; i++)
+
             //for (int i = 0; i < rowCount +1; i++)
+
             //{
             //    RowDefinition row = new RowDefinition();
             //    grdActionArea.RowDefinitions.Add(row);
@@ -377,9 +430,7 @@ namespace RubricNorming
             //    facetHeader.FontSize = facetHeader.FontSize * HEADING_ONE_MULTIPLIER;
             //    facetHeader.HorizontalAlignment = HorizontalAlignment.Center;
             //    facetHeader.VerticalAlignment = VerticalAlignment.Center;
-                
-                
-                                
+
 
             //    //Grid.SetColumn(facetHeader, i + 1);
             //    //Grid.SetRow(facetHeader, 0);
@@ -411,6 +462,11 @@ namespace RubricNorming
 
             //        criteriaTxtBox.SetValue(Grid.ColumnProperty, i + 1);
             //        criteriaTxtBox.SetValue(Grid.RowProperty, _rubricVM.FacetCriteria.ElementAt(i).Value.IndexOf(criteria) + 1);
+
+            //        grdActionArea.Children.Add(criteriaTxtBox);
+            //    }
+            //}
+        }
 
             //        grdActionArea.Children.Add(criteriaTxtBox);                    
             //    }

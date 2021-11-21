@@ -95,7 +95,6 @@ namespace DataObjects
                     }
                 }
 
-
                 facetCriteriaDictionary.Add(facet, criteriaForFacet);
                 //this.FacetCriteria.Add(facet, criteriaForFacet.FindAll(c => c.FacetID == facet.FacetID));               
 
