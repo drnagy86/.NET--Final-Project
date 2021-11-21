@@ -16,5 +16,33 @@ namespace DataObjects
         public string Content { get; set; }
         public int Score { get; set; }
         public bool Active { get; set; }
+
+
+        public Criteria()
+        {
+            this.CriteriaID = "";
+            this.RubricID = 0;
+            this.FacetID = "";
+            this.DateCreated = DateTime.Now;
+            this.DateUpdated = DateTime.Now;
+            this.Content = "";
+            this.Score = 0;
+            this.Active = true;
+        }
+
+        public Criteria(int rubricID, string facetID)
+        {
+            this.CriteriaID = "";
+            this.RubricID = rubricID;
+            this.FacetID = facetID;
+            this.DateCreated = DateTime.Now;
+            this.DateUpdated = DateTime.Now;
+            this.Content = "";
+            this.Score = 0;
+            this.Active = true;
+        }
+
     }
+
+
 }
