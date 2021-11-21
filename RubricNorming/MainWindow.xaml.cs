@@ -318,6 +318,7 @@ namespace RubricNorming
             prepareDckFormForRetrieveCriteriaByRubicID();
         }
 
+
         private RubricVM createRubricVM(Rubric rubric)
         {
             List<Facet> facetList = null;
@@ -363,6 +364,25 @@ namespace RubricNorming
             icFacetCriteria.Visibility = Visibility.Visible;
             
 
+        // Build rubric the hard way
+
+
+        //var rubric = (Rubric)datViewList.SelectedItem;
+
+        //datViewList.Visibility = Visibility.Collapsed;
+            
+
+        //    _rubricVM = createRubricVM(rubric);
+
+        //    this.DataContext = _rubricVM;
+
+
+        //    icFacetCriteria.ItemsSource = _rubricVM.Facets;
+
+
+
+
+
 
             //int rowCount = 0;
 
@@ -389,7 +409,11 @@ namespace RubricNorming
             //}
 
             //// add one extra row for the header
+
             //for (int i = 0; i < rowCount + 1; i++)
+
+            //for (int i = 0; i < rowCount +1; i++)
+
             //{
             //    RowDefinition row = new RowDefinition();
             //    grdActionArea.RowDefinitions.Add(row);
@@ -406,8 +430,6 @@ namespace RubricNorming
             //    facetHeader.FontSize = facetHeader.FontSize * HEADING_ONE_MULTIPLIER;
             //    facetHeader.HorizontalAlignment = HorizontalAlignment.Center;
             //    facetHeader.VerticalAlignment = VerticalAlignment.Center;
-
-
 
 
             //    //Grid.SetColumn(facetHeader, i + 1);
@@ -445,5 +467,10 @@ namespace RubricNorming
             //    }
             //}
         }
+
+            //        grdActionArea.Children.Add(criteriaTxtBox);                    
+            //    }
+            //}
+
     }
 }
