@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         x:Name="frmMainWindow"
         Title="Rubric Norming" Height="900" Width="1200" WindowStartupLocation="CenterScreen" Loaded="frmMainWindow_Loaded">
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
@@ -98,32 +99,35 @@
             <DataGrid x:Name="datViewList" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" IsReadOnly="True" MouseDoubleClick="datViewList_MouseDoubleClick"/>
 
             <Grid x:Name="grdActionArea" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" >
-            <StackPanel>
+  
                 <ItemsControl x:Name="icFacetCriteria">
-
-                    <ItemsControl.ItemContainerStyle>
-                        <Style>
-                            <Setter Property="Grid.Row" Value="{Binding Path=RowCount}"/>
-                            <Setter Property="Grid.Column" Value="{Binding Path=ColumnCount}"/>
-                        </Style>
-                    </ItemsControl.ItemContainerStyle>
-
+                    
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <Grid></Grid>
+
+                            <Grid local:GridHelpers.RowCount="{Binding ElementName=frmMainWindow, Path=DataContext.RowCount}" local:GridHelpers.ColumnCount="{Binding ElementName=frmMainWindow, Path=DataContext.ColumnCount}">
+                            </Grid>
+
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
+                    
+                    <!--<ItemsControl.ItemContainerStyle>
+                        <Style>
+                            <Setter Property="Grid.Row" Value="{Binding ElementName=frmMainWindow, Path=DataContext.RowCount}"/>
+                            <Setter Property="Grid.Column" Value="{Binding ElementName=frmMainWindow, Path=DataContext.ColumnCount}"/>
+                        </Style>
+                    </ItemsControl.ItemContainerStyle>-->
+
+
 
                     <ItemsControl.ItemTemplate>
-                        <DataTemplate>
+                        <DataTemplate>                            
                             <TextBlock Text="{Binding FacetID}"/>
-
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
 
-
                 </ItemsControl>
-            </StackPanel>
+
         </Grid>
 
         <DockPanel Grid.Row="2" x:Name="dckForm">
