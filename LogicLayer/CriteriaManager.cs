@@ -23,6 +23,99 @@ namespace LogicLayer
             _criteriaAccessor = criteriaAccessor;
         }
 
+        public Dictionary<Criteria, Criteria> GetDictionaryOfDifferentCriteria(Dictionary<Facet, List<Criteria>> oldFacetCriteria, Dictionary<Facet, List<Criteria>> newFacetCriteria)
+        {
+            Dictionary<Criteria, Criteria> differentCriteria = new Dictionary<Criteria, Criteria>();
+
+            foreach (var oldEntry in oldFacetCriteria)
+            {
+                foreach (var newEntry in newFacetCriteria)
+                {
+                    if (oldEntry.Key.FacetID == newEntry.Key.FacetID && oldEntry.Key.RubricID == newEntry.Key.RubricID)
+                    {
+                        List<Criteria> oldListOfCriteria = oldEntry.Value;
+                        List<Criteria> newListOfCriteria = newEntry.Value;
+
+                        for (int i = 0; i < oldListOfCriteria.Count; i++)
+                        {
+                            if (oldListOfCriteria[i].CriteriaID != newListOfCriteria[i].CriteriaID)
+                            {
+                                differentCriteria.Add(oldListOfCriteria[i], newListOfCriteria[i]);
+                            }
+                        }
+                    }
+                }
+            }
+
+            return differentCriteria;
+
+            //foreach (var oldEntry in oldFacetCriteria)
+            //{
+            //    foreach (var newEntry in newFacetCriteria)
+            //    {
+            //        if (oldEntry.Key.FacetID == newEntry.Key.FacetID && oldEntry.Key.RubricID == newEntry.Key.RubricID)
+            //        {
+            //            foreach (var oldEntryCriteria in oldEntry.Value)
+            //            {
+            //                foreach (var newEntryCriteria in newEntry.Value)
+            //                {
+            //                    if (oldEntryCriteria.CriteriaID != newEntryCriteria.CriteriaID || oldEntryCriteria.Content != newEntryCriteria.Content)
+            //                    {
+            //                        if (!differentCriteria.ContainsKey(oldEntryCriteria))
+            //                        {
+            //                            differentCriteria.Add(oldEntryCriteria, newEntryCriteria);
+            //                        }
+            //                    }
+            //                }
+            //            }
+            //        }
+            //    }
+            //}
+
+
+            // Green step
+            //Criteria oldCriteria = new Criteria()
+            //{
+            //    CriteriaID = "Excellent",
+            //    RubricID = 100000,
+            //    FacetID = "Explaination",
+            //    DateCreated = DateTime.Now,
+            //    DateUpdated = DateTime.Now,
+            //    Content = "Shows an excellent explaination",
+            //    Score = 4,
+            //    Active = true,
+            //};
+
+            //Criteria newCriteria = new Criteria()
+            //{
+            //    CriteriaID = "Changed CriteriaID",
+            //    //CriteriaID = "Excellent",
+            //    RubricID = 100000,
+            //    FacetID = "Explaination",
+            //    DateCreated = DateTime.Now,
+            //    DateUpdated = DateTime.Now,
+            //    Content = "A change in the content",
+            //    //Content = "Shows an excellent explaination",
+            //    Score = 4,
+            //    Active = true,
+            //};
+
+            //differentCriteria.Add(oldCriteria, newCriteria);
+
+            //for (int i = 0; i < oldFacetCriteria.Count; i++)
+            //{
+            //    for (int j = 0; j < oldFacetCriteria.ElementAt(i).Value.Count; j++)
+            //    {
+            //        bool isSame = oldFacetCriteria.ElementAt(i).Value.ElementAt(j) == newFacetCriteria.ElementAt(i).Value.ElementAt(j);
+
+            //        if (!isSame)
+            //        {
+            //            differentCriteria.Add(oldFacetCriteria.ElementAt(i).Value.ElementAt(j), newFacetCriteria.ElementAt(i).Value.ElementAt(j));
+            //        }
+            //    }
+            //}
+        }
+
         public List<Criteria> RetrieveCriteriasForRubricByRubricID(int rubricID)
         {
             List<Criteria> criteriaList = new List<Criteria>();
@@ -32,9 +125,119 @@ namespace LogicLayer
             }
             catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
+
+
             return criteriaList;
+        }
+
+        public bool UpdateCriteriaByCriteriaFacetDictionary(Dictionary<Facet, List<Criteria>> oldFacetCriteria, Dictionary<Facet, List<Criteria>> newFacetCriteria)
+        {
+            bool result = false;
+
+            try
+            {
+                result = UpdateMultipleCriteriaByCriteriaDictionary(GetDictionaryOfDifferentCriteria(oldFacetCriteria, newFacetCriteria));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            if (!result)
+            {
+                throw new ApplicationException("No change in criteria to save.");
+            }
+
+            return result;
+        }
+
+        public int UpdateCriteriaByCriteriaID(int rubricID, string facetID, string oldCriteriaID, string newCriteriaID, string oldContent, string newContent)
+        {
+            int rowsAffected = 0;
+            try
+            {
+                rowsAffected = _criteriaAccessor.UpdateCriteriaByCriteriaID(rubricID, facetID, oldCriteriaID, newCriteriaID, oldContent, newContent);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            if (rowsAffected > 1)
+            {
+                throw new ApplicationException("Too many records were changed.");
+            }
+            if (rowsAffected == 0)
+            {
+                throw new ApplicationException("The criteria was not updated.");
+            }
+
+            return rowsAffected;
+
+        }
+
+        public bool UpdateMultipleCriteriaByCriteriaDictionary(Dictionary<Criteria, Criteria> oldKeyNewValueDictionary)
+        {
+            bool result = false;
+
+            foreach (var entry in oldKeyNewValueDictionary)
+            {
+                try
+                {
+                    result = UpdateSingleCriteriaByCriteria(entry.Key, entry.Value);
+                }
+                catch (Exception ex)
+                {
+                    throw new ApplicationException(string.Format("Problem with updating Rubric \"{0}\" Facet \"{1}\" with old criteria \"{2}\" to new criteria ID of \"{3}\" and content of \"{4}\"\n{5}", entry.Key.RubricID, entry.Key.FacetID, entry.Key.CriteriaID, entry.Value.CriteriaID, entry.Value.Content, ex.Message));
+                }
+  
+            }
+
+            if (!result)
+            {
+                throw new ApplicationException("No criteria were updated"); 
+            }
+
+            return result;
+        }
+
+        public bool UpdateSingleCriteriaByCriteria(Criteria oldCriteria, Criteria newCriteria)
+        {
+            bool result = false;
+            int rowsAffected = 0;
+
+            //confirm at least one thing is different
+            bool areDiffernt = false;
+
+            if (oldCriteria.CriteriaID != newCriteria.CriteriaID)
+            {
+                areDiffernt = true;                
+            }
+            else if (oldCriteria.Content != newCriteria.Content)
+            {
+                areDiffernt = true;
+            }
+
+            if (areDiffernt)
+            {
+                try
+                {
+                    rowsAffected = UpdateCriteriaByCriteriaID(oldCriteria.RubricID, oldCriteria.FacetID, oldCriteria.CriteriaID, newCriteria.CriteriaID, oldCriteria.Content, newCriteria.Content);
+                }
+                catch (Exception ex)
+                {
+                    // this was tested in UpdateCriteriaByCriteriaID tests
+                    throw ex;
+                }
+            }
+
+            if (rowsAffected == 1)
+            {
+                result = true;
+            }
+
+            return result;
         }
     }
 }

@@ -22,8 +22,7 @@ namespace DataAccessFakes
                 Description = "A long description of the rubric.",
                 DateCreated = DateTime.Now,
                 DateUpdated = DateTime.Now,
-                ScoreTypeID = "Percentage",
-                    
+                ScoreTypeID = "Percentage",                   
                 
                 RubricCreator = new User()
                 {
@@ -32,7 +31,6 @@ namespace DataAccessFakes
                     FamilyName = "Data",
                     Active = true,
                     Roles = new List<string>()
-
                 },
                 Active = true
             });

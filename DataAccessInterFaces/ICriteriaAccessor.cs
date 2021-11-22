@@ -10,5 +10,8 @@ namespace DataAccessInterFaces
     public interface ICriteriaAccessor
     {
         List<Criteria> SelectCriteriaByRubricID(int rubricID);
+
+        int UpdateCriteriaByCriteriaID(int rubricID, string facetID, string oldCriteriaID, string newCriteriaID, string oldContent, string newContent);
+
     }
 }

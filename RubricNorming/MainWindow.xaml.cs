@@ -10,7 +10,6 @@ using System.Windows.Documents;
 
 namespace RubricNorming
 {
-
     public partial class MainWindow : Window
     {
 
@@ -22,9 +21,9 @@ namespace RubricNorming
 
         string _executionChoice = "";
 
-        double HEADING_ONE_MULTIPLIER = 1.5;
-
+        Rubric _rubric = null;
         RubricVM _rubricVM = null;
+
 
         public MainWindow()
         {
@@ -346,41 +345,57 @@ namespace RubricNorming
 
         private void datViewList_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {            
-            var rubric = (Rubric)datViewList.SelectedItem;
+            _rubric = (Rubric)datViewList.SelectedItem;
 
             datViewList.Visibility = Visibility.Collapsed;
             btnConfirmEdits.Visibility = Visibility.Visible;
 
-            _rubricVM = createRubricVM(rubric);
-            this.DataContext = _rubricVM;
+            try
+            {
+                _rubricVM = createRubricVM(_rubric);
+                this.DataContext = _rubricVM;
 
-            icFacetCriteria.ItemsSource = _rubricVM.FacetCriteria;
+                icFacetCriteria.ItemsSource = _rubricVM.FacetCriteria;
 
-            icScores.ItemsSource = _rubricVM.RubricScoreColumn();
+                icScores.ItemsSource = _rubricVM.RubricScoreColumn();
+
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show("Problem retrieving the single rubric." + ex.Message);
+            }
 
             lblDetailRubricTitle.Visibility = Visibility.Visible;
-            icFacetCriteria.Visibility = Visibility.Visible;
-            
+            icFacetCriteria.Visibility = Visibility.Visible;            
         }
 
         private void mnuConfirmUpdatesToRubric_Click(object sender, RoutedEventArgs e)
         {
+            RubricVM oldRubricVM = createRubricVM(_rubric);
+            
+            //Dictionary<Facet, List<Criteria>> 
+            string resultMessage = "";
 
-            Dictionary<Facet, List<Criteria>> textBoxes = (Dictionary <Facet, List<Criteria>>) icFacetCriteria.ItemsSource;
-
-            string test = "";
-
-            foreach (var entry in textBoxes)
+            try
             {
-                foreach (var criteria in entry.Value)
+                bool result = _criteriaManager.UpdateCriteriaByCriteriaFacetDictionary(oldRubricVM.FacetCriteria, _rubricVM.FacetCriteria);
+
+                if (result)
                 {
-                    test += criteria.Content + "    \n";
+                    resultMessage = "Successfully updated rubric.";
                 }
-                test += "\n\n";
-            }            
+                else
+                {
+                    resultMessage = "Did not update the rubric.";
+                }
+            }
+            catch (Exception ex)
+            {
+                resultMessage = "There was a problem updating: " + ex.Message;
+            }
 
-            MessageBox.Show(test);
-
+            MessageBox.Show(resultMessage);
         }
 
 
