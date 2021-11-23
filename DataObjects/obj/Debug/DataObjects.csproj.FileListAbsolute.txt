@@ -9,3 +9,4 @@ C:\Users\drnag\Documents\NET2\Rubric Project\NET2-RubricNormingSolution\DataObje
 C:\Users\drnag\Documents\NET2\Rubric Project\NET2-RubricNormingSolution\DataObjects\obj\Debug\DataObjects.csproj.CoreCompileInputs.cache
 C:\Users\drnag\Documents\NET2\Rubric Project\NET2-RubricNormingSolution\DataObjects\obj\Debug\DataObjects.dll
 C:\Users\drnag\Documents\NET2\Rubric Project\NET2-RubricNormingSolution\DataObjects\obj\Debug\DataObjects.pdb
+C:\Users\drnag\Documents\NET2\Rubric Project\NET2-RubricNormingSolution\DataObjects\obj\Debug\DataObjects.csproj.AssemblyReference.cache

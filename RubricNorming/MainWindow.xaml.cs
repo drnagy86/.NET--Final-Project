@@ -330,7 +330,6 @@ namespace RubricNorming
             prepareDckFormForRetrieveCriteriaByRubicID();
         }
 
-
         private void datViewList_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {            
             _rubric = (Rubric)datViewList.SelectedItem;

@@ -272,8 +272,15 @@ AS
 		,[Rubric].[DateCreated]	
 		,[Rubric].[DateUpdated]	
 		,[Rubric].[ScoreTypeID]	
-		,[RubricCreator]
-	FROM [Rubric]
+		,[Rubric].[RubricCreator]
+		,[User].[GivenName]		
+		,[User].[FamilyName]
+		,[User].[Active]
+		,[Rubric].[Active]
+
+	FROM [Rubric] INNER JOIN [User] 
+		ON [Rubric].[RubricCreator] = [User].[UserID]
+		
 	WHERE @RubricID = [RubricID]	
 	END
 GO
