@@ -53,6 +53,7 @@
     <Compile Include="FacetManagerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RubricManagerTests.cs" />
+    <Compile Include="RubricVMManagerTests.cs" />
     <Compile Include="UserManagerTests.cs" />
   </ItemGroup>
   <ItemGroup>

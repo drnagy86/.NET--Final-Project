@@ -9,21 +9,21 @@ using DataAccessLayer;
 
 namespace LogicLayer
 {
-    public class RubricManager : IRubricManager
+    public class RubricManager : IRubricManager<Rubric>
     {
         private IRubricAccessor _rubricAccessor = null;
-        private IUserAccessor _userAccessoer = null;
+        private IUserAccessor _userAccessor = null;
 
         public RubricManager()
         {
             _rubricAccessor = new RubricAccessor();
-            _userAccessoer = new UserAccessor();
+            _userAccessor = new UserAccessor();
         }
 
         public RubricManager(IRubricAccessor rubricAccessor, IUserAccessor userAccessor)
         {
             _rubricAccessor = rubricAccessor;
-            _userAccessoer = userAccessor;
+            _userAccessor = userAccessor;
         }
 
         public List<Rubric> RetrieveActiveRubrics()
@@ -37,7 +37,6 @@ namespace LogicLayer
             {
                 throw ex;
             }
-
             return rubricList;
         }
 
@@ -50,9 +49,8 @@ namespace LogicLayer
             {
                 rubric = _rubricAccessor.SelectRubricByRubricID(rubricID);
                 // need to get the user information
-                rubricCreator = _userAccessoer.SelectUserByUserID(rubric.RubricCreator.UserID);
-                rubric.RubricCreator = rubricCreator;
-                
+                rubricCreator = _userAccessor.SelectUserByUserID(rubric.RubricCreator.UserID);
+                rubric.RubricCreator = rubricCreator;                
             }
             catch (Exception ex)
             {
@@ -60,7 +58,6 @@ namespace LogicLayer
             }
 
             return rubric;
-
         }
 
 

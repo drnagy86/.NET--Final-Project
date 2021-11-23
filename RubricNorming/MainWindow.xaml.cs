@@ -15,9 +15,12 @@ namespace RubricNorming
 
         UserManager _userManager = null;
         User _user = null;
-        RubricManager _rubricManager = null;
         FacetManager _facetManager = null;
         CriteriaManager _criteriaManager = null;
+        IRubricManager<RubricVM> _rubricManagerVM = null;
+
+        //try to get rid of this guy
+        IRubricManager<Rubric> _rubricManager = null;
 
         string _executionChoice = "";
 
@@ -32,12 +35,23 @@ namespace RubricNorming
             _rubricManager = new RubricManager();
             _facetManager = new FacetManager();
             _criteriaManager = new CriteriaManager();
+            _rubricManagerVM = new RubricVMManager();
+
 
             // uses the fake accessors
             //_userManager = new UserManager(new UserAccessorFake());
             //_rubricManager = new RubricManager(new RubricAccessorFake(), new UserAccessorFake());
             //_facetManager = new FacetManager(new FacetAccessorFake());
             //_criteriaManager = new CriteriaManager(new CriteriaAccessorFake());
+
+            // uses the fake accessors
+            //UserAccessorFake userAccessorFake = new UserAccessorFake();
+            //_rubricManager = new RubricManager(new RubricAccessorFake(), userAccessorFake);
+            //_userManager = new UserManager(userAccessorFake);
+            //_facetManager = new FacetManager(new FacetAccessorFake());
+            //_criteriaManager = new CriteriaManager(new CriteriaAccessorFake());
+
+            //_rubricManagerVM = new RubricVMManager(_rubricManager, _userManager, _facetManager, _criteriaManager);
 
             InitializeComponent();
         }
@@ -89,7 +103,6 @@ namespace RubricNorming
                 }
                 catch (Exception ex)
                 {
-
                     MessageBox.Show(ex.Message + "\n\n" +
                         ex.InnerException.Message,
                         "Alert!",
@@ -318,31 +331,6 @@ namespace RubricNorming
         }
 
 
-        private RubricVM createRubricVM(Rubric rubric)
-        {
-            List<Facet> facetList = null;
-            List<Criteria> criteriaList = null;
-            try
-            {
-                facetList = _facetManager.RetrieveFacetsByRubricID(rubric.RubricID);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("There was a problem retrieving the list of facets." + ex.Message);
-            }
-            try
-            {
-                criteriaList = _criteriaManager.RetrieveCriteriasForRubricByRubricID(rubric.RubricID);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("There was a problem retrieving the list of criteria." + ex.Message);
-            }
-
-            RubricVM rubricVM = new RubricVM(rubric, facetList, criteriaList);
-            return rubricVM;
-        }
-
         private void datViewList_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {            
             _rubric = (Rubric)datViewList.SelectedItem;
@@ -352,7 +340,7 @@ namespace RubricNorming
 
             try
             {
-                _rubricVM = createRubricVM(_rubric);
+                _rubricVM = _rubricManagerVM.RetrieveRubricByRubricID(_rubric.RubricID);
                 this.DataContext = _rubricVM;
 
                 icFacetCriteria.ItemsSource = _rubricVM.FacetCriteria;
@@ -362,7 +350,6 @@ namespace RubricNorming
             }
             catch (Exception ex)
             {
-
                 MessageBox.Show("Problem retrieving the single rubric." + ex.Message);
             }
 
@@ -372,7 +359,7 @@ namespace RubricNorming
 
         private void mnuConfirmUpdatesToRubric_Click(object sender, RoutedEventArgs e)
         {
-            RubricVM oldRubricVM = createRubricVM(_rubric);
+            RubricVM oldRubricVM = _rubricManagerVM.RetrieveRubricByRubricID(_rubric.RubricID);
             
             //Dictionary<Facet, List<Criteria>> 
             string resultMessage = "";

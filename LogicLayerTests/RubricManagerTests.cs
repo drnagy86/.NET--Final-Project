@@ -11,7 +11,7 @@ namespace LogicLayerTests
     [TestClass]
     public class RubricManagerTests
     {
-        private IRubricManager rubricManager = null;
+        private IRubricManager<Rubric> rubricManager = null;
 
         [TestInitialize]
         public void TestSetup()

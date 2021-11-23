@@ -49,30 +49,6 @@ namespace LogicLayer
 
             return differentCriteria;
 
-            //foreach (var oldEntry in oldFacetCriteria)
-            //{
-            //    foreach (var newEntry in newFacetCriteria)
-            //    {
-            //        if (oldEntry.Key.FacetID == newEntry.Key.FacetID && oldEntry.Key.RubricID == newEntry.Key.RubricID)
-            //        {
-            //            foreach (var oldEntryCriteria in oldEntry.Value)
-            //            {
-            //                foreach (var newEntryCriteria in newEntry.Value)
-            //                {
-            //                    if (oldEntryCriteria.CriteriaID != newEntryCriteria.CriteriaID || oldEntryCriteria.Content != newEntryCriteria.Content)
-            //                    {
-            //                        if (!differentCriteria.ContainsKey(oldEntryCriteria))
-            //                        {
-            //                            differentCriteria.Add(oldEntryCriteria, newEntryCriteria);
-            //                        }
-            //                    }
-            //                }
-            //            }
-            //        }
-            //    }
-            //}
-
-
             // Green step
             //Criteria oldCriteria = new Criteria()
             //{
@@ -100,20 +76,6 @@ namespace LogicLayer
             //    Active = true,
             //};
 
-            //differentCriteria.Add(oldCriteria, newCriteria);
-
-            //for (int i = 0; i < oldFacetCriteria.Count; i++)
-            //{
-            //    for (int j = 0; j < oldFacetCriteria.ElementAt(i).Value.Count; j++)
-            //    {
-            //        bool isSame = oldFacetCriteria.ElementAt(i).Value.ElementAt(j) == newFacetCriteria.ElementAt(i).Value.ElementAt(j);
-
-            //        if (!isSame)
-            //        {
-            //            differentCriteria.Add(oldFacetCriteria.ElementAt(i).Value.ElementAt(j), newFacetCriteria.ElementAt(i).Value.ElementAt(j));
-            //        }
-            //    }
-            //}
         }
 
         public List<Criteria> RetrieveCriteriasForRubricByRubricID(int rubricID)
@@ -127,8 +89,6 @@ namespace LogicLayer
             {
                 throw ex;
             }
-
-
             return criteriaList;
         }
 
@@ -174,7 +134,6 @@ namespace LogicLayer
             }
 
             return rowsAffected;
-
         }
 
         public bool UpdateMultipleCriteriaByCriteriaDictionary(Dictionary<Criteria, Criteria> oldKeyNewValueDictionary)
@@ -190,8 +149,7 @@ namespace LogicLayer
                 catch (Exception ex)
                 {
                     throw new ApplicationException(string.Format("Problem with updating Rubric \"{0}\" Facet \"{1}\" with old criteria \"{2}\" to new criteria ID of \"{3}\" and content of \"{4}\"\n{5}", entry.Key.RubricID, entry.Key.FacetID, entry.Key.CriteriaID, entry.Value.CriteriaID, entry.Value.Content, ex.Message));
-                }
-  
+                }  
             }
 
             if (!result)

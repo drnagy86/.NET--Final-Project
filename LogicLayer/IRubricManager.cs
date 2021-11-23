@@ -9,9 +9,9 @@ using DataObjects;
 
 namespace LogicLayer
 {
-    public interface IRubricManager
+    public interface IRubricManager<T> where T:Rubric
     {
-        Rubric RetrieveRubricByRubricID(int rubricID);
-        List<Rubric> RetrieveActiveRubrics();
+        T RetrieveRubricByRubricID(int rubricID);
+        List<T> RetrieveActiveRubrics();
     }
 }
