@@ -15,6 +15,5 @@ namespace DataObjects
         public List<string> Roles { get; set; }
 
 
-
     }
 }

@@ -6,8 +6,7 @@
         xmlns:local="clr-namespace:RubricNorming"
         mc:Ignorable="d"
         x:Name="frmMainWindow"
-        Title="Rubric Norming" Height="900" Width="1200" WindowStartupLocation="CenterScreen" Loaded="frmMainWindow_Loaded">
-
+        Title="Rubric Norming" Height="900" Width="1200" WindowStartupLocation="CenterScreen" Loaded="frmMainWindow_Loaded"  WindowState="Maximized" >
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
@@ -20,7 +19,7 @@
         <Menu Grid.Row="0" Padding="20px, 0px">
             <MenuItem x:Name="mnuFile" Header="File">
                 <MenuItem x:Name="mnuLog" Header="Log In/Log Out"></MenuItem>
-                <MenuItem x:Name="mnuExit" Header="Exit"></MenuItem>
+                <MenuItem x:Name="mnuExit" Header="Exit (Ctrl+W)" Click="mnuExit_Click"  ></MenuItem>
             </MenuItem>
             <MenuItem x:Name="mnuView" Header="View">
                 <MenuItem x:Name="mnuViewAllRubrics" Header="View All Rubrics" Click="mnuViewAllRubrics_Click"></MenuItem>
@@ -117,13 +116,41 @@
                         </Grid.ColumnDefinitions>
 
                         <Label x:Name="lblDetailRubricTitle" Grid.Row="0" Grid.Column="0" Content="{Binding ElementName=frmMainWindow, Path=DataContext.Name}" Visibility="Hidden" HorizontalAlignment="Left" FontWeight="Bold" FontSize="16"/>
-                        <Button x:Name="btnConfirmEdits" Content="Save Changes" Grid.Row="0" Grid.Column="1" Margin="10,5" Visibility="Hidden" Width="100" HorizontalAlignment="Right"/>
+                        <Grid Grid.Row="0" Grid.Column="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <Button x:Name="btnConfirmEdits" Content="Save Changes" Grid.Row="0" Grid.Column="0" Margin="10,5" Visibility="Hidden" Click="mnuConfirmUpdatesToRubric_Click"/>
+                            <Button x:Name="btnCancelEdits" Content="Cancel Changes" Grid.Row="0" Grid.Column="1" Margin="10,5" Visibility="Hidden"  Click="btnCancelEdits_Click"/>
+
+                        </Grid>
+                        
+
 
                     </Grid>
 
-                    <DataGrid x:Name="datViewList" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" IsReadOnly="True" MouseDoubleClick="datViewList_MouseDoubleClick"/>
-                <!--<Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Bottom">Score</Label>-->                
-                
+                    <DataGrid x:Name="datViewList" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" IsReadOnly="True" MouseDoubleClick="datViewList_MouseDoubleClick" ItemsSource="{Binding}" AutoGenerateColumns="False" HorizontalAlignment="Left" Margin="10">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Rubric Name" Binding="{Binding Name}"/>
+                            <DataGridTextColumn Header="Description" Binding="{Binding Description}"/>
+                            <DataGridTextColumn Header="Date Created" Binding="{Binding DateCreated, StringFormat=\{0:MM/dd/yy\}}">
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Date Last Updated" Binding="{Binding DateUpdated, StringFormat=\{0:MM/dd/yy\}}"/>
+                            <DataGridTextColumn Header="Score Type" Binding="{Binding ScoreTypeID}"/>
+                            <DataGridTextColumn Header="Author Given Name" Binding="{Binding RubricCreator.GivenName}"/>
+                            <DataGridTextColumn Header="Author Family Name" Binding="{Binding RubricCreator.FamilyName}"/>
+                        </DataGrid.Columns>
+                        
+                        
+                    </DataGrid>
+
+
+
                     <ItemsControl Grid.Row="1" Grid.Column="0" x:Name="icScores">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
