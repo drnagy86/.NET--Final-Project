@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Input;
 
 namespace RubricNorming
 {
@@ -54,6 +55,10 @@ namespace RubricNorming
             //_rubricManagerVM = new RubricVMManager(_rubricManager, _userManager, _facetManager, _criteriaManager);
 
             InitializeComponent();
+
+            RoutedCommand closeWindow = new RoutedCommand();
+            closeWindow.InputGestures.Add(new KeyGesture(Key.W, ModifierKeys.Control));
+            CommandBindings.Add(new CommandBinding(closeWindow, mnuExit_Click));
         }
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)
@@ -238,6 +243,8 @@ namespace RubricNorming
             //var rubricListSorted = rubricList.Select(r => new { r.Name, r.Description, r.DateCreated, r.DateUpdated, r.ScoreTypeID, RubricCreatorName = r.RubricCreator.GivenName + " " + r.RubricCreator.FamilyName });
 
             datViewList.ItemsSource = rubricList;
+
+         
         }
 
         private void viewAllActivateFacets()
@@ -336,6 +343,7 @@ namespace RubricNorming
 
             datViewList.Visibility = Visibility.Collapsed;
             btnConfirmEdits.Visibility = Visibility.Visible;
+            btnCancelEdits.Visibility = Visibility.Visible;
 
             try
             {
@@ -358,7 +366,14 @@ namespace RubricNorming
 
         private void mnuConfirmUpdatesToRubric_Click(object sender, RoutedEventArgs e)
         {
+
             RubricVM oldRubricVM = _rubricManagerVM.RetrieveRubricByRubricID(_rubric.RubricID);
+
+            // not great, but removes focus if the event is trigger while the cursor is in the box
+            pwdPassword.Focus();
+
+            //RubricVM oldRubricVM = createRubricVM(_rubric);
+
             
             //Dictionary<Facet, List<Criteria>> 
             string resultMessage = "";
@@ -382,6 +397,43 @@ namespace RubricNorming
             }
 
             MessageBox.Show(resultMessage);
+        }
+
+        private void mnuExit_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void btnCancelEdits_Click(object sender, RoutedEventArgs e)
+        {
+
+
+            MessageBoxResult messageBoxResult = MessageBox.Show("Are you sure you want to undo all the edits? All changes will not be changed and the original rubric will be loaded.","Cancel Edits", MessageBoxButton.OKCancel);
+
+            switch (messageBoxResult)
+            {
+                case MessageBoxResult.None:
+                    break;
+                case MessageBoxResult.OK:
+                    try
+                    {
+                        RubricVM oldRubricVM = _rubricManagerVM.RetrieveRubricByRubricID(_rubric.RubricID);
+                        _rubricVM = oldRubricVM;
+
+                        this.DataContext = _rubricVM;
+                        icFacetCriteria.ItemsSource = _rubricVM.FacetCriteria;
+                        icScores.ItemsSource = _rubricVM.RubricScoreColumn();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Problem retrieving old rubric" + ex.Message);
+                    }
+                    break;
+                case MessageBoxResult.Cancel:
+                    break;                    
+                default:
+                    break;
+            }
         }
 
 
