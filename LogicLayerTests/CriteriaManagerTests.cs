@@ -345,6 +345,20 @@ namespace LogicLayerTests
             Assert.IsTrue(!_criteriaManager.UpdateSingleCriteriaByCriteria(_oldCriteriaList[0], _oldCriteriaList[0]));
         }
 
+
+        [TestMethod]
+        public void TestUpdateSingleCriteriaByCriteriaUpdatesRecordContentsOnly()
+        {
+            // arrannge
+            _newCriteriaList[0].CriteriaID = "Excellent";
+
+            // assert
+            Assert.IsTrue(_criteriaManager.UpdateSingleCriteriaByCriteria(_oldCriteriaList[0], _newCriteriaList[0]));
+        }
+
+
+
+
         [TestMethod]
         public void TestUpdateMultipleCriteriaByCriteriaDictionaryCorrectlyUpdatesCriteria()
         {
@@ -384,6 +398,61 @@ namespace LogicLayerTests
         {
             //bool UpdateCriteriaByCriteriaFacetDictionary(Dictionary<Facet, List<Criteria>> oldFacetCriteria, Dictionary<Facet, List<Criteria>> newFacetCriteria)
             Assert.IsTrue(_criteriaManager.UpdateCriteriaByCriteriaFacetDictionary(_oldFacetCriteria, _oldFacetCriteria));
+
+        }
+
+        [TestMethod]
+        public void TestUpdateCriteriaContentReturnsOneRowAffectedForRecordUpdate()
+        {
+            // arrange
+
+            const int rubricID = 100000;
+            const string facetID = "Explaination";
+            const string oldCriteriaID = "Excellent";            
+            const string oldContent = "Shows an excellent explaination";
+            const string newContent = "Some updated content";
+            const int expected = 1;
+            int result;
+
+            // act
+            result = _criteriaManager.UpdateCriteriaContentByCriteriaID(rubricID, facetID, oldCriteriaID, oldContent, newContent);
+
+            // assert
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ApplicationException))]
+        public void TestUpdateCriteriaContentThrowsApplicationExceptionForZeroRecordsAffected()
+        {
+            // arrange
+
+            const int rubricID = 1000011;
+            const string facetID = "Explaination";
+            const string oldCriteriaID = "Excellent";
+            const string oldContent = "Shows an excellent explaination";
+            const string newContent = "Some updated content";
+
+            //act
+           _criteriaManager.UpdateCriteriaContentByCriteriaID(rubricID, facetID, oldCriteriaID, oldContent, newContent);
+
+        }
+
+
+        [TestMethod]
+        [ExpectedException(typeof(ApplicationException))]
+        public void TestUpdateCriteriaContentThrowsApplicationExceptionForManyRecordsAffected()
+        {
+            // arrange
+
+            const int rubricID = 100001;
+            const string facetID = "Explaination";
+            const string oldCriteriaID = "Excellent";
+            const string oldContent = "Shows an excellent explaination";
+            const string newContent = "Some updated content";
+
+            //act
+            _criteriaManager.UpdateCriteriaContentByCriteriaID(rubricID, facetID, oldCriteriaID, oldContent, newContent);
 
         }
 

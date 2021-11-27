@@ -38,7 +38,7 @@ namespace LogicLayer
 
                         for (int i = 0; i < oldListOfCriteria.Count; i++)
                         {
-                            if (oldListOfCriteria[i].CriteriaID != newListOfCriteria[i].CriteriaID)
+                            if (oldListOfCriteria[i].CriteriaID != newListOfCriteria[i].CriteriaID || oldListOfCriteria[i].Content != newListOfCriteria[i].Content)
                             {
                                 differentCriteria.Add(oldListOfCriteria[i], newListOfCriteria[i]);
                             }
@@ -136,6 +136,30 @@ namespace LogicLayer
             return rowsAffected;
         }
 
+        public int UpdateCriteriaContentByCriteriaID(int rubricID, string facetID, string criteriaID, string oldContent, string newContent)
+        {
+            int rowsAffected = 0;
+
+            try
+            {
+                rowsAffected = _criteriaAccessor.UpdateCriteriaContentByCriteriaID(rubricID, facetID, criteriaID, oldContent, newContent);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            if (rowsAffected > 1)
+            {
+                throw new ApplicationException("Too many records were changed.");
+            }
+            if (rowsAffected == 0)
+            {
+                throw new ApplicationException("The criteria was not updated.");
+            }
+
+            return rowsAffected;
+        }
+
         public bool UpdateMultipleCriteriaByCriteriaDictionary(Dictionary<Criteria, Criteria> oldKeyNewValueDictionary)
         {
             bool result = false;
@@ -163,21 +187,24 @@ namespace LogicLayer
         public bool UpdateSingleCriteriaByCriteria(Criteria oldCriteria, Criteria newCriteria)
         {
             bool result = false;
-            int rowsAffected = 0;
+            int rowsAffected = 0;           
 
-            //confirm at least one thing is different
-            bool areDiffernt = false;
+            bool differentCriteriaID = oldCriteria.CriteriaID != newCriteria.CriteriaID;
+            bool differentContent = oldCriteria.Content != newCriteria.Content;
 
-            if (oldCriteria.CriteriaID != newCriteria.CriteriaID)
+            if (!differentCriteriaID && differentContent)
             {
-                areDiffernt = true;                
-            }
-            else if (oldCriteria.Content != newCriteria.Content)
-            {
-                areDiffernt = true;
+                try
+                {
+                    rowsAffected = UpdateCriteriaContentByCriteriaID(oldCriteria.RubricID, oldCriteria.FacetID, oldCriteria.CriteriaID, oldCriteria.Content, newCriteria.Content);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
             }
 
-            if (areDiffernt)
+            else if (differentCriteriaID && differentContent)
             {
                 try
                 {

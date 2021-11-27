@@ -38,20 +38,12 @@ namespace RubricNorming
             _criteriaManager = new CriteriaManager();
             _rubricManagerVM = new RubricVMManager();
 
-
-            // uses the fake accessors
-            //_userManager = new UserManager(new UserAccessorFake());
-            //_rubricManager = new RubricManager(new RubricAccessorFake(), new UserAccessorFake());
-            //_facetManager = new FacetManager(new FacetAccessorFake());
-            //_criteriaManager = new CriteriaManager(new CriteriaAccessorFake());
-
             // uses the fake accessors
             //UserAccessorFake userAccessorFake = new UserAccessorFake();
             //_rubricManager = new RubricManager(new RubricAccessorFake(), userAccessorFake);
             //_userManager = new UserManager(userAccessorFake);
             //_facetManager = new FacetManager(new FacetAccessorFake());
             //_criteriaManager = new CriteriaManager(new CriteriaAccessorFake());
-
             //_rubricManagerVM = new RubricVMManager(_rubricManager, _userManager, _facetManager, _criteriaManager);
 
             InitializeComponent();
@@ -393,7 +385,7 @@ namespace RubricNorming
             }
             catch (Exception ex)
             {
-                resultMessage = "There was a problem updating: " + ex.Message;
+                resultMessage = "There was a problem updating:\n " + ex.Message;
             }
 
             MessageBox.Show(resultMessage);
