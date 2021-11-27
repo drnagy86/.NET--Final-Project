@@ -96,7 +96,8 @@
 
             </Grid.ColumnDefinitions>
 
-            <ScrollViewer Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" VerticalScrollBarVisibility="Auto">
+
+            <ScrollViewer x:Name="detailActionArea" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" VerticalScrollBarVisibility="Auto">
             <Grid Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="50"/>
@@ -115,7 +116,7 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
 
-                        <Label x:Name="lblDetailRubricTitle" Grid.Row="0" Grid.Column="0" Content="{Binding ElementName=frmMainWindow, Path=DataContext.Name}" Visibility="Hidden" HorizontalAlignment="Left" FontWeight="Bold" FontSize="16"/>
+                        <Label x:Name="lblDetailRubricTitle" Grid.Row="0" Grid.Column="0" Content="{Binding ElementName=frmMainWindow, Path=DataContext.Name}" HorizontalAlignment="Left" FontWeight="Bold" FontSize="16"/>
                         <Grid Grid.Row="0" Grid.Column="1">
                             <Grid.RowDefinitions>
                                 <RowDefinition/>
@@ -125,8 +126,8 @@
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             
-                            <Button x:Name="btnConfirmEdits" Content="Save Changes" Grid.Row="0" Grid.Column="0" Margin="10,5" Visibility="Hidden" Click="mnuConfirmUpdatesToRubric_Click"/>
-                            <Button x:Name="btnCancelEdits" Content="Cancel Changes" Grid.Row="0" Grid.Column="1" Margin="10,5" Visibility="Hidden"  Click="btnCancelEdits_Click"/>
+                            <Button x:Name="btnConfirmEdits" Content="Save Changes" Grid.Row="0" Grid.Column="0" Margin="10,5"  Click="mnuConfirmUpdatesToRubric_Click"/>
+                            <Button x:Name="btnCancelEdits" Content="Cancel Changes" Grid.Row="0" Grid.Column="1" Margin="10,5"   Click="btnCancelEdits_Click"/>
 
                         </Grid>
                         
@@ -145,8 +146,6 @@
                             <DataGridTextColumn Header="Author Given Name" Binding="{Binding RubricCreator.GivenName}"/>
                             <DataGridTextColumn Header="Author Family Name" Binding="{Binding RubricCreator.FamilyName}"/>
                         </DataGrid.Columns>
-                        
-                        
                     </DataGrid>
 
 
