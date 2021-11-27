@@ -393,29 +393,52 @@ namespace RubricNorming
 
             //RubricVM oldRubricVM = createRubricVM(_rubric);
 
-            
-            //Dictionary<Facet, List<Criteria>> 
-            string resultMessage = "";
+            bool isValid = true;
 
-            try
+            foreach (var entry in _rubricVM.FacetCriteria)
             {
-                bool result = _criteriaManager.UpdateCriteriaByCriteriaFacetDictionary(oldRubricVM.FacetCriteria, _rubricVM.FacetCriteria);
-
-                if (result)
+                foreach (Criteria criteria in entry.Value)
                 {
-                    resultMessage = "Successfully updated rubric.";
-                }
-                else
-                {
-                    resultMessage = "Did not update the rubric.";
-                }
+                    if (!criteria.CriteriaID.IsValidLength(50))
+                    {
+                        MessageBox.Show("The criteria name of:\n" + criteria.CriteriaID + "\nis too long. Please shorten.", "Criteria Name Too Long");
+                        isValid = false;
+                        break;
+                    }
+                    if (!criteria.Content.IsValidLength(255))
+                    {
+                        MessageBox.Show("The criteria content of:\n" +criteria.Content + "\nis too long. Please shorten.", "Criteria Content Too Long");
+                        isValid = false;
+                        break;
+                    }                    
+                }               
             }
-            catch (Exception ex)
+
+            if (isValid)
             {
-                resultMessage = "There was a problem updating:\n " + ex.Message;
-            }
+                //Dictionary<Facet, List<Criteria>> 
+                string resultMessage = "";
 
-            MessageBox.Show(resultMessage);
+                try
+                {
+                    bool result = _criteriaManager.UpdateCriteriaByCriteriaFacetDictionary(oldRubricVM.FacetCriteria, _rubricVM.FacetCriteria);
+
+                    if (result)
+                    {
+                        resultMessage = "Successfully updated rubric.";
+                    }
+                    else
+                    {
+                        resultMessage = "Did not update the rubric.";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    resultMessage = "There was a problem updating:\n " + ex.Message;
+                }
+                MessageBox.Show(resultMessage);
+            }
+           
         }
 
         private void mnuExit_Click(object sender, RoutedEventArgs e)
