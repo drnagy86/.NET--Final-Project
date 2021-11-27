@@ -574,4 +574,31 @@ AS
 		RETURN @@ROWCOUNT
 	END	
 GO
-	
+
+/*
+sp_update_criteria_content_by_criteria_id	@CriteriaID	nvarchar(50)	ICriteriaAccessor	ICriteriaAccessor
+*/
+print '' print '*** creating sp_update_criteria_content_by_criteria_id ***'
+GO
+CREATE PROCEDURE [dbo].[sp_update_criteria_content_by_criteria_id]
+(
+	@RubricID	int
+	,@FacetID	nvarchar(50)
+	,@CriteriaID		[nvarchar](50)	
+	,@OldContent		[nvarchar](255)
+	,@NewContent		[nvarchar](255)
+)
+AS
+	BEGIN
+		UPDATE [Criteria]
+		SET 
+			[DateUpdated] = CURRENT_TIMESTAMP
+			,[Content] = @NewContent
+		WHERE 
+			[RubricID] = @RubricID
+			AND [FacetID] = @FacetID
+			AND [CriteriaID] = @CriteriaID
+			AND [Content] = @OldContent
+		RETURN @@ROWCOUNT
+	END	
+GO

@@ -182,5 +182,22 @@ namespace DataAccessFakes
 
             return rowsAffected;
         }
+
+        public int UpdateCriteriaContentByCriteriaID(int rubricID, string facetID, string criteriaID, string oldContent, string newContent)
+        {
+            int rowsAffected = 0;
+
+
+            foreach (Criteria criteria in _criteriaList)
+            {
+                if (criteria.RubricID == rubricID && criteria.FacetID == facetID && criteria.CriteriaID == criteriaID && criteria.Content == oldContent)
+                {
+                    criteria.Content = newContent;
+                    rowsAffected++;
+                }
+
+            }
+            return rowsAffected;
+        }
     }
 }
