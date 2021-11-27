@@ -29,6 +29,8 @@ namespace RubricNorming
         RubricVM _rubricVM = null;
 
 
+
+
         public MainWindow()
         {
             // uses default accessors
@@ -236,8 +238,11 @@ namespace RubricNorming
 
             datViewList.ItemsSource = rubricList;
 
+            datViewList.Visibility = Visibility.Visible;
+            toggleListAndDetails();
          
         }
+
 
         private void viewAllActivateFacets()
         {
@@ -333,9 +338,11 @@ namespace RubricNorming
         {            
             _rubric = (Rubric)datViewList.SelectedItem;
 
-            datViewList.Visibility = Visibility.Collapsed;
-            btnConfirmEdits.Visibility = Visibility.Visible;
-            btnCancelEdits.Visibility = Visibility.Visible;
+            datViewList.Visibility = Visibility.Hidden;
+            //btnConfirmEdits.Visibility = Visibility.Visible;
+            //btnCancelEdits.Visibility = Visibility.Visible;
+            toggleListAndDetails();
+            
 
             try
             {
@@ -352,8 +359,28 @@ namespace RubricNorming
                 MessageBox.Show("Problem retrieving the single rubric." + ex.Message);
             }
 
-            lblDetailRubricTitle.Visibility = Visibility.Visible;
-            icFacetCriteria.Visibility = Visibility.Visible;            
+            //lblDetailRubricTitle.Visibility = Visibility.Visible;
+            //icFacetCriteria.Visibility = Visibility.Visible;            
+        }
+
+        private void toggleListAndDetails()
+        {
+            if (datViewList.Visibility == Visibility.Visible)
+            {
+                btnConfirmEdits.Visibility = Visibility.Hidden;
+                btnCancelEdits.Visibility = Visibility.Hidden;
+                lblDetailRubricTitle.Visibility = Visibility.Hidden;
+                icFacetCriteria.Visibility = Visibility.Hidden;
+                icScores.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                btnConfirmEdits.Visibility = Visibility.Visible;
+                btnCancelEdits.Visibility = Visibility.Visible;
+                lblDetailRubricTitle.Visibility = Visibility.Visible;
+                icFacetCriteria.Visibility = Visibility.Visible;
+                icScores.Visibility = Visibility.Visible;
+            }
         }
 
         private void mnuConfirmUpdatesToRubric_Click(object sender, RoutedEventArgs e)
@@ -427,9 +454,6 @@ namespace RubricNorming
                     break;
             }
         }
-
-
-
 
 
         // Build rubric the hard way
