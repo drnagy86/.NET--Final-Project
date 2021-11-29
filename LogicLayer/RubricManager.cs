@@ -26,6 +26,43 @@ namespace LogicLayer
             _userAccessor = userAccessor;
         }
 
+        public bool CreateRubric(string name, string description, string scoreTypeID, string rubricCreator)
+        {
+            bool isCreated = false;
+            int rowsAffected = 0;
+
+            if (name == "" || name == null)
+            {
+                throw new ApplicationException("Name can not be empty.");
+            }
+
+            if (description == "" || description == null)
+            {
+                throw new ApplicationException("Description can not be empty.");
+            }
+
+            if (scoreTypeID == "" || scoreTypeID == null)
+            {
+                throw new ApplicationException("The score type can not be empty.");
+            }
+
+            try
+            {
+                rowsAffected = _rubricAccessor.InsertRubric(name, description, scoreTypeID, rubricCreator);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            if (rowsAffected == 1)
+            {
+                isCreated = true;
+            }
+
+            return isCreated;
+        }
+
         public List<Rubric> RetrieveActiveRubrics()
         {
             List<Rubric> rubricList = null;

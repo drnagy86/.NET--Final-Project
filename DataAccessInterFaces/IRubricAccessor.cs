@@ -11,6 +11,6 @@ namespace DataAccessInterFaces
     {
         Rubric SelectRubricByRubricID(int rubricID);
         List<Rubric> SelectRubrics();
-
+        int InsertRubric(string name, string description, string scoreType, string rubricCreator);
     }
 }

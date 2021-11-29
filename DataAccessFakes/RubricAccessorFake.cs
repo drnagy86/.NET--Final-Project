@@ -113,11 +113,35 @@ namespace DataAccessFakes
                     FamilyName = "Licate",
                     Active = true,
                     Roles = new List<string>()
-
                 },
                 Active = false
             });
 
+        }
+
+        public int InsertRubric(string name, string description, string scoreType, string rubricCreator)
+        {
+            int rowsAffected = 0;
+            _fakeRubrics.Add(new Rubric()
+            {
+                RubricID = _fakeRubrics.ElementAt(_fakeRubrics.Count - 1).RubricID + 1,
+                Name = name,
+                Description = description,
+                ScoreTypeID = scoreType,
+                RubricCreator = new User()
+                {
+                    UserID = rubricCreator,
+                    GivenName = "Tess",
+                    FamilyName = "Data",
+                    Active = true,
+                    Roles = new List<string>()
+                },
+                Active = true
+            });
+
+            rowsAffected++;
+
+            return rowsAffected;
         }
 
         public Rubric SelectRubricByRubricID(int rubricID)

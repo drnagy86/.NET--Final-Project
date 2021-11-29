@@ -45,6 +45,7 @@
     <Compile Include="FacetAccessorFake.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RubricAccessorFake.cs" />
+    <Compile Include="ScoreTypeFake.cs" />
     <Compile Include="UserAccessorFake.cs" />
   </ItemGroup>
   <ItemGroup>

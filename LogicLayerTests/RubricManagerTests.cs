@@ -101,6 +101,170 @@ namespace LogicLayerTests
 
         }
 
+        [TestMethod]
+        public void TestCreateRubricReturnsTrueIfCreated()
+        {
+            // arrange
+            //         public int InsertRubric(string name, string description, string scoreType, string rubricCreator)
+            const string name = "Test Rubric";
+            const string description = "A description";
+            const string scoreType = "Percentage";
+            const string rubricCreator = "tess@company.com";
+            //const string expectedID = "100005";
+            //string actualID = "";
+            const bool expected = true;
+            bool actual;
+
+            // act
+            actual = rubricManager.CreateRubric(name, description, scoreType, rubricCreator);
+
+            // assert
+            Assert.AreEqual(expected, actual);
+
+        }
+
+
+        [TestMethod]
+        [ExpectedException(typeof(ApplicationException))]
+        public void TestCreateRubricThrowsApplicationErrorIfNoName()
+        {
+            // arrange
+            //         public int InsertRubric(string name, string description, string scoreType, string rubricCreator)
+            const string name = "";
+            const string description = "A description";
+            const string scoreType = "Percentage";
+            const string rubricCreator = "tess@company.com";
+            //const string expectedID = "100005";
+            //string actualID = "";
+            const bool expected = false;
+            bool actual;
+
+            // act
+            actual = rubricManager.CreateRubric(name, description, scoreType, rubricCreator);
+
+            // assert
+            Assert.AreEqual(expected, actual);
+
+        }
+
+
+        [TestMethod]
+        [ExpectedException(typeof(ApplicationException))]
+        public void TestCreateRubricThrowsApplicationErrorIfNullName()
+        {
+            // arrange
+            //         public int InsertRubric(string name, string description, string scoreType, string rubricCreator)
+            const string name = null;
+            const string description = "A description";
+            const string scoreType = "Percentage";
+            const string rubricCreator = "tess@company.com";
+            //const string expectedID = "100005";
+            //string actualID = "";
+            const bool expected = false;
+            bool actual;
+
+            // act
+            actual = rubricManager.CreateRubric(name, description, scoreType, rubricCreator);
+
+            // assert
+            Assert.AreEqual(expected, actual);
+
+        }
+
+
+        [TestMethod]
+        [ExpectedException(typeof(ApplicationException))]
+        public void TestCreateRubricThrowsApplicationErrorIfNoDescription()
+        {
+            // arrange
+            //         public int InsertRubric(string name, string description, string scoreType, string rubricCreator)
+            const string name = "Test";
+            const string description = "";
+            const string scoreType = "Percentage";
+            const string rubricCreator = "tess@company.com";
+            //const string expectedID = "100005";
+            //string actualID = "";
+            const bool expected = false;
+            bool actual;
+
+            // act
+            actual = rubricManager.CreateRubric(name, description, scoreType, rubricCreator);
+
+            // assert
+            Assert.AreEqual(expected, actual);
+
+        }
+
+
+        [TestMethod]
+        [ExpectedException(typeof(ApplicationException))]
+        public void TestCreateRubricThrowsApplicationErrorIfNullDescription()
+        {
+            // arrange
+            //         public int InsertRubric(string name, string description, string scoreType, string rubricCreator)
+            const string name = "Test";
+            const string description = null;
+            const string scoreType = "Percentage";
+            const string rubricCreator = "tess@company.com";
+            //const string expectedID = "100005";
+            //string actualID = "";
+            const bool expected = false;
+            bool actual;
+
+            // act
+            actual = rubricManager.CreateRubric(name, description, scoreType, rubricCreator);
+
+            // assert
+            Assert.AreEqual(expected, actual);
+
+        }
+
+
+        [TestMethod]
+        [ExpectedException(typeof(ApplicationException))]
+        public void TestCreateRubricThrowsApplicationErrorIfNoScoreType()
+        {
+            // arrange
+            //         public int InsertRubric(string name, string description, string scoreType, string rubricCreator)
+            const string name = "Test";
+            const string description = "asdfsaf";
+            const string scoreType = "";
+            const string rubricCreator = "tess@company.com";
+            //const string expectedID = "100005";
+            //string actualID = "";
+            const bool expected = false;
+            bool actual;
+
+            // act
+            actual = rubricManager.CreateRubric(name, description, scoreType, rubricCreator);
+
+            // assert
+            Assert.AreEqual(expected, actual);
+
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ApplicationException))]
+        public void TestCreateRubricThrowsApplicationErrorIfNullScoreType()
+        {
+            // arrange
+            //         public int InsertRubric(string name, string description, string scoreType, string rubricCreator)
+            const string name = "Test";
+            const string description = "sadfasdf";
+            const string scoreType = null;
+            const string rubricCreator = "tess@company.com";
+            //const string expectedID = "100005";
+            //string actualID = "";
+            const bool expected = false;
+            bool actual;
+
+            // act
+            actual = rubricManager.CreateRubric(name, description, scoreType, rubricCreator);
+
+            // assert
+            Assert.AreEqual(expected, actual);
+
+        }
 
 
     }

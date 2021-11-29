@@ -12,6 +12,44 @@ namespace DataAccessLayer
 {
     public class RubricAccessor : IRubricAccessor
     {
+        public int InsertRubric(string name, string description, string scoreType, string rubricCreator)
+        {
+            int rowsAffected = 0;
+
+            // connection
+            var conn = DBConnection.GetConnection();
+
+            string cmdTxt = "sp_create_rubric";
+            var cmd = new SqlCommand(cmdTxt, conn);
+
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.Add("@Name", SqlDbType.NVarChar, 50);
+            cmd.Parameters.Add("@Description", SqlDbType.NVarChar, 100);
+            cmd.Parameters.Add("@ScoreTypeID", SqlDbType.NVarChar, 50);
+            cmd.Parameters.Add("@RubricCreator", SqlDbType.NVarChar, 50);
+
+            cmd.Parameters["@Name"].Value = name;
+            cmd.Parameters["@Description"].Value = description;
+            cmd.Parameters["@ScoreTypeID"].Value = scoreType;
+            cmd.Parameters["@RubricCreator"].Value = rubricCreator;
+
+            try
+            {
+                conn.Open();
+                rowsAffected = cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return rowsAffected;
+        }
+
         public Rubric SelectRubricByRubricID(int rubricID)
         {
             Rubric rubric = null;
@@ -75,10 +113,10 @@ namespace DataAccessLayer
             var conn = DBConnection.GetConnection();
 
             // command text
-            var cmdText = "sp_select_active_rubrics";
+            var cmdTxt = "sp_select_active_rubrics";
 
             // command
-            var cmd = new SqlCommand(cmdText, conn);
+            var cmd = new SqlCommand(cmdTxt, conn);
 
             // command type
             cmd.CommandType = CommandType.StoredProcedure;
