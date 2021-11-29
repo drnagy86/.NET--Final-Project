@@ -13,5 +13,8 @@ namespace LogicLayer
     {
         T RetrieveRubricByRubricID(int rubricID);
         List<T> RetrieveActiveRubrics();
+        bool CreateRubric(string name, string description, string scoreTypeID, string rubricCreator);
+        
+
     }
 }

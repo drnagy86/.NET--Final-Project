@@ -19,6 +19,9 @@ namespace RubricNorming
         FacetManager _facetManager = null;
         CriteriaManager _criteriaManager = null;
         IRubricManager<RubricVM> _rubricManagerVM = null;
+        ScoreTypeManager _scoreTypeManager = null;
+
+
 
         //try to get rid of this guy
         IRubricManager<Rubric> _rubricManager = null;
@@ -28,17 +31,15 @@ namespace RubricNorming
         Rubric _rubric = null;
         RubricVM _rubricVM = null;
 
-
-
-
         public MainWindow()
         {
-            // uses default accessors
+            //// uses default accessors
             _userManager = new UserManager();
             _rubricManager = new RubricManager();
             _facetManager = new FacetManager();
             _criteriaManager = new CriteriaManager();
             _rubricManagerVM = new RubricVMManager();
+            _scoreTypeManager = new ScoreTypeManager();
 
             // uses the fake accessors
             //UserAccessorFake userAccessorFake = new UserAccessorFake();
@@ -47,6 +48,7 @@ namespace RubricNorming
             //_facetManager = new FacetManager(new FacetAccessorFake());
             //_criteriaManager = new CriteriaManager(new CriteriaAccessorFake());
             //_rubricManagerVM = new RubricVMManager(_rubricManager, _userManager, _facetManager, _criteriaManager);
+            //_scoreTypeManager = new ScoreTypeManager(new ScoreTypeFake());
 
             InitializeComponent();
 
@@ -185,33 +187,42 @@ namespace RubricNorming
             txtUserID.Focus();
         }
 
-        private void prepareDckFormForRetrieveFacetsByRubricID()
-        {
-            txtblkDockPanelTitle.Text = "Retrieve Facet by Rubric ID";
-            lblInput1.Content = "Rubric ID:";
-            _executionChoice = "FacetsByRubricID";
+        //private void preparegrdCreateControlsForRetrieveFacetsByRubricID()
+        //{
+        //    txtblkDockPanelTitle.Text = "Retrieve Facet by Rubric ID";
+        //    lblInput1.Content = "Rubric ID:";
+        //    _executionChoice = "FacetsByRubricID";
 
-            dckForm.Visibility = Visibility.Visible;
-            txtBoxInput1.Focus();
-        }
+        //    grdCreateControls.Visibility = Visibility.Visible;
+        //    txtBoxInput1.Focus();
+        //}
 
-        private void prepareDckFormForRetrieveCriteriaByRubicID()
-        {
-            txtblkDockPanelTitle.Text = "Retrieve Criteria by Rubric ID";
-            lblInput1.Content = "Rubric ID:";
-            _executionChoice = "CriteriaByRubricID";
+        //private void preparegrdCreateControlsForRetrieveCriteriaByRubicID()
+        //{
+        //    txtblkDockPanelTitle.Text = "Retrieve Criteria by Rubric ID";
+        //    lblInput1.Content = "Rubric ID:";
+        //    _executionChoice = "CriteriaByRubricID";
 
-            dckForm.Visibility = Visibility.Visible;
-            txtBoxInput1.Focus();
-        }
+        //    grdCreateControls.Visibility = Visibility.Visible;
+        //    txtBoxInput1.Focus();
+        //}
 
         private void frmMainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             this.txtUserID.Focus();
 
+            try
+            {                
+                cmbBoxScoreTypes.ItemsSource = _scoreTypeManager.RetrieveScoreTypes().Select(st => st.ScoreTypeID);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Problem retrieving score types.\n" + ex.Message);
+            }
+
             stkRubricControls.Visibility = Visibility.Hidden;
             datViewList.Visibility = Visibility.Hidden;
-            dckForm.Visibility = Visibility.Hidden;
+            //grdCreateControls.Visibility = Visibility.Hidden;
 
             // for testing purposes, comment out
             //mnuView.Visibility = Visibility.Hidden;
@@ -232,9 +243,6 @@ namespace RubricNorming
             {
                 MessageBox.Show("There was a problem retrieving the list of rubrics." + ex.Message);
             }
-
-            // needs better time formating and column names
-            //var rubricListSorted = rubricList.Select(r => new { r.Name, r.Description, r.DateCreated, r.DateUpdated, r.ScoreTypeID, RubricCreatorName = r.RubricCreator.GivenName + " " + r.RubricCreator.FamilyName });
 
             datViewList.ItemsSource = rubricList;
 
@@ -272,7 +280,7 @@ namespace RubricNorming
                     List<Facet> facetList = null;
                     try
                     {
-                        facetList = _facetManager.RetrieveFacetsByRubricID(Int32.Parse(txtBoxInput1.Text));
+                        //facetList = _facetManager.RetrieveFacetsByRubricID(Int32.Parse(txtBoxInput1.Text));
                     }
                     catch (Exception ex)
                     {
@@ -290,7 +298,7 @@ namespace RubricNorming
                     List<Criteria> criteriaList = null;
                     try
                     {
-                        criteriaList = _criteriaManager.RetrieveCriteriasForRubricByRubricID(Int32.Parse(txtBoxInput1.Text));
+                        //criteriaList = _criteriaManager.RetrieveCriteriasForRubricByRubricID(Int32.Parse(txtBoxInput1.Text));
                     }
                     catch (Exception ex)
                     {
@@ -324,23 +332,21 @@ namespace RubricNorming
         {
             viewAllActivateFacets();
         }
-        private void mnuRetrieveFacetsByRubricID_Click(object sender, RoutedEventArgs e)
-        {
-            prepareDckFormForRetrieveFacetsByRubricID();
-        }
+        //private void mnuRetrieveFacetsByRubricID_Click(object sender, RoutedEventArgs e)
+        //{
+        //    preparegrdCreateControlsForRetrieveFacetsByRubricID();
+        //}
 
-        private void mnuRetrieveCriteriaByRubricID_Click(object sender, RoutedEventArgs e)
-        {
-            prepareDckFormForRetrieveCriteriaByRubicID();
-        }
+        //private void mnuRetrieveCriteriaByRubricID_Click(object sender, RoutedEventArgs e)
+        //{
+        //    //preparegrdCreateControlsForRetrieveCriteriaByRubicID();
+        //}
 
         private void datViewList_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {            
             _rubric = (Rubric)datViewList.SelectedItem;
 
             datViewList.Visibility = Visibility.Hidden;
-            //btnConfirmEdits.Visibility = Visibility.Visible;
-            //btnCancelEdits.Visibility = Visibility.Visible;
             toggleListAndDetails();
             
 
@@ -358,9 +364,7 @@ namespace RubricNorming
             {
                 MessageBox.Show("Problem retrieving the single rubric." + ex.Message);
             }
-
-            //lblDetailRubricTitle.Visibility = Visibility.Visible;
-            //icFacetCriteria.Visibility = Visibility.Visible;            
+     
         }
 
         private void toggleListAndDetails()
@@ -477,6 +481,25 @@ namespace RubricNorming
                     break;
             }
         }
+
+        private void btnCreateRubric_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                _rubricManager.CreateRubric(txtBoxTitle.Text, txtBoxDescription.Text, cmbBoxScoreTypes.SelectedItem.ToString(), _user.UserID);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("There was a problem creating the rubric.\n" + ex.Message, "Problem Creating Rubric");
+            }
+
+            // go to the next tab and start adding facets
+            // for testing purposes
+            viewAllActiveRubrics();
+
+        }
+
+
 
 
         // Build rubric the hard way

@@ -33,6 +33,11 @@ namespace LogicLayer
             _criteriaManager = criteriaManager;
         }
 
+        public bool CreateRubric(string name, string description, string scoreTypeID, string rubricCreator)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<RubricVM> RetrieveActiveRubrics()
         {
             throw new NotImplementedException();

@@ -582,8 +582,8 @@ print '' print '*** creating sp_update_criteria_content_by_criteria_id ***'
 GO
 CREATE PROCEDURE [dbo].[sp_update_criteria_content_by_criteria_id]
 (
-	@RubricID	int
-	,@FacetID	nvarchar(50)
+	@RubricID			int
+	,@FacetID			nvarchar(50)
 	,@CriteriaID		[nvarchar](50)	
 	,@OldContent		[nvarchar](255)
 	,@NewContent		[nvarchar](255)
@@ -602,3 +602,67 @@ AS
 		RETURN @@ROWCOUNT
 	END	
 GO
+
+/*
+sp_create_rubric	@Name	nvarchar(50)	IRubricAccessor																					
+*/
+print '' print '*** creating sp_create_rubric ***'
+GO
+CREATE PROCEDURE [dbo].[sp_create_rubric]
+(
+	@Name			nvarchar(50)
+	,@Description	nvarchar(100)
+	,@ScoreTypeID	nvarchar(50)
+	,@RubricCreator	nvarchar(50)
+)
+AS
+	BEGIN
+		INSERT INTO [dbo].[Rubric]
+		(
+			[Name]				
+			,[Description]					
+			,[ScoreTypeID]		
+			,[RubricCreator]		
+		)
+		VALUES
+		(@Name, @Description, @ScoreTypeID, @RubricCreator)		
+	END	
+GO
+
+
+/*
+sp_select_score_types			IScoreTypeAccessor
+*/
+print '' print '*** creating sp_select_score_types ***'
+GO
+CREATE PROCEDURE [dbo].[sp_select_score_types]
+AS
+	BEGIN
+		SELECT
+			[ScoreType].[ScoreTypeID]
+			,[ScoreType].[Description]
+		FROM [ScoreType]
+	END	
+GO
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
