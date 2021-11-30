@@ -216,12 +216,12 @@
 
             <TabControl x:Name="tabsetCreateControls" Grid.Row="2" Grid.Column="0" Margin="10, 0, 0, 0">
 
-                <TabItem x:Name="tabCreate" Header="Create">
+                <TabItem x:Name="tabTemplate" Header="Templates">
                                         
                     
                 </TabItem>
 
-                <TabItem x:Name="tabTag" Header="Tag">
+                <TabItem x:Name="tabCreate" Header="Create">
 
                     <Grid Grid.Row="0" x:Name="grdCreateControls" Grid.Column="0">
                         <Grid.RowDefinitions>
@@ -236,7 +236,7 @@
                             <RowDefinition Height="50"/>
                             <RowDefinition Height="50"/>
                             <RowDefinition/>
-                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="35"/>
                         </Grid.RowDefinitions>
 
                         <Grid.ColumnDefinitions>
@@ -275,12 +275,61 @@
                         <ComboBox Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="2" Margin="10" x:Name="cmbBoxScoreTypes" />
 
 
-
-
-                        <Button x:Name="btnCreateRubric" Content="Create" Grid.Row="11" Grid.Column="1" Margin="10,5" Click="btnCreateRubric_Click" />
+                        <Button x:Name="btnCreateRubricBack" Content="Back" Grid.Row="11" Grid.Column="0" Margin="10,5" Click="btnCreateRubricBack_Click" />            
+                        <Button x:Name="btnEdit" Content="Save Edits" Grid.Row="11" Grid.Column="1" Margin="10,5" Visibility="Hidden"/>
+                        <Button x:Name="btnCreateRubricNext" Content="Next" Grid.Row="11" Grid.Column="2" Margin="10,5" Click="btnCreateRubric_Click" />
                         
                     </Grid>
-                </TabItem>               
+                </TabItem>
+
+                <TabItem x:Name="tabFacets" Header="Facets">
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>                            
+                        </Grid.ColumnDefinitions>
+
+                        <Grid Grid.Row="1" Grid.Column="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="100"/>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition/>
+                                <RowDefinition Height="35"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>                                
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Center" FontStyle="Italic">Or choose to create a new facet</TextBlock>
+
+                            <Label x:Name="lblFacetTitle" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right">Title: </Label>
+                            <TextBox x:Name="txtBoxFacetTitle" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Margin="10"/>
+
+
+                            <Label x:Name="lblFacetDescription" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right">Description:</Label>
+                            <TextBox x:Name="txtBoxFacetDescription" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Margin="10"/>
+
+                            <Label x:Name="lblFacetType" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right">Facet Type:</Label>
+                            <ComboBox x:Name="cmbBoxFacetType" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Margin="10"/>
+
+                            <Button x:Name="btnFacetBack" Content="Back" Grid.Row="5" Grid.Column="0" Margin="10,5"/>
+                            <Button x:Name="btnFacetAdd" Content="Add" Grid.Row="5" Grid.Column="1" Margin="10,5" Click="btnFacetAdd_Click" />
+                            <Button x:Name="btnCreateFacetNext" Content="Next" Grid.Row="5" Grid.Column="2" Margin="10,5" />
+
+
+                        </Grid>
+                        
+                    </Grid>
+                    
+                </TabItem>
                 
             </TabControl>
 

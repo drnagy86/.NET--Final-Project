@@ -50,6 +50,83 @@ namespace DataAccessLayer
             return rowsAffected;
         }
 
+        public Rubric SelectRubricByRubricDetials(string name, string description, string scoreType, string rubricCreator)
+        {
+            Rubric rubric = null;
+
+            // connection
+            var conn = DBConnection.GetConnection();
+
+            string cmdTxt = "sp_select_rubric_by_name_description_score_type_id_rubric_creator";
+            var cmd = new SqlCommand(cmdTxt, conn);
+
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.Add("@Name", SqlDbType.NVarChar, 50);
+            cmd.Parameters.Add("@Description", SqlDbType.NVarChar, 100);
+            cmd.Parameters.Add("@ScoreTypeID", SqlDbType.NVarChar, 50);
+            cmd.Parameters.Add("@RubricCreator", SqlDbType.NVarChar, 50);
+
+            cmd.Parameters["@Name"].Value = name;
+            cmd.Parameters["@Description"].Value = description;
+            cmd.Parameters["@ScoreTypeID"].Value = scoreType;
+            cmd.Parameters["@RubricCreator"].Value = rubricCreator;
+
+            try
+            {
+                conn.Open();
+                var reader = cmd.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    int rowCount = 0;
+
+                    while (reader.Read())
+                    {
+                        rubric = new Rubric()
+                        {
+                            RubricID = reader.GetInt32(0),
+                            Name = reader.GetString(1),
+                            Description = reader.GetString(2),
+                            DateCreated = reader.GetDateTime(3),
+                            DateUpdated = reader.GetDateTime(4),
+                            ScoreTypeID = reader.GetString(5),
+                            RubricCreator = new User()
+                            {
+                                UserID = reader.GetString(6),
+                                GivenName = reader.GetString(7),
+                                FamilyName = reader.GetString(8),
+                                Active = reader.GetBoolean(9),
+                                Roles = new List<string>()
+                            },
+                            Active = reader.GetBoolean(10)
+
+                        };
+
+                        rowCount++;
+
+                    }
+
+                    if (rowCount > 1)
+                    {
+                        throw new ApplicationException("Problem retrieving a unique rubric");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return rubric;
+
+        }
+
         public Rubric SelectRubricByRubricID(int rubricID)
         {
             Rubric rubric = null;

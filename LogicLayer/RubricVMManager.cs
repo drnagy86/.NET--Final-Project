@@ -35,12 +35,64 @@ namespace LogicLayer
 
         public bool CreateRubric(string name, string description, string scoreTypeID, string rubricCreator)
         {
-            throw new NotImplementedException();
+            bool isCreated = false;
+
+            try
+            {
+                _rubricManager.CreateRubric(name, description, scoreTypeID, rubricCreator);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+            return isCreated;
+
         }
 
         public List<RubricVM> RetrieveActiveRubrics()
         {
             throw new NotImplementedException();
+        }
+
+        public RubricVM RetrieveRubricByNameDescriptionScoreTypeIDRubricCreator(string name, string description, string scoreTypeID, string rubricCreator)
+        {
+            Rubric rubric = null;
+            List<Facet> facetList = null;
+            List<Criteria> criteriaList = null;
+
+            try
+            {
+                rubric = _rubricManager.RetrieveRubricByNameDescriptionScoreTypeIDRubricCreator(name, description, scoreTypeID, rubricCreator);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            try
+            {
+                facetList = _facetManager.RetrieveFacetsByRubricID(rubric.RubricID);
+            }
+            catch (Exception)
+            {
+                facetList = new List<Facet>();
+                facetList.Add(new Facet());
+            }
+
+            try
+            {
+                criteriaList = _criteriaManager.RetrieveCriteriasForRubricByRubricID(rubric.RubricID);
+            }
+            catch (Exception)
+            {
+                criteriaList = new List<Criteria>();
+                criteriaList.Add(new Criteria(rubric.RubricID,""));
+            }
+
+            RubricVM rubricVM = new RubricVM(rubric, facetList, criteriaList);
+            return rubricVM;
         }
 
         public RubricVM RetrieveRubricByRubricID(int rubricID)

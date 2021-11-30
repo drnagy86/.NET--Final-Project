@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="CriteriaManagerTests.cs" />
     <Compile Include="FacetManagerTests.cs" />
+    <Compile Include="FacetTypeTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RubricManagerTests.cs" />
     <Compile Include="RubricVMManagerTests.cs" />

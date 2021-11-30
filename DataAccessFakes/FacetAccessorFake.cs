@@ -70,6 +70,26 @@ namespace DataAccessFakes
             });
         }
 
+        public int InsertFacet(int rubricID, string facetID, string description, string facetType)
+        {
+            int rowsAffected = 0;
+
+            int fakeFacetCountBeforeAdd = _fakeFacetList.Count;
+
+            _fakeFacetList.Add(new Facet()
+            {
+                RubricID = rubricID,
+                FacetID = facetID,
+                Description = description,
+                FacetType = facetID,
+
+            });
+
+            rowsAffected = _fakeFacetList.Count - fakeFacetCountBeforeAdd;
+
+            return rowsAffected;
+        }
+
         public List<Facet> SelectFacets()
         {
             return _fakeFacetList;

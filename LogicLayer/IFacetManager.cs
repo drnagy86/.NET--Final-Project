@@ -13,7 +13,7 @@ namespace LogicLayer
         //List<Rubric> RetrieveActiveRubrics();
         List<Facet> RetrieveFacetsByRubricID(int rubricID);
         List<Facet> RetrieveActiveFacets();
-
+        bool CreateFacet(int rubricID, string facetID, string description, string facetType);
 
     }
 }

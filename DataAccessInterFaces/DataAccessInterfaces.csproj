@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="ICriteriaAccessor.cs" />
     <Compile Include="IFacetAccesor.cs" />
+    <Compile Include="IFacetTypeAccessor.cs" />
     <Compile Include="IRubricAccessor.cs" />
     <Compile Include="IScoreTypeAccessor.cs" />
     <Compile Include="IUserAccessor.cs" />

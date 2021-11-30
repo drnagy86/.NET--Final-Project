@@ -24,6 +24,41 @@ namespace LogicLayer
             _facetAccesor = facetAccessor;
         }
 
+        public bool CreateFacet(int rubricID, string facetID, string description, string facetType)
+        {
+            bool isCreated = false;
+            int rowsAffected = 0;
+
+            if (facetID == null || facetID == "")
+            {
+                throw new ApplicationException("The name of the facet can not be empty.");
+            }
+            if (description == null || description == "")
+            {
+                throw new ApplicationException("The description of the facet can not be empty.");
+            }
+            if (facetType == null || facetType == "")
+            {
+                throw new ApplicationException("The facet type can not be empty.");
+            }
+
+            try
+            {
+                rowsAffected = _facetAccesor.InsertFacet(rubricID, facetID, description, facetType);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            if (rowsAffected == 1)
+            {
+                isCreated = true;
+            }
+
+            return isCreated;
+        }
+
         public List<Facet> RetrieveActiveFacets()
         {
             List<Facet> facets = null;
