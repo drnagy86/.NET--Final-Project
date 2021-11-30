@@ -12,6 +12,47 @@ namespace DataAccessLayer
 {
     public class FacetAccessor : IFacetAccesor
     {
+        public int InsertFacet(int rubricID, string facetID, string description, string facetType)
+        {
+            int rowsAffected = 0;
+
+            // connection
+            var conn = DBConnection.GetConnection();
+
+            string cmdTxt = "sp_create_facet";
+            var cmd = new SqlCommand(cmdTxt, conn);
+
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.Add("@RubricID", SqlDbType.Int);
+            cmd.Parameters.Add("@FacetID", SqlDbType.NVarChar, 50);
+            cmd.Parameters.Add("@Description", SqlDbType.NVarChar, 100);
+            cmd.Parameters.Add("@FacetTypeID", SqlDbType.NVarChar, 50);
+
+            cmd.Parameters["@RubricID"].Value = rubricID;
+            cmd.Parameters["@FacetID"].Value = facetID;
+            cmd.Parameters["@Description"].Value = description;
+            cmd.Parameters["@FacetTypeID"].Value = facetType;
+
+            try
+            {
+                conn.Open();
+                rowsAffected = cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+
+            return rowsAffected;
+        }
+
         public List<Facet> SelectFacets()
         {
             List<Facet> facets = new List<Facet>();

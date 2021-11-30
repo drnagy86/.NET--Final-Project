@@ -77,6 +77,28 @@ namespace LogicLayer
             return rubricList;
         }
 
+        public Rubric RetrieveRubricByNameDescriptionScoreTypeIDRubricCreator(string name, string description, string scoreTypeID, string rubricCreator)
+        {
+            Rubric rubric = new Rubric();
+
+            try
+            {
+                rubric = _rubricAccessor.SelectRubricByRubricDetials(name, description, scoreTypeID, rubricCreator);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+            if (rubric == null)
+            {
+                throw new ApplicationException("No rubric found. ");
+            }
+
+            return rubric;
+        }
+
         public Rubric RetrieveRubricByRubricID(int rubricID)
         {
             Rubric rubric = null;

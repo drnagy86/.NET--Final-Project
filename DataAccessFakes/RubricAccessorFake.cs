@@ -144,6 +144,11 @@ namespace DataAccessFakes
             return rowsAffected;
         }
 
+        public Rubric SelectRubricByRubricDetials(string name, string description, string scoreType, string rubricCreator)
+        {
+            return _fakeRubrics.Find(r => r.Name == name && r.Description == description && r.ScoreTypeID == scoreType && r.RubricCreator.UserID == rubricCreator);
+        }
+
         public Rubric SelectRubricByRubricID(int rubricID)
         {
             Rubric rubric = null;

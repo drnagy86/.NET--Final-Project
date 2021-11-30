@@ -4,7 +4,7 @@ using DataObjects;
 using DataAccessInterFaces;
 using LogicLayer;
 using DataAccessFakes;
-
+using System.Collections.Generic;
 
 namespace LogicLayerTests
 {
@@ -265,6 +265,53 @@ namespace LogicLayerTests
             Assert.AreEqual(expected, actual);
 
         }
+
+
+        [TestMethod]
+        public void TestRetrieveRubricByNameDescriptionScoreTypeIDRubricCreatorReturnsCorrectRubric()
+        {
+            // arrange
+            //         public int InsertRubric(string name, string description, string scoreType, string rubricCreator)
+            const string name = "Test Rubric";
+            const string description = "A long description of the rubric.";
+            const string scoreType = "Percentage";
+            const string rubricCreator = "tess@company.com";
+            //const string expectedID = "100005";
+            //string actualID = "";
+
+
+
+            Rubric actual = null;
+
+
+            // act
+            actual = rubricManager.RetrieveRubricByNameDescriptionScoreTypeIDRubricCreator(name, description, scoreType, rubricCreator);
+
+            // assert
+            Assert.AreEqual(name, actual.Name);
+
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ApplicationException))]
+        public void TestRetrieveRubricByNameDescriptionScoreTypeIDRubricCreatorThrowsApplicationException()
+        {
+            // arrange
+            //         public int InsertRubric(string name, string description, string scoreType, string rubricCreator)
+            const string name = "sdgasdfg";
+            const string description = "A long description of the rubric.";
+            const string scoreType = "Percentage";
+            const string rubricCreator = "tess@company.com";
+                  
+
+            // act
+            rubricManager.RetrieveRubricByNameDescriptionScoreTypeIDRubricCreator(name, description, scoreType, rubricCreator);
+
+            // assert
+            // nothing to assert, exception checking
+
+        }
+
 
 
     }

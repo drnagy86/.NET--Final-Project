@@ -63,5 +63,148 @@ namespace LogicLayerTests
             // assert
             Assert.AreEqual(expectedCount,actualCount);
         }
+
+        [TestMethod]        
+        public void TestCreateFacetReturnsTrueIfSuccessfull()
+        {
+            // arrange
+            const int rubricID = 100004;
+            const string facetID = "test";
+            const string description = "asdfasf";
+            const string facetTypeID = "Explaination";
+            const bool expected = true;
+            bool actual;
+
+            // act
+            actual = _facetManager.CreateFacet(rubricID, facetID, description, facetTypeID);
+
+            // assert
+            Assert.AreEqual(expected, actual);            
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ApplicationException))]
+        public void TestCreateFacetThrowsApplicationExceptionFacetIDIsEmpty()
+        {
+            // arrange
+            const int rubricID = 100004;
+            //const string facetID = "test";
+            const string facetID = "";
+            const string description = "asdfasf";
+            const string facetTypeID = "Explaination";
+            const bool expected = true;
+            bool actual;
+
+            // act
+            actual = _facetManager.CreateFacet(rubricID, facetID, description, facetTypeID);
+
+            // assert
+            Assert.AreEqual(expected, actual);
+        }
+
+
+        [TestMethod]
+        [ExpectedException(typeof(ApplicationException))]
+        public void TestCreateFacetThrowsApplicationExceptionFacetIDIsNull()
+        {
+            // arrange
+            const int rubricID = 100004;
+            //const string facetID = "test";
+            const string facetID = null;
+            const string description = "asdfasf";
+            const string facetTypeID = "Explaination";
+            const bool expected = true;
+            bool actual;
+
+            // act
+            actual = _facetManager.CreateFacet(rubricID, facetID, description, facetTypeID);
+
+            // assert
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ApplicationException))]
+        public void TestCreateFacetThrowsApplicationExceptionDescriptionIsEmpty()
+        {
+            // arrange
+            const int rubricID = 100004;
+            const string facetID = "test";
+            const string description = "";
+            //const string description = "asdfasf";
+            const string facetTypeID = "Explaination";
+            const bool expected = true;
+            bool actual;
+
+            // act
+            actual = _facetManager.CreateFacet(rubricID, facetID, description, facetTypeID);
+
+            // assert
+            Assert.AreEqual(expected, actual);
+        }
+
+
+        [TestMethod]
+        [ExpectedException(typeof(ApplicationException))]
+        public void TestCreateFacetThrowsApplicationDescriptionIsNull()
+        {
+            // arrange
+            const int rubricID = 100004;
+            const string facetID = "test";            
+            //const string description = "asdfasf";
+            const string description = null;
+            const string facetTypeID = "Explaination";
+            const bool expected = true;
+            bool actual;
+
+            // act
+            actual = _facetManager.CreateFacet(rubricID, facetID, description, facetTypeID);
+
+            // assert
+            Assert.AreEqual(expected, actual);
+        }
+
+
+        [TestMethod]
+        [ExpectedException(typeof(ApplicationException))]
+        public void TestCreateFacetThrowsApplicationExceptionFacetTypeIsEmpty()
+        {
+            // arrange
+            const int rubricID = 100004;
+            const string facetID = "test";
+            const string description = "asdfasf";
+            //const string facetTypeID = "Explaination";
+            const string facetTypeID = "";
+            const bool expected = true;
+            bool actual;
+
+            // act
+            actual = _facetManager.CreateFacet(rubricID, facetID, description, facetTypeID);
+
+            // assert
+            Assert.AreEqual(expected, actual);
+        }
+
+
+        [TestMethod]
+        [ExpectedException(typeof(ApplicationException))]
+        public void TestCreateFacetThrowsApplicationFacetTypeIsNull()
+        {
+            // arrange
+            const int rubricID = 100004;
+            const string facetID = "test";
+            const string description = "asdfasf";
+            
+            //const string facetTypeID = "Explaination";
+            const string facetTypeID = null;
+            const bool expected = true;
+            bool actual;
+
+            // act
+            actual = _facetManager.CreateFacet(rubricID, facetID, description, facetTypeID);
+
+            // assert
+            Assert.AreEqual(expected, actual);
+        }
     }
 }

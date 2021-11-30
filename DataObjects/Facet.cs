@@ -17,5 +17,27 @@ namespace DataObjects
         public int RubricID { get; set; }
         public string FacetType { get; set; }
 
+        public Facet()
+        {
+            FacetID = "";
+            Description = "";
+            DateCreated = DateTime.Now;
+            DateUpdated = DateTime.Now;
+            Active = true;
+            RubricID = 0;
+            FacetType = "";
+        }
+
+        public Facet(int rubricID)
+        {
+            FacetID = "";
+            Description = "";
+            DateCreated = DateTime.Now;
+            DateUpdated = DateTime.Now;
+            Active = true;
+            RubricID = rubricID;
+            FacetType = "";
+        }
+
     }
 }

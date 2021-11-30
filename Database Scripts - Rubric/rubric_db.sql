@@ -646,10 +646,89 @@ AS
 GO
 
 
+/*
+sp_create_facet	@RubricID	int	IFacetAccessor																					
+*/
+print '' print '*** creating sp_create_facet ***'
+GO
+CREATE PROCEDURE [dbo].[sp_create_facet]
+(
+	@RubricID		int
+	,@FacetID		nvarchar(50)
+	,@Description	nvarchar(100)
+	,@FacetTypeID	nvarchar(50)
+)
+AS
+	BEGIN
+		INSERT INTO [dbo].[Facet]
+		(
+			[RubricID]
+			,[FacetID]
+			,[Description]
+			,[FacetTypeID]
+		)
+		VALUES
+		(@RubricID, @FacetID, @Description, @FacetTypeID)
+	END	
+GO
+
+
+/*
+sp_select_facet_types			IFacetTypeAccessor
+*/
+print '' print '*** creating sp_select_facet_types ***'
+GO
+CREATE PROCEDURE [dbo].[sp_select_facet_types]
+AS
+	BEGIN
+		SELECT
+			[FacetTypeID]
+			,[Description]
+			,[Active]
+		FROM [FacetType]
+	END	
+GO
 
 
 
-
+/*
+sp_select_rubric_by_name_description_score_type_id_rubric_creator	IRubricAccessor																				
+*/
+print '' print '*** creating sp_select_rubric_by_name_description_score_type_id_rubric_creator ***'
+GO
+CREATE PROCEDURE [dbo].[sp_select_rubric_by_name_description_score_type_id_rubric_creator]
+(
+	@Name			nvarchar(50)
+	,@Description	nvarchar(100)
+	,@ScoreTypeID	nvarchar(50)
+	,@RubricCreator	nvarchar(50)
+)
+AS
+	BEGIN
+		SELECT
+			[RubricID]
+			,[Rubric].[Name]	
+			,[Rubric].[Description]	
+			,[Rubric].[DateCreated]	
+			,[Rubric].[DateUpdated]	
+			,[Rubric].[ScoreTypeID]	
+			,[Rubric].[RubricCreator]
+			,[User].[GivenName]		
+			,[User].[FamilyName]
+			,[User].[Active]
+			,[Rubric].[Active]	
+		
+		FROM [Rubric] INNER JOIN [User] 
+			ON [Rubric].[RubricCreator] = [User].[UserID]
+		WHERE
+			[Name] = @Name			
+			AND [Description] = @Description
+			AND [ScoreTypeID] = @ScoreTypeID
+			AND [RubricCreator]	= @RubricCreatoR
+		RETURN @@ROWCOUNT
+		
+	END	
+GO
 
 
 
