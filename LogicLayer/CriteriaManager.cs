@@ -23,6 +23,55 @@ namespace LogicLayer
             _criteriaAccessor = criteriaAccessor;
         }
 
+        public bool CreateCriteria(string criteriaID, int rubricID, string facetID, string content, int score)
+        {
+            bool addedCriteria = false;
+            int rowsAffected = 0;
+
+            try
+            {
+                rowsAffected = _criteriaAccessor.InsertCriteria(criteriaID, rubricID, facetID, content, score);
+                //if (rowsAffected > 1)
+                //{
+                //    throw new ApplicationException("Problem with creating just one criteria for the facet for the rubric.");
+                //}
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            if (rowsAffected == 1)
+            {
+                addedCriteria = true;
+            }
+
+            return addedCriteria;
+        }
+
+        public bool CreateCriteriaFromFacetCriteriaDictionary(Dictionary<Facet, List<Criteria>> facetCriteria)
+        {
+            bool isCreated = false;
+
+            foreach (List<Criteria> criteriaList in facetCriteria.Values)
+            {
+                foreach (Criteria criteria in criteriaList)
+                {
+                    try
+                    {
+                        isCreated = CreateCriteria(criteria.CriteriaID, criteria.RubricID, criteria.FacetID, criteria.Content, criteria.Score);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
+                }
+            }
+            return isCreated;
+        }
+
+
+
         public Dictionary<Criteria, Criteria> GetDictionaryOfDifferentCriteria(Dictionary<Facet, List<Criteria>> oldFacetCriteria, Dictionary<Facet, List<Criteria>> newFacetCriteria)
         {
             Dictionary<Criteria, Criteria> differentCriteria = new Dictionary<Criteria, Criteria>();

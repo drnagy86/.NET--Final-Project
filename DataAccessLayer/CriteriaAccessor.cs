@@ -12,6 +12,54 @@ namespace DataAccessLayer
 {
     public class CriteriaAccessor : ICriteriaAccessor
     {
+        public int InsertCriteria(string criteriaID, int rubricID, string facetID, string content, int score)
+        {
+            int rowsAffected = 0;
+
+            // connection
+            var conn = DBConnection.GetConnection();
+
+            string cmdTxt = "sp_create_criteria_by_rubric_id_and_facet_id";
+            var cmd = new SqlCommand(cmdTxt, conn);
+
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            //   @CriteriaID[nvarchar](50)
+            //,@RubricID[int]
+            //,@FacetID[nvarchar](100)
+            //,@Content[nvarchar](255)
+            //,@Score[int]
+
+            cmd.Parameters.Add("@CriteriaID", SqlDbType.NVarChar, 50);
+            cmd.Parameters.Add("@RubricID", SqlDbType.Int);
+            cmd.Parameters.Add("@FacetID", SqlDbType.NVarChar, 100);
+            cmd.Parameters.Add("@Content", SqlDbType.NVarChar, 255);
+            cmd.Parameters.Add("@Score", SqlDbType.Int);
+
+            cmd.Parameters["@CriteriaID"].Value = criteriaID;
+            cmd.Parameters["@RubricID"].Value = rubricID;
+            cmd.Parameters["@FacetID"].Value = facetID;
+            cmd.Parameters["@Content"].Value = content;
+            cmd.Parameters["@Score"].Value = score;
+
+            try
+            {
+                conn.Open();
+                rowsAffected = cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+
+            return rowsAffected;
+        }
+
         public List<Criteria> SelectCriteriaByRubricID(int rubricID)
         {
             List<Criteria> criteriaList = new List<Criteria>();

@@ -398,7 +398,7 @@ VALUES
 	, ('Empathy', 'Does knowledge of the topic show empathic skills?', 100000, 'Empathy')
 	, ('Reveal self knowledge', 'Does the student show that knowledge of the topic reveals knowledge of self', 100000, 'Self-Knowledge')	
 	, ('Explanation', 'Is the students accurate in their knowledge and shows it?', 100000,  'Explanation')
-	-- , ('Interpretation', 'Is the intrepetation of the knowledge correct or insightful?', 100000, 'Interpretation')	
+	, ('Interpretation', 'Is the intrepetation of the knowledge correct or insightful?', 100000, 'Interpretation') --no criteria added to this facet for testing purposes
 	, ('Effective compare and contrast', 'Explains the reasoning and shows knowledge', 100002,  'Explanation')
 	, ('Interpretation of the comparision and contrast', 'Shows an understanding of the comparisons and contrasts', 100002, 'Interpretation')
 	, ('Appropriate application of compare and contrast essay', 'Used the knowledge of writing a compare and contrast essay appropriately', 100002, 'Application')	
@@ -732,6 +732,33 @@ GO
 
 
 
+/*
+sp_create_criteria_by_rubric_id_and_facet_id	ICriteriaAccessor
+*/
+print '' print '*** creating sp_create_criteria_by_rubric_id_and_facet_id ***'
+GO
+CREATE PROCEDURE [dbo].[sp_create_criteria_by_rubric_id_and_facet_id]
+(
+	 @CriteriaID		[nvarchar](50)
+	,@RubricID			[int]		
+	,@FacetID			[nvarchar](100)
+	,@Content			[nvarchar](255)
+	,@Score				[int]
+)
+AS
+	BEGIN
+		INSERT INTO [dbo].[Criteria]
+		(
+			[CriteriaID]
+			,[RubricID]	
+			,[FacetID]	
+			,[Content]	
+			,[Score]
+		)
+		VALUES
+		(@CriteriaID, @RubricID ,@FacetID, @Content ,@Score)
+	END	
+GO
 
 
 
