@@ -456,5 +456,24 @@ namespace LogicLayerTests
 
         }
 
+        [TestMethod]
+        public void TestCreateCriteriaAddsCriteriaToRubricFacet()
+        {
+            // arrange
+            const string criteriaID = "Very Nice";
+            const int rubricID = 100001;
+            const string facetID = "Explaination";
+            const string content = "Very, very nice explaination";
+            const int score = 5;
+            const bool expected = true;
+            bool actual;
+
+            // act
+            actual = _criteriaManager.CreateCriteria(criteriaID, rubricID, facetID, content, score);
+
+            // assert
+            Assert.AreEqual(expected, actual);
+        }
+
     }
 }
