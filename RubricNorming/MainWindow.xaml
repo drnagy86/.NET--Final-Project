@@ -23,12 +23,15 @@
             </MenuItem>
             <MenuItem x:Name="mnuView" Header="View">
                 <MenuItem x:Name="mnuViewAllRubrics" Header="View All Rubrics" Click="mnuViewAllRubrics_Click"></MenuItem>
-                <MenuItem x:Name="mnuViewAllFacets" Header="All Facets" Click="mnuViewAllFacets_Click"></MenuItem>
-                <!--<MenuItem x:Name="mnuRetrieveFacetsByRubricID" Header="Facets for a Rubric" Click="mnuRetrieveFacetsByRubricID_Click"></MenuItem>-->
-                <!--<MenuItem x:Name="mnuRetrieveCriteriaByRubricID" Header="Criteria for a Rubric" Click="mnuRetrieveCriteriaByRubricID_Click" />-->
-                <MenuItem x:Name="mnuConfirmUpdatesToRubric" Header="Update Rubric" Click="mnuConfirmUpdatesToRubric_Click"/>
-
+                <MenuItem x:Name="mnuViewAllFacets" Header="All Facets" Click="mnuViewAllFacets_Click"></MenuItem>                
+                
             </MenuItem>
+            <MenuItem x:Name="mnuEdit" Header="Edit" >
+                <MenuItem x:Name="mnuEditSelection" Header="Edit Selected Rubric"></MenuItem>
+                <MenuItem x:Name="mnuConfirmUpdatesToRubric" Header="Update Rubric" Click="mnuConfirmUpdatesToRubric_Click"/>
+                <MenuItem x:Name="mnuCancelUpdatesToRubric" Header="Cancel Updates" Click="mnuCancelUpdatesToRubric_Click" />
+            </MenuItem>
+            
             <MenuItem x:Name="mnuHelp" Header="Help">
                 <MenuItem x:Name="mnuAbout" Header="About"></MenuItem>
             </MenuItem>
@@ -126,8 +129,8 @@
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             
-                            <Button x:Name="btnConfirmEdits" Content="Save Changes" Grid.Row="0" Grid.Column="0" Margin="10,5"  Click="mnuConfirmUpdatesToRubric_Click"/>
-                            <Button x:Name="btnCancelEdits" Content="Cancel Changes" Grid.Row="0" Grid.Column="1" Margin="10,5"   Click="btnCancelEdits_Click"/>
+                            <Button x:Name="btnSave" Content="Save" Grid.Row="0" Grid.Column="0" Margin="10,5" Click="btnSave_Click"/>
+                            <Button x:Name="btnCancel" Content="Cancel" Grid.Row="0" Grid.Column="1" Margin="10,5" Click="btnCancel_Click"/>
 
                         </Grid>
                         
@@ -229,7 +232,7 @@
                             <RowDefinition Height="50"/>
                             <RowDefinition Height="50"/>
                             <RowDefinition Height="100"/>
-                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="60"/>
                             <RowDefinition Height="50"/>
                             <RowDefinition Height="50"/>
                             <RowDefinition Height="50"/>
@@ -322,7 +325,7 @@
 
                             <Button x:Name="btnFacetBack" Content="Back" Grid.Row="5" Grid.Column="0" Margin="10,5"/>
                             <Button x:Name="btnFacetAdd" Content="Add" Grid.Row="5" Grid.Column="1" Margin="10,5" Click="btnFacetAdd_Click" />
-                            <Button x:Name="btnCreateFacetNext" Content="Next" Grid.Row="5" Grid.Column="2" Margin="10,5" />
+                            <Button x:Name="btnCreateFacetNext" Content="Next" Grid.Row="5" Grid.Column="2" Margin="10,5" Click="btnCreateFacetNext_Click" />
 
 
                         </Grid>
@@ -330,6 +333,80 @@
                     </Grid>
                     
                 </TabItem>
+
+                <TabItem x:Name="tabCriteria" Header="Criteria">
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition/>
+                            <RowDefinition Height="35"/>
+                            
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock x:Name="txtblkCriteriaTitle" Grid.Row="0" Grid.ColumnSpan="2" TextWrapping="Wrap" TextAlignment="Left" FontSize="14" FontWeight="Bold" Margin="10" >Criteria</TextBlock>
+                        <Label x:Name="lblCriteriaBottomRange" Grid.Row="1" Content="Choose the bottom range for criteria scores" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+
+                        <Grid Grid.Row="2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="40"/>                                
+                            </Grid.ColumnDefinitions>                            
+                            <Slider x:Name="sldCriteriaBottomRange" Grid.Row="0" Grid.Column="0" Margin="10" VerticalAlignment="Center" Minimum="0" Maximum="8" TickPlacement="BottomRight" IsSnapToTickEnabled="True" ValueChanged="sldCriteriaBottomRange_ValueChanged" Value="1"/>
+                            <TextBox x:Name="txtBoxCriteriaBottomRange" Grid.Row="0" Grid.Column="1" Text="{Binding ElementName=sldCriteriaBottomRange, Path=Value, UpdateSourceTrigger=PropertyChanged}"   Margin="10"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Width="20" />
+
+                        </Grid>
+                        
+
+                        <Label x:Name="lblCriteriaTopRange" Grid.Row="3" Content="Choose the top range for criteria scores" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+
+                        <Grid Grid.Row="4">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="40"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Slider x:Name="sldCriteriaTopRange" Grid.Row="0" Grid.Column="0" Margin="10" VerticalAlignment="Center" Minimum="1" Maximum="9" TickPlacement="BottomRight" IsSnapToTickEnabled="True" ValueChanged="sldCriteriaTopRange_ValueChanged" Value="4"/>
+                            <TextBox x:Name="txtBoxCriteriaTopRange" Grid.Row="0" Grid.Column="1" Text="{Binding ElementName=sldCriteriaTopRange, Path=Value, UpdateSourceTrigger=PropertyChanged}"   Margin="10"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Width="20" />
+
+                        </Grid>
+
+                        <Grid Grid.Row="6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <Button x:Name="btnCriteriaBack" Content="Back" Grid.Row="0"  Grid.Column="0" Margin="10,5"/>
+                            <Button x:Name="btnScoreRangeAdd" Content="Add Range" Grid.Row="0" Grid.Column="1" Margin="10,5" Click="btnScoreRangeAdd_Click" />
+                            
+
+                        </Grid>
+
+
+
+
+                    </Grid>
+                    
+                    
+                    
+                </TabItem>
+                
+                
                 
             </TabControl>
 

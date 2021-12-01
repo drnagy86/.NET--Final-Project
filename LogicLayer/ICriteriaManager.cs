@@ -11,8 +11,9 @@ namespace LogicLayer
     public interface ICriteriaManager
     {
         List<Criteria> RetrieveCriteriasForRubricByRubricID(int rubricID);
+        bool CreateCriteria(string criteriaID, int rubricID, string facetID, string content, int score);
 
-
+        bool CreateCriteriaFromFacetCriteriaDictionary(Dictionary<Facet, List<Criteria>> facetCriteria);
 
         // Update helper suite
         int UpdateCriteriaByCriteriaID(int rubricID, string facetID, string oldCriteriaID, string newCriteriaID, string oldContent, string newContent);
@@ -25,6 +26,8 @@ namespace LogicLayer
 
         // call all update methods
         bool UpdateCriteriaByCriteriaFacetDictionary(Dictionary<Facet, List<Criteria>> oldFacetCriteria, Dictionary<Facet, List<Criteria>> newFacetCriteria);
+
+
 
     }
 }

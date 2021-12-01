@@ -125,5 +125,20 @@ namespace LogicLayer
             //rubricVM.RubricID = 100000;
         }
 
+        public List<Criteria> CreateBlankCriteriaForCreateRubricVM(int rubricID, string facetID, double bottomScore, double topScore)
+        {
+            List<Criteria> criteriaList = new List<Criteria>();
+
+            int score = (int)topScore;
+
+            for (int i = 0; i < (int)(topScore - bottomScore) + 1; i++)
+            {
+                Criteria criteria = new Criteria(rubricID, facetID, score--);
+                criteriaList.Add(criteria);
+            }
+            return criteriaList;
+        }
+
+
     }
 }

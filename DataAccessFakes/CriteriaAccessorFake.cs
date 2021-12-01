@@ -161,6 +161,28 @@ namespace DataAccessFakes
 
         }
 
+        public int InsertCriteria(string criteriaID, int rubricID, string facetID, string content, int score)
+        {
+            int rowsAffected = 0;
+
+
+
+            _criteriaList.Add(new Criteria()
+            {
+                CriteriaID = criteriaID,
+                RubricID = rubricID,
+                FacetID = facetID,
+                Content = content,
+                Score = score
+            });
+
+            rowsAffected++;
+
+            return rowsAffected;
+
+
+        }
+
         public List<Criteria> SelectCriteriaByRubricID(int rubricID)
         {
             return _criteriaList.FindAll(c => c.RubricID == rubricID);

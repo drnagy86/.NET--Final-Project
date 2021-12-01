@@ -9,6 +9,8 @@ namespace DataAccessInterFaces
 {
     public interface ICriteriaAccessor
     {
+        int InsertCriteria(string criteriaID, int rubricID, string facetID, string content, int score);
+
         List<Criteria> SelectCriteriaByRubricID(int rubricID);
 
         int UpdateCriteriaByCriteriaID(int rubricID, string facetID, string oldCriteriaID, string newCriteriaID, string oldContent, string newContent);
