@@ -148,10 +148,8 @@ namespace RubricNorming
             //MessageBox.Show("Welcome back, " + _user.GivenName +
             //    "\n\n" + "Your roles are:" + rolesList);
 
-            lblLogin.Content = "";
+
             staMessage.Content = _user.UserID + " logged in as" + rolesList + " on " + DateTime.Now.ToShortTimeString();
-
-
 
             txtUserID.Text = "";
             pwdPassword.Password = "";
@@ -251,14 +249,18 @@ namespace RubricNorming
         private void hideAllControls()
         {
             stkRubricControls.Visibility = Visibility.Hidden;
-            lblRubricControls.Visibility = Visibility.Hidden;
+            stkCreateRubric.Visibility = Visibility.Hidden;
 
             datViewList.Visibility = Visibility.Hidden;
             tabsetCreateControls.Visibility = Visibility.Collapsed;
 
+            detailActionArea.Visibility = Visibility.Hidden;
+
             mnuView.Visibility = Visibility.Collapsed;
             mnuEdit.Visibility = Visibility.Collapsed;
             mnuCreate.Visibility = Visibility.Collapsed;
+
+            tabsetCreateControls.Visibility = Visibility.Collapsed;
 
             btnSave.Visibility = Visibility.Hidden;
             btnCancel.Visibility = Visibility.Hidden;
@@ -293,14 +295,15 @@ namespace RubricNorming
         private void creatorUI()
         {
             stkRubricControls.Visibility = Visibility.Visible;
-            lblRubricControls.Visibility = Visibility.Visible;
+            stkCreateRubric.Visibility = Visibility.Visible;
 
-            datViewList.Visibility = Visibility.Visible;
-            tabsetCreateControls.Visibility = Visibility.Visible;
+            datViewList.Visibility = Visibility.Visible;            
 
             mnuView.Visibility = Visibility.Visible;
             mnuEdit.Visibility = Visibility.Visible;
             mnuCreate.Visibility = Visibility.Visible;
+
+            detailActionArea.Visibility = Visibility.Visible;
 
             viewAllActiveRubrics();
             
@@ -309,8 +312,8 @@ namespace RubricNorming
         private void viewerUI()
         {
             stkRubricControls.Visibility = Visibility.Visible;
-            lblRubricControls.Visibility = Visibility.Visible;
 
+            detailActionArea.Visibility = Visibility.Visible;
             datViewList.Visibility = Visibility.Visible;
 
             mnuView.Visibility = Visibility.Visible;
@@ -320,6 +323,8 @@ namespace RubricNorming
 
         private void viewAllActiveRubrics()
         {
+            tabsetCreateControls.Visibility = Visibility.Hidden;
+
             List<Rubric> rubricList = null;
             try
             {
@@ -472,7 +477,7 @@ namespace RubricNorming
             {
                 btnSave.Visibility = Visibility.Hidden;
                 btnCancel.Visibility = Visibility.Hidden;
-                lblActionAreaTitle.Visibility = Visibility.Visible;
+                //lblActionAreaTitle.Visibility = Visibility.Visible;
                 icFacetCriteria.Visibility = Visibility.Hidden;
                 icScores.Visibility = Visibility.Hidden;
             }
@@ -480,7 +485,7 @@ namespace RubricNorming
             {
                 btnSave.Visibility = Visibility.Visible;
                 btnCancel.Visibility = Visibility.Visible;
-                lblActionAreaTitle.Visibility = Visibility.Visible;
+                //lblActionAreaTitle.Visibility = Visibility.Visible;
                 icFacetCriteria.Visibility = Visibility.Visible;
                 icScores.Visibility = Visibility.Visible;
             }
@@ -507,6 +512,7 @@ namespace RubricNorming
                 _rubricVM = _rubricVMManager.RetrieveRubricByNameDescriptionScoreTypeIDRubricCreator(txtBoxTitle.Text, txtBoxDescription.Text, cmbBoxScoreTypes.SelectedItem.ToString(), _user.UserID);
 
                 rubricVMDetailView();
+                tabFacets.IsEnabled = true;
 
                 tabFacets.Focus();
 
@@ -721,7 +727,11 @@ namespace RubricNorming
             if (isAdded)
             {
                 MessageBox.Show("Successfully saved the rubric.");
+                
             }
+
+            icScores.Visibility = Visibility.Visible;
+            icFacetCriteria.Visibility = Visibility.Visible;
         }
 
         private void btnScoreRangeAdd_Click(object sender, RoutedEventArgs e)
@@ -745,15 +755,8 @@ namespace RubricNorming
                 entry.Value.AddRange(criteriaList);
             }
 
-            MessageBox.Show(_rubricVM.ToString());
-
             rubricVMDetailView();
         }
-
-        //private void cmbBoxScoreTypes_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        //{
-       
-        //}
 
         private void cmbBoxScoreTypes_DropDownClosed(object sender, EventArgs e)
         {
@@ -785,6 +788,22 @@ namespace RubricNorming
                     break;
                 }
             }
+        }
+
+        private void mnuCreateNewRubric_Click(object sender, RoutedEventArgs e)
+        {
+            tabsetCreateControls.Visibility = Visibility.Visible;
+            tabFacets.IsEnabled = false;
+            tabCreate.Focus();
+            
+            lblActionAreaTitle.Visibility = Visibility.Hidden;
+            datViewList.Visibility = Visibility.Hidden;
+            toggleListAndDetails();
+
+            icScores.Visibility = Visibility.Hidden;
+            icFacetCriteria.Visibility = Visibility.Hidden;
+
+            txtBoxTitle.Focus();
         }
     }
 

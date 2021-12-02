@@ -10,7 +10,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
-            <RowDefinition Height="75"/>
+            <RowDefinition Height="50"/>
             <RowDefinition/>
             <RowDefinition Height="25"/>
             <RowDefinition Height="35"/>
@@ -33,7 +33,7 @@
             </MenuItem>
 
             <MenuItem x:Name="mnuCreate" Header="Create">
-                <MenuItem x:Name="mnuCreateNewRubric" Header="New Rubric"/>
+                <MenuItem x:Name="mnuCreateNewRubric" Header="New Rubric" Click="mnuCreateNewRubric_Click" />
             </MenuItem>
 
             <MenuItem x:Name="mnuHelp" Header="Help">
@@ -44,7 +44,6 @@
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition/>
-                <RowDefinition Height="25"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
@@ -53,10 +52,22 @@
                 <ColumnDefinition Width="120" />
             </Grid.ColumnDefinitions>
 
-            <StackPanel x:Name="stkRubricControls" Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Margin="10px">
-                <Button x:Name="btnRetrieveActiveRubrics" Content="All Rubrics" HorizontalAlignment="Left" VerticalAlignment="Top" Click="btnRetrieveActiveRubrics_Click"/>
+            <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Margin="10, 0, 0, 0" >
+                <StackPanel x:Name="stkRubricControls">
+                    <Button x:Name="btnRetrieveActiveRubrics" Content="All Rubrics" HorizontalAlignment="Left" VerticalAlignment="Top" Click="btnRetrieveActiveRubrics_Click" Margin="5" Padding="2"/>
+                    <!--<Label Content="View Controls" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="10"/>-->
+                </StackPanel>
+                <!--<Border CornerRadius="2" BorderThickness="1" BorderBrush="Black" >-->
+                <StackPanel x:Name="stkCreateRubric" Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
+                    
+                    <Button x:Name="btnCreateNewRubric" Content="New Rubric" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Padding="2" Click="mnuCreateNewRubric_Click"/>
+                    <Button x:Name="btnSave" Content="Save"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Padding="2" Click="btnSave_Click"/>
+                    <Button x:Name="btnCancel" Content="Remove Changes" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Padding="2" Click="btnCancel_Click"/>
+                    <!--<Label Content="Create Rubric Controls" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="10"/>-->
+                    
+                </StackPanel>
+                <!--</Border>-->
             </StackPanel>
-            <Label x:Name="lblRubricControls" Grid.Row="1" Grid.Column="0" FontSize="10" HorizontalAlignment="Center">Rubric Controls</Label>
 
             <Grid Grid.Row="0" Grid.Column="1">
                 <Grid.RowDefinitions>
@@ -84,8 +95,6 @@
                 <PasswordBox x:Name="pwdPassword" Margin="10px" Grid.Row="0" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></PasswordBox>
             </Grid>
             <Button Margin="10px" Grid.Column="3" Grid.Row="0" Content="Login" x:Name="btnLogin" Click="btnLogin_Click" />
-
-            <Label x:Name="lblLogin" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" FontSize="10" HorizontalAlignment="Center">Login</Label>
 
         </Grid>
 
@@ -134,8 +143,7 @@
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
 
-                            <Button x:Name="btnSave" Content="Save" Grid.Row="0" Grid.Column="0" Margin="10,5" Click="btnSave_Click"/>
-                            <Button x:Name="btnCancel" Content="Cancel" Grid.Row="0" Grid.Column="1" Margin="10,5" Click="btnCancel_Click"/>
+
 
                         </Grid>
 
