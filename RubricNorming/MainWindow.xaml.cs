@@ -30,6 +30,9 @@ namespace RubricNorming
 
         string _executionChoice = "";
 
+        List<ScoreType> _scoreTypes = new List<ScoreType>();
+        List<FacetType> _facetTypes = new List<FacetType>();
+
         Rubric _rubric = null;
         RubricVM _rubricVM = null;
 
@@ -124,7 +127,7 @@ namespace RubricNorming
             else
             {
                 updateUIforLogOut();
-            }            
+            }
         }
 
         private void updateUIforUser()
@@ -133,20 +136,22 @@ namespace RubricNorming
             for (int i = 0; i < _user.Roles.Count; i++)
             {
                 rolesList += " " + _user.Roles[i];
-                if (i == _user.Roles.Count -2)
+                if (i == _user.Roles.Count - 2)
                 {
                     rolesList += " and";
                 }
-                else if (i< _user.Roles.Count-2)
+                else if (i < _user.Roles.Count - 2)
                 {
                     rolesList += ",";
                 }
             }
-            MessageBox.Show("Welcome back, " + _user.GivenName +
-                "\n\n" + "Your roles are:" + rolesList);
+            //MessageBox.Show("Welcome back, " + _user.GivenName +
+            //    "\n\n" + "Your roles are:" + rolesList);
 
             lblLogin.Content = "";
             staMessage.Content = _user.UserID + " logged in as" + rolesList + " on " + DateTime.Now.ToShortTimeString();
+
+
 
             txtUserID.Text = "";
             pwdPassword.Password = "";
@@ -155,15 +160,10 @@ namespace RubricNorming
             lblUserID.Visibility = Visibility.Hidden;
             lblPassword.Visibility = Visibility.Hidden;
 
-            stkRubricControls.Visibility = Visibility.Visible;
-            datViewList.Visibility = Visibility.Visible;
-            mnuView.Visibility = Visibility.Visible;
-            viewAllActiveRubrics();
-
             btnLogin.Content = "Log Out";
             btnLogin.IsDefault = false;
 
-            //showTabsForUser();
+            prepareUIForRoles();
 
         }
 
@@ -178,14 +178,10 @@ namespace RubricNorming
             lblUserID.Visibility = Visibility.Visible;
             lblPassword.Visibility = Visibility.Visible;
 
-            stkRubricControls.Visibility = Visibility.Hidden;
-            datViewList.Visibility = Visibility.Hidden;
-            mnuView.Visibility = Visibility.Hidden;
-
+            hideAllControls();
 
             btnLogin.Content = "Login";
             btnLogin.Focus();
-
             btnLogin.IsDefault = true;
 
             //hide all user tabs
@@ -218,8 +214,11 @@ namespace RubricNorming
             this.txtUserID.Focus();
 
             try
-            {                
-                cmbBoxScoreTypes.ItemsSource = _scoreTypeManager.RetrieveScoreTypes().Select(st => st.ScoreTypeID);
+            {
+                _scoreTypes = _scoreTypeManager.RetrieveScoreTypes();
+                cmbBoxScoreTypes.ItemsSource = _scoreTypes.Select(st => st.ScoreTypeID);
+                cmbBoxScoreTypes.SelectedItem = _scoreTypes.ElementAt(0).ScoreTypeID;
+                txtBlockScoreTypeDescription.Text = _scoreTypes.ElementAt(0).Description;
             }
             catch (Exception ex)
             {
@@ -228,24 +227,95 @@ namespace RubricNorming
 
             try
             {
-                cmbBoxFacetType.ItemsSource = _facetTypeManager.RetrieveFacetTypes().Select(ft => ft.FacetTypeID);
+                _facetTypes = _facetTypeManager.RetrieveFacetTypes();
+                cmbBoxFacetType.ItemsSource = _facetTypes.Select(ft => ft.FacetTypeID);
+                cmbBoxFacetType.SelectedItem = _facetTypes.ElementAt(0).FacetTypeID;
+                txtBlockFacetTypeDescription.Text = _facetTypes.ElementAt(0).Description;
+
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Problem retrieving facet types.\n" + ex.Message);
             }
 
+            hideAllControls();
 
+
+            // for testing purposes only
+
+            //datViewList.Visibility = Visibility.Visible;
+            //viewAllActiveRubrics();
+
+        }
+
+        private void hideAllControls()
+        {
             stkRubricControls.Visibility = Visibility.Hidden;
-            datViewList.Visibility = Visibility.Hidden;
-            //grdCreateControls.Visibility = Visibility.Hidden;
+            lblRubricControls.Visibility = Visibility.Hidden;
 
-            // for testing purposes, comment out
-            //mnuView.Visibility = Visibility.Hidden;
+            datViewList.Visibility = Visibility.Hidden;
+            tabsetCreateControls.Visibility = Visibility.Collapsed;
+
+            mnuView.Visibility = Visibility.Collapsed;
+            mnuEdit.Visibility = Visibility.Collapsed;
+            mnuCreate.Visibility = Visibility.Collapsed;
+
+            btnSave.Visibility = Visibility.Hidden;
+            btnCancel.Visibility = Visibility.Hidden;
+        }
+
+        private void prepareUIForRoles()
+        {
+            // ('Creator', 'Can create new rubrics and add examples')
+            //,('Admin', 'Manages users, rubrics, tests, examples')
+            //,('Assessor', 'Can view rubrics')
+            //,('Norming Trainee', 'Can train and take tests for rubrics')
+
+            foreach (var role in _user.Roles)
+            {
+                switch (role)
+                {
+                    case "Admin":
+                        creatorUI();
+                        break;
+                    case "Creator":
+                        creatorUI();
+                        break;
+                    case "Assessor":
+                        viewerUI();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        private void creatorUI()
+        {
+            stkRubricControls.Visibility = Visibility.Visible;
+            lblRubricControls.Visibility = Visibility.Visible;
 
             datViewList.Visibility = Visibility.Visible;
+            tabsetCreateControls.Visibility = Visibility.Visible;
+
+            mnuView.Visibility = Visibility.Visible;
+            mnuEdit.Visibility = Visibility.Visible;
+            mnuCreate.Visibility = Visibility.Visible;
+
             viewAllActiveRubrics();
-            //hideAllUserTabs();
+            
+        }
+
+        private void viewerUI()
+        {
+            stkRubricControls.Visibility = Visibility.Visible;
+            lblRubricControls.Visibility = Visibility.Visible;
+
+            datViewList.Visibility = Visibility.Visible;
+
+            mnuView.Visibility = Visibility.Visible;
+
+            viewAllActiveRubrics();
         }
 
         private void viewAllActiveRubrics()
@@ -260,11 +330,14 @@ namespace RubricNorming
                 MessageBox.Show("There was a problem retrieving the list of rubrics." + ex.Message);
             }
 
+            lblActionAreaTitle.Content = "All Rubrics";
+            lblActionAreaTitle.Visibility = Visibility.Visible;
+
             datViewList.ItemsSource = rubricList;
 
             datViewList.Visibility = Visibility.Visible;
             toggleListAndDetails();
-         
+
         }
 
 
@@ -281,8 +354,8 @@ namespace RubricNorming
                 MessageBox.Show("There was a problem retrieving the list of facets." + ex.Message);
             }
 
-            var facetListSorted = facets.Select(f => new { f.FacetID, f.Description, f.DateCreated, f.DateUpdated, f.FacetType });            
-            
+            var facetListSorted = facets.Select(f => new { f.FacetID, f.Description, f.DateCreated, f.DateUpdated, f.FacetType });
+
             datViewList.ItemsSource = facetListSorted;
             datViewList.Visibility = Visibility.Visible;
         }
@@ -330,7 +403,7 @@ namespace RubricNorming
                     break;
                 default:
                     break;
-            }           
+            }
 
         }
 
@@ -359,7 +432,7 @@ namespace RubricNorming
         //}
 
         private void datViewList_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {            
+        {
 
             _rubric = (Rubric)datViewList.SelectedItem;
 
@@ -380,10 +453,12 @@ namespace RubricNorming
         }
 
         private void rubricVMDetailView()
-        {            
+        {
 
             datViewList.Visibility = Visibility.Hidden;
             toggleListAndDetails();
+
+            lblActionAreaTitle.Content = _rubricVM.Name;
 
             this.DataContext = _rubricVM;
             icFacetCriteria.ItemsSource = _rubricVM.FacetCriteria;
@@ -397,7 +472,7 @@ namespace RubricNorming
             {
                 btnSave.Visibility = Visibility.Hidden;
                 btnCancel.Visibility = Visibility.Hidden;
-                lblDetailRubricTitle.Visibility = Visibility.Hidden;
+                lblActionAreaTitle.Visibility = Visibility.Visible;
                 icFacetCriteria.Visibility = Visibility.Hidden;
                 icScores.Visibility = Visibility.Hidden;
             }
@@ -405,7 +480,7 @@ namespace RubricNorming
             {
                 btnSave.Visibility = Visibility.Visible;
                 btnCancel.Visibility = Visibility.Visible;
-                lblDetailRubricTitle.Visibility = Visibility.Visible;
+                lblActionAreaTitle.Visibility = Visibility.Visible;
                 icFacetCriteria.Visibility = Visibility.Visible;
                 icScores.Visibility = Visibility.Visible;
             }
@@ -446,10 +521,7 @@ namespace RubricNorming
             _createOrUpdateMode = CreateOrUpdateMode.Create;
         }
 
-        private void btnCreateRubricBack_Click(object sender, RoutedEventArgs e)
-        {
-            tabTemplate.Focus();
-        }
+
 
         private void btnFacetAdd_Click(object sender, RoutedEventArgs e)
         {
@@ -501,10 +573,10 @@ namespace RubricNorming
             }
         }
 
-        private void btnCreateFacetNext_Click(object sender, RoutedEventArgs e)
-        {
-            tabCriteria.Focus();
-        }
+        //private void btnCreateFacetNext_Click(object sender, RoutedEventArgs e)
+        //{
+        //    tabCriteria.Focus();
+        //}
 
         private void mnuCancelUpdatesToRubric_Click(object sender, RoutedEventArgs e)
         {
@@ -619,7 +691,7 @@ namespace RubricNorming
             switch (_createOrUpdateMode)
             {
                 case CreateOrUpdateMode.Create:
-                    
+
                     break;
                 case CreateOrUpdateMode.Edit:
                     cancelUpdatesToRubric();
@@ -658,6 +730,7 @@ namespace RubricNorming
             try
             {
                 _rubricVM = _rubricVMManager.RetrieveRubricByNameDescriptionScoreTypeIDRubricCreator(txtBoxTitle.Text, txtBoxDescription.Text, cmbBoxScoreTypes.SelectedItem.ToString(), _user.UserID);
+                
             }
             catch (Exception ex)
             {
@@ -675,6 +748,43 @@ namespace RubricNorming
             MessageBox.Show(_rubricVM.ToString());
 
             rubricVMDetailView();
+        }
+
+        //private void cmbBoxScoreTypes_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+       
+        //}
+
+        private void cmbBoxScoreTypes_DropDownClosed(object sender, EventArgs e)
+        {
+            ComboBox comboBox = (ComboBox)sender;
+
+            string selectedItem = comboBox.Text;
+
+            foreach (ScoreType scoreType in _scoreTypes)
+            {
+                if (scoreType.ScoreTypeID == selectedItem)
+                {
+                    txtBlockScoreTypeDescription.Text = scoreType.Description;
+                    break;
+                }
+            }
+        }
+
+        private void cmbBoxFacetType_DropDownClosed(object sender, EventArgs e)
+        {
+            ComboBox comboBox = (ComboBox)sender;
+
+            string selectedItem = comboBox.Text;
+
+            foreach (FacetType facet in _facetTypes)
+            {
+                if (facet.FacetTypeID == selectedItem)
+                {
+                    txtBlockFacetTypeDescription.Text = facet.Description;
+                    break;
+                }
+            }
         }
     }
 

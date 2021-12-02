@@ -15,7 +15,7 @@
             <RowDefinition Height="25"/>
             <RowDefinition Height="35"/>
         </Grid.RowDefinitions>
-        
+
         <Menu Grid.Row="0" Padding="20px, 0px">
             <MenuItem x:Name="mnuFile" Header="File">
                 <MenuItem x:Name="mnuLog" Header="Log In/Log Out"></MenuItem>
@@ -23,23 +23,27 @@
             </MenuItem>
             <MenuItem x:Name="mnuView" Header="View">
                 <MenuItem x:Name="mnuViewAllRubrics" Header="View All Rubrics" Click="mnuViewAllRubrics_Click"></MenuItem>
-                <MenuItem x:Name="mnuViewAllFacets" Header="All Facets" Click="mnuViewAllFacets_Click"></MenuItem>                
-                
+                <MenuItem x:Name="mnuViewAllFacets" Header="All Facets" Click="mnuViewAllFacets_Click"></MenuItem>
+
             </MenuItem>
             <MenuItem x:Name="mnuEdit" Header="Edit" >
                 <MenuItem x:Name="mnuEditSelection" Header="Edit Selected Rubric"></MenuItem>
                 <MenuItem x:Name="mnuConfirmUpdatesToRubric" Header="Update Rubric" Click="mnuConfirmUpdatesToRubric_Click"/>
                 <MenuItem x:Name="mnuCancelUpdatesToRubric" Header="Cancel Updates" Click="mnuCancelUpdatesToRubric_Click" />
             </MenuItem>
-            
+
+            <MenuItem x:Name="mnuCreate" Header="Create">
+                <MenuItem x:Name="mnuCreateNewRubric" Header="New Rubric"/>
+            </MenuItem>
+
             <MenuItem x:Name="mnuHelp" Header="Help">
                 <MenuItem x:Name="mnuAbout" Header="About"></MenuItem>
             </MenuItem>
         </Menu>
-        
+
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
-                <RowDefinition/>                
+                <RowDefinition/>
                 <RowDefinition Height="25"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
@@ -85,14 +89,14 @@
 
         </Grid>
 
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="2" x:Name="grdMainActionArea">
 
-            <Grid.RowDefinitions>                
+            <Grid.RowDefinitions>
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="300"/>
+                <ColumnDefinition />
                 <ColumnDefinition/>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
@@ -101,16 +105,16 @@
 
 
             <ScrollViewer x:Name="detailActionArea" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" VerticalScrollBarVisibility="Auto">
-            <Grid Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="50"/>
-                    <RowDefinition/>
-                    <RowDefinition Height="50" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="50"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
+                <Grid Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition/>
+                        <RowDefinition Height="50" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
 
                     <Grid Grid.Row="0" Grid.Column="1">
 
@@ -119,7 +123,8 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
 
-                        <Label x:Name="lblDetailRubricTitle" Grid.Row="0" Grid.Column="0" Content="{Binding ElementName=frmMainWindow, Path=DataContext.Name}" HorizontalAlignment="Left" FontWeight="Bold" FontSize="16"/>
+                        <Label x:Name="lblActionAreaTitle" Grid.Row="0" Grid.Column="0" Content="" HorizontalAlignment="Left" FontWeight="Bold" FontSize="16"/>
+                        <!--<Label x:Name="lblDetailRubricTitle" Grid.Row="0" Grid.Column="0" Content="{Binding ElementName=frmMainWindow, Path=DataContext.Name}" HorizontalAlignment="Left" FontWeight="Bold" FontSize="16"/>-->
                         <Grid Grid.Row="0" Grid.Column="1">
                             <Grid.RowDefinitions>
                                 <RowDefinition/>
@@ -128,12 +133,12 @@
                                 <ColumnDefinition/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-                            
+
                             <Button x:Name="btnSave" Content="Save" Grid.Row="0" Grid.Column="0" Margin="10,5" Click="btnSave_Click"/>
                             <Button x:Name="btnCancel" Content="Cancel" Grid.Row="0" Grid.Column="1" Margin="10,5" Click="btnCancel_Click"/>
 
                         </Grid>
-                        
+
 
 
                     </Grid>
@@ -166,46 +171,46 @@
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
 
-                <Grid x:Name="grdActionArea" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" >
-                    <ItemsControl x:Name="icFacetCriteria">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel Orientation="Horizontal"></StackPanel>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
+                    <Grid x:Name="grdActionArea" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" >
+                        <ItemsControl x:Name="icFacetCriteria">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal"></StackPanel>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
 
-                        <!--<ItemsControl.ItemContainerStyle>
+                            <!--<ItemsControl.ItemContainerStyle>
                             <Style>
                                 <Setter Property="Grid.Row" Value="{Binding ElementName=frmMainWindow, Path=DataContext.RowCount}"/>
                                 <Setter Property="Grid.Column" Value="{Binding ElementName=frmMainWindow, Path=DataContext.ColumnCount}"/>
                                 
                             </Style>
                         </ItemsControl.ItemContainerStyle>-->
-                        
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Vertical" >
-                                    <Label Content="{Binding Key.FacetID}"/>
-                                    <ItemsControl ItemsSource="{Binding Value}" >
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
-                                                <StackPanel Orientation="Vertical">
+
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Vertical" >
+                                        <Label Content="{Binding Key.FacetID}"/>
+                                        <ItemsControl ItemsSource="{Binding Value}" >
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Vertical">
 
                                                         <TextBox Height="25" Width="150" Text="{Binding CriteriaID}" TextAlignment="Center" FontWeight="Bold" TextWrapping="Wrap"/>
                                                         <TextBox Height="125" Width="150" Text="{Binding Content}" TextWrapping="Wrap"/>
 
-                                                </StackPanel>
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
-                                    </ItemsControl>
-                                </StackPanel>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </Grid>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Grid>
                     <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3">
                         <Grid.RowDefinitions>
-                            <RowDefinition/>                            
+                            <RowDefinition/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
@@ -219,11 +224,6 @@
 
             <TabControl x:Name="tabsetCreateControls" Grid.Row="2" Grid.Column="0" Margin="10, 0, 0, 0">
 
-                <TabItem x:Name="tabTemplate" Header="Templates">
-                                        
-                    
-                </TabItem>
-
                 <TabItem x:Name="tabCreate" Header="Create">
 
                     <Grid Grid.Row="0" x:Name="grdCreateControls" Grid.Column="0">
@@ -232,8 +232,9 @@
                             <RowDefinition Height="50"/>
                             <RowDefinition Height="50"/>
                             <RowDefinition Height="100"/>
-                            <RowDefinition Height="60"/>
                             <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="90"/>
                             <RowDefinition Height="50"/>
                             <RowDefinition Height="50"/>
                             <RowDefinition Height="50"/>
@@ -248,44 +249,54 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock x:Name="txtblkDockPanelTitle" Grid.Row="0" Grid.ColumnSpan="2" TextWrapping="Wrap" TextAlignment="Left" FontSize="14" FontWeight="Bold" Margin="10" >Create Rubric</TextBlock>
-                        <TextBlock x:Name="txtblkDockPanelDescription" Grid.Row="1" Grid.ColumnSpan="2" TextWrapping="Wrap" TextAlignment="Left"  Margin="10, 0, 10, 10">Describe what the rubric will be used for.</TextBlock>
-                        
-                        
-                        
-                        <Label Grid.Row="2" Grid.Column="0" x:Name="lblTitle" HorizontalAlignment="Right" Margin="10, 10, 10, 10">Title:</Label>
-                        <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" x:Name="txtBoxTitle" Margin="10px" ></TextBox>
-
-                        <Label Grid.Row="3" Grid.Column="0" x:Name="lblDescription"  HorizontalAlignment="Right" Margin="10, 10, 10, 10">Description:</Label>
-                        <TextBox Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="1" x:Name="txtBoxDescription" Margin="10px"></TextBox>
-
-                        <TextBlock Grid.Row="4" Grid.ColumnSpan="3" TextWrapping="Wrap" TextAlignment="Left"  Margin="10">Add short descriptive tags to organize or easily find later. Seperate with comma.</TextBlock>
-
-                        <Label Grid.Row="5" Grid.Column="0" x:Name="lblGradeLevel"  HorizontalAlignment="Right" Margin="10, 10, 10, 10">Grade Level(s)</Label>
-                        <TextBox Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2" x:Name="txtBoxGradeLevel"  Margin="10px"></TextBox>
-
-                        <Label Grid.Row="6" Grid.Column="0" x:Name="lblCourse" HorizontalAlignment="Right" Margin="10, 10, 10, 10">Course(s):</Label>
-                        <TextBox Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2" x:Name="txtBoxCourse"  Margin="10px"></TextBox>
-
-                        <Label Grid.Row="7" Grid.Column="0" x:Name="lblUnit" HorizontalAlignment="Right" Margin="10, 10, 10, 10">Unit(s):</Label>
-                        <TextBox Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" x:Name="txtBoxUnit"  Margin="10px"></TextBox>
+                        <TextBlock x:Name="txtblkDockPanelTitle" Grid.Row="0" Grid.ColumnSpan="2" TextWrapping="Wrap" TextAlignment="Left" FontSize="14" FontWeight="Bold" Margin="10" >Rubric</TextBlock>
+                        <TextBlock x:Name="txtblkInstructions" Grid.Row="1" Grid.ColumnSpan="2" TextWrapping="Wrap" TextAlignment="Left"  Margin="10, 0, 10, 10" Text="Describe what the rubric will be used for."></TextBlock>
 
 
-                        <Label Grid.Row="8" Grid.Column="0" x:Name="lblSubject" HorizontalAlignment="Right" Margin="10, 10, 10, 10">Subject(s):</Label>
-                        <TextBox Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="2" x:Name="txtBoxSubject" Margin="10px"></TextBox>
 
-                        <Label Grid.Row="9" Grid.Column="0" x:Name="lblScoreType" HorizontalAlignment="Right" Margin="10, 10, 10, 10">Score Type:</Label>
-                        <ComboBox Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="2" Margin="10" x:Name="cmbBoxScoreTypes" />
+                        <Label Grid.Row="2" Grid.Column="0" x:Name="lblTitle" HorizontalAlignment="Right" VerticalAlignment="Center">Title:</Label>
+                        <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" x:Name="txtBoxTitle" Margin="10" VerticalContentAlignment="Center" Padding="5,0,0,0"></TextBox>
+
+                        <Label Grid.Row="3" Grid.Column="0" x:Name="lblDescription"  HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0, 10, 0, 0">Description:</Label>
+                        <TextBox Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="1" x:Name="txtBoxDescription" Margin="10px" Padding="5,5,0,0"></TextBox>
 
 
-                        <Button x:Name="btnCreateRubricBack" Content="Back" Grid.Row="11" Grid.Column="0" Margin="10,5" Click="btnCreateRubricBack_Click" />            
-                        <Button x:Name="btnEdit" Content="Save Edits" Grid.Row="11" Grid.Column="1" Margin="10,5" Visibility="Hidden"/>
-                        <Button x:Name="btnCreateRubricNext" Content="Next" Grid.Row="11" Grid.Column="2" Margin="10,5" Click="btnCreateRubric_Click" />
-                        
+                        <Label Grid.Row="4" Grid.Column="0" x:Name="lblScoreType" HorizontalAlignment="Right" VerticalAlignment="Center">Score Type:</Label>
+                        <ComboBox Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" Margin="10" x:Name="cmbBoxScoreTypes" VerticalContentAlignment="Center"  DropDownClosed="cmbBoxScoreTypes_DropDownClosed" />
+
+                        <TextBlock Grid.Row="5" Grid.Column="0" x:Name="lblScoreTypeDescription" HorizontalAlignment="Right" Text="Score Type Decription:" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Row="5" Grid.Column="1"  Grid.ColumnSpan="2" x:Name="txtBlockScoreTypeDescription" Margin="10" Text="" VerticalAlignment="Center" HorizontalAlignment="Left" TextWrapping="Wrap"/>
+
+                        <Grid Grid.Row="6" Grid.ColumnSpan="3" >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="60"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" x:Name="txtBlkTagTitle" TextWrapping="Wrap" TextAlignment="Left" FontWeight="Bold" Text="Add Tags" HorizontalAlignment="Left" FontSize="14" Margin="10,10,0,0"/>
+                            <TextBlock Grid.Row="1" x:Name="txtBlkTags" TextWrapping="Wrap" TextAlignment="Left"  Margin="10,0,0,0" VerticalAlignment="Center" >Add short descriptive tags to organize or easily find later. Seperate with comma.</TextBlock>
+                        </Grid>
+
+                        <Label Grid.Row="7" Grid.Column="0" x:Name="lblGradeLevel"  HorizontalAlignment="Right" VerticalAlignment="Center">Grade Level(s)</Label>
+                        <TextBox Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" x:Name="txtBoxGradeLevel"  Margin="10px" VerticalContentAlignment="Center" Padding="5,0,0,0"></TextBox>
+
+                        <Label Grid.Row="8" Grid.Column="0" x:Name="lblCourse" HorizontalAlignment="Right" VerticalAlignment="Center">Course(s):</Label>
+                        <TextBox Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="2" x:Name="txtBoxCourse"  Margin="10px" VerticalContentAlignment="Center" Padding="5,0,0,0"></TextBox>
+
+                        <Label Grid.Row="9" Grid.Column="0" x:Name="lblUnit" HorizontalAlignment="Right" VerticalAlignment="Center">Unit(s):</Label>
+                        <TextBox Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="2" x:Name="txtBoxUnit"  Margin="10px" VerticalContentAlignment="Center" Padding="5,0,0,0"></TextBox>
+
+                        <Label Grid.Row="10" Grid.Column="0" x:Name="lblSubject" HorizontalAlignment="Right" VerticalAlignment="Center">Subject(s):</Label>
+                        <TextBox Grid.Row="10" Grid.Column="1" Grid.ColumnSpan="2" x:Name="txtBoxSubject" Margin="10px" VerticalContentAlignment="Center" Padding="5,0,0,0"></TextBox>
+
+
+                        <Button x:Name="btnEdit" Content="Save Edits" Grid.Row="12" Grid.Column="1" Margin="10,5" Visibility="Hidden"/>
+                        <Button x:Name="btnCreateRubricNext" Content="Next" Grid.Row="12" Grid.Column="2" Margin="10,5" Click="btnCreateRubric_Click" />
+
                     </Grid>
                 </TabItem>
 
-                <TabItem x:Name="tabFacets" Header="Facets">
+                <TabItem x:Name="tabFacets" Header="Facets And Criteria">
 
                     <Grid>
                         <Grid.RowDefinitions>
@@ -293,130 +304,134 @@
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>                            
+                            <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
 
-                        <Grid Grid.Row="1" Grid.Column="0">
+                        <Grid Grid.Row="0" Grid.Column="0">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="90"/>
                                 <RowDefinition Height="50"/>
                                 <RowDefinition Height="100"/>
                                 <RowDefinition Height="50"/>
                                 <RowDefinition/>
+
                                 <RowDefinition Height="35"/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
                                 <ColumnDefinition/>
-                                <ColumnDefinition/>                                
+                                <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
 
-                            <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Center" FontStyle="Italic">Or choose to create a new facet</TextBlock>
+                            <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="40"/>
+                                    <RowDefinition Height="50"/>
+                                </Grid.RowDefinitions>
 
-                            <Label x:Name="lblFacetTitle" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right">Title: </Label>
-                            <TextBox x:Name="txtBoxFacetTitle" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Margin="10"/>
+                                <Label x:Name="lblFacetSectionTitle" Grid.Row="0" Content="Add Facets" HorizontalContentAlignment="Left" FontSize="14" FontWeight="Bold" Margin="10, 10, 10, 0"/>
+                                <TextBlock x:Name="txtBlkFacetInstructions" Text="Add at least one facet in order to create a rubric."  Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="Wrap" TextAlignment="Left"  Margin="10, 0, 10, 10"></TextBlock>
+                            </Grid>
+                            
 
+                            <Label x:Name="lblFacetTitle" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center">Title:</Label>
+                            <TextBox x:Name="txtBoxFacetTitle" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Margin="10" VerticalContentAlignment="Center" Padding="5,0,0,0"/>
 
-                            <Label x:Name="lblFacetDescription" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right">Description:</Label>
-                            <TextBox x:Name="txtBoxFacetDescription" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Margin="10"/>
+                            <Label x:Name="lblFacetDescription" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0, 10, 0, 0" >Description:</Label>
+                            <TextBox x:Name="txtBoxFacetDescription" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Margin="10" Padding="5,5,0,0" />
 
-                            <Label x:Name="lblFacetType" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right">Facet Type:</Label>
-                            <ComboBox x:Name="cmbBoxFacetType" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Margin="10"/>
+                            <Label x:Name="lblFacetType" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center">Facet Type:</Label>
+                            <ComboBox x:Name="cmbBoxFacetType" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Margin="10" DropDownClosed="cmbBoxFacetType_DropDownClosed" VerticalContentAlignment="Center"/>
 
-                            <Button x:Name="btnFacetBack" Content="Back" Grid.Row="5" Grid.Column="0" Margin="10,5"/>
-                            <Button x:Name="btnFacetAdd" Content="Add" Grid.Row="5" Grid.Column="1" Margin="10,5" Click="btnFacetAdd_Click" />
-                            <Button x:Name="btnCreateFacetNext" Content="Next" Grid.Row="5" Grid.Column="2" Margin="10,5" Click="btnCreateFacetNext_Click" />
-
+                            <TextBlock Grid.Row="4" Grid.Column="0" x:Name="lblFacetTypeDescription" HorizontalAlignment="Right" Margin="10, 10, 10, 10" Text="Facet Type Decription:" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Row="4" Grid.Column="1"  Grid.ColumnSpan="2" x:Name="txtBlockFacetTypeDescription" Margin="10" Text="" VerticalAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Left"/>
+                            
+                            <Button x:Name="btnFacetAdd" Content="Add" Grid.Row="6" Grid.Column="1" Margin="10,5" Click="btnFacetAdd_Click" />
 
                         </Grid>
-                        
-                    </Grid>
-                    
-                </TabItem>
 
-                <TabItem x:Name="tabCriteria" Header="Criteria">
-
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="40"/>
-                            <RowDefinition Height="50"/>
-                            <RowDefinition Height="50"/>
-                            <RowDefinition Height="50"/>
-                            <RowDefinition Height="50"/>
-                            <RowDefinition/>
-                            <RowDefinition Height="35"/>
-                            
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-
-                        <TextBlock x:Name="txtblkCriteriaTitle" Grid.Row="0" Grid.ColumnSpan="2" TextWrapping="Wrap" TextAlignment="Left" FontSize="14" FontWeight="Bold" Margin="10" >Criteria</TextBlock>
-                        <Label x:Name="lblCriteriaBottomRange" Grid.Row="1" Content="Choose the bottom range for criteria scores" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-
-                        <Grid Grid.Row="2">
+                        <Grid x:Name="grdCriteria" Grid.Row="1">
                             <Grid.RowDefinitions>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="50"/>
                                 <RowDefinition/>
+                                <RowDefinition Height="35"/>
+
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
-                                <ColumnDefinition Width="40"/>                                
-                            </Grid.ColumnDefinitions>                            
-                            <Slider x:Name="sldCriteriaBottomRange" Grid.Row="0" Grid.Column="0" Margin="10" VerticalAlignment="Center" Minimum="0" Maximum="8" TickPlacement="BottomRight" IsSnapToTickEnabled="True" ValueChanged="sldCriteriaBottomRange_ValueChanged" Value="1"/>
-                            <TextBox x:Name="txtBoxCriteriaBottomRange" Grid.Row="0" Grid.Column="1" Text="{Binding ElementName=sldCriteriaBottomRange, Path=Value, UpdateSourceTrigger=PropertyChanged}"   Margin="10"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Width="20" />
-
-                        </Grid>
-                        
-
-                        <Label x:Name="lblCriteriaTopRange" Grid.Row="3" Content="Choose the top range for criteria scores" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-
-                        <Grid Grid.Row="4">
-                            <Grid.RowDefinitions>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition Width="40"/>
-                            </Grid.ColumnDefinitions>
-
-                            <Slider x:Name="sldCriteriaTopRange" Grid.Row="0" Grid.Column="0" Margin="10" VerticalAlignment="Center" Minimum="1" Maximum="9" TickPlacement="BottomRight" IsSnapToTickEnabled="True" ValueChanged="sldCriteriaTopRange_ValueChanged" Value="4"/>
-                            <TextBox x:Name="txtBoxCriteriaTopRange" Grid.Row="0" Grid.Column="1" Text="{Binding ElementName=sldCriteriaTopRange, Path=Value, UpdateSourceTrigger=PropertyChanged}"   Margin="10"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Width="20" />
-
-                        </Grid>
-
-                        <Grid Grid.Row="6">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
 
-                            <Button x:Name="btnCriteriaBack" Content="Back" Grid.Row="0"  Grid.Column="0" Margin="10,5"/>
-                            <Button x:Name="btnScoreRangeAdd" Content="Add Range" Grid.Row="0" Grid.Column="1" Margin="10,5" Click="btnScoreRangeAdd_Click" />
-                            
+                            <TextBlock x:Name="txtblkCriteriaTitle" Grid.Row="0" Grid.ColumnSpan="2" TextWrapping="Wrap" TextAlignment="Left" FontSize="14" FontWeight="Bold" Margin="10" >Criteria</TextBlock>
+                            <Label x:Name="lblCriteriaBottomRange" Grid.Row="1" Content="Choose the bottom range for criteria scores" HorizontalContentAlignment="Left" Margin="10" VerticalContentAlignment="Center" Grid.ColumnSpan="2"/>
+
+                            <Grid Grid.Row="2" Grid.ColumnSpan="2">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="40"/>
+                                </Grid.ColumnDefinitions>
+                                <Slider x:Name="sldCriteriaBottomRange" Grid.Row="0" Grid.Column="0" Margin="10" VerticalAlignment="Center" Minimum="0" Maximum="8" TickPlacement="BottomRight" IsSnapToTickEnabled="True" ValueChanged="sldCriteriaBottomRange_ValueChanged" Value="1"/>
+                                <TextBox x:Name="txtBoxCriteriaBottomRange" Grid.Row="0" Grid.Column="1" Text="{Binding ElementName=sldCriteriaBottomRange, Path=Value, UpdateSourceTrigger=PropertyChanged}"   Margin="10"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Width="20" />
+
+                            </Grid>
+
+
+                            <Label x:Name="lblCriteriaTopRange" Grid.Row="3" Content="Choose the top range for criteria scores" HorizontalContentAlignment="Left" Margin="10" VerticalContentAlignment="Center" Grid.ColumnSpan="2"/>
+
+                            <Grid Grid.Row="4" Grid.ColumnSpan="2">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="40"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Slider x:Name="sldCriteriaTopRange" Grid.Row="0" Grid.Column="0" Margin="10" VerticalAlignment="Center" Minimum="1" Maximum="9" TickPlacement="BottomRight" IsSnapToTickEnabled="True" ValueChanged="sldCriteriaTopRange_ValueChanged" Value="4"/>
+                                <TextBox x:Name="txtBoxCriteriaTopRange" Grid.Row="0" Grid.Column="1" Text="{Binding ElementName=sldCriteriaTopRange, Path=Value, UpdateSourceTrigger=PropertyChanged}"   Margin="10"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Width="20" />
+
+                            </Grid>
+
+                            <Grid Grid.Row="6" Grid.ColumnSpan="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+
+                                <Button x:Name="btnCriteriaBack" Content="Back" Grid.Row="0"  Grid.Column="0" Margin="10,5"/>
+                                <Button x:Name="btnScoreRangeAdd" Content="Add Range" Grid.Row="0" Grid.Column="1" Margin="10,5" Click="btnScoreRangeAdd_Click" />
+
+
+                            </Grid>
+
+
+
 
                         </Grid>
-
-
-
 
                     </Grid>
-                    
-                    
-                    
+
                 </TabItem>
-                
-                
-                
+
             </TabControl>
 
-            
 
-            
+
+
+
+
         </Grid>
 
 
-        
+
 
 
 
