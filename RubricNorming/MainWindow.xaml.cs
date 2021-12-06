@@ -435,7 +435,6 @@ namespace RubricNorming
 
         private void datViewList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            
             _rubric = (Rubric)datViewList.SelectedItem;
 
             try
@@ -443,13 +442,14 @@ namespace RubricNorming
                 // errors with fakes here
                 _rubricVM = _rubricVMManager.RetrieveRubricByRubricID(_rubric.RubricID);
                 
-                staMessage.Content = "Viewing the rubric. Click Edit Rubric if you would like to make changes.";
+                staMessage.Content = "Viewing the rubric. Click \"Edit Rubric\" if you would like to make changes.";
                 
                 rubricVMDetailView();
 
                 txtBoxTitle.Text = _rubricVM.Name;
                 txtBoxDescription.Text = _rubricVM.Description;
                 cmbBoxScoreTypes.SelectedItem = _rubricVM.ScoreTypeID;
+                icFacetControls.ItemsSource = _rubricVM.Facets;
 
                 foreach (ScoreType scoreType in _scoreTypes)
                 {
@@ -553,10 +553,7 @@ namespace RubricNorming
             sldCriteriaTopRange.Value = 4;
 
             setCurrentUIState(UIState.Create);
-
         }
-
-
 
         private void btnFacetAdd_Click(object sender, RoutedEventArgs e)
         {
@@ -601,7 +598,6 @@ namespace RubricNorming
 
             if (sldCriteriaBottomRange == null || sldCriteriaTopRange == null)
             {
-
                 // do nothing, stops problems on load, saves results if changed during course of program
             }
             else if (sldCriteriaTopRange.Value <= sldCriteriaBottomRange.Value && sldCriteriaBottomRange.Value >= sldCriteriaBottomRange.Minimum)
@@ -635,7 +631,6 @@ namespace RubricNorming
                         txtBoxTitle.Text = _rubricVM.Name;
                         txtBoxDescription.Text = _rubricVM.Description;
                         cmbBoxScoreTypes.SelectedItem = _rubricVM.ScoreTypeID;
-
                     }
                     catch (Exception ex)
                     {
