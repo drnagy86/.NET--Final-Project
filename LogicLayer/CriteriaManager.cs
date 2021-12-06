@@ -71,7 +71,6 @@ namespace LogicLayer
         }
 
 
-
         public Dictionary<Criteria, Criteria> GetDictionaryOfDifferentCriteria(Dictionary<Facet, List<Criteria>> oldFacetCriteria, Dictionary<Facet, List<Criteria>> newFacetCriteria)
         {
             Dictionary<Criteria, Criteria> differentCriteria = new Dictionary<Criteria, Criteria>();
@@ -236,7 +235,7 @@ namespace LogicLayer
         public bool UpdateSingleCriteriaByCriteria(Criteria oldCriteria, Criteria newCriteria)
         {
             bool result = false;
-            int rowsAffected = 0;           
+            int rowsAffected = 0;
 
             bool differentCriteriaID = oldCriteria.CriteriaID != newCriteria.CriteriaID;
             bool differentContent = oldCriteria.Content != newCriteria.Content;
@@ -250,6 +249,17 @@ namespace LogicLayer
                 catch (Exception ex)
                 {
                     throw ex;
+                }
+            }
+            else if (differentCriteriaID && !differentContent)
+            {
+                try
+                {
+                    rowsAffected = UpdateCriteriaByCriteriaID(oldCriteria.RubricID, oldCriteria.FacetID, oldCriteria.CriteriaID, newCriteria.CriteriaID, oldCriteria.Content, oldCriteria.Content);
+                }
+                catch (Exception ex)
+                {
+                    throw;
                 }
             }
 

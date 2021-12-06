@@ -198,5 +198,24 @@ namespace DataAccessFakes
             return rubrics;
 
         }
+
+        public int UpdateRubricByRubricID(int rubricID, string oldName, string newName, string oldDescription, string newDescription, string oldScoreType, string newScoreType)
+        {
+            int rowsAffected = 0;
+
+            foreach (Rubric rubric in _fakeRubrics)
+            {
+                if (rubric.RubricID == rubricID && rubric.Name == oldName && rubric.Description == oldDescription && rubric.ScoreTypeID == oldScoreType)
+                {
+                    rubric.Name = newName;
+                    rubric.Description = newDescription;
+                    rubric.ScoreTypeID = newScoreType;
+                    rowsAffected++;
+                    break;
+                }
+            }
+
+            return rowsAffected;
+        }
     }
 }

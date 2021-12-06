@@ -313,6 +313,52 @@ namespace LogicLayerTests
         }
 
 
+        [TestMethod]
+        public void TestUpdateRubricByRubricIDReturnsTrueOnSuccessfulUpdate()
+        {
+            // arrange
+            const int rubricID = 100000;
+            const string oldName = "Test Rubric";
+            const string newName = "Change";
+            const string oldDescription = "A long description of the rubric.";
+            const string newDescription = "Changed Description";
+            const string oldScoreType = "Percentage";
+            const string newScoreType = "Avg. Facet Score Round Down";
+            const bool expected = true;
+            bool actual;
+
+
+            // act
+            actual = rubricManager.UpdateRubricByRubricID(rubricID, oldName, newName, oldDescription, newDescription, oldScoreType, newScoreType);
+
+            // assert
+            Assert.AreEqual(expected, actual);
+
+        }
+
+
+        [TestMethod]
+        public void TestUpdateRubricByRubricIDReturnsFalseWhenNoUpdateOccurs()
+        {
+            // arrange
+            const int rubricID = 100001;
+            const string oldName = "Test Rubric";
+            const string newName = "Change";
+            const string oldDescription = "A long description of the rubric.";
+            const string newDescription = "Changed Description";
+            const string oldScoreType = "Percentage";
+            const string newScoreType = "Avg. Facet Score Round Down";
+            const bool expected = false;
+            bool actual;
+
+
+            // act
+            actual = rubricManager.UpdateRubricByRubricID(rubricID, oldName, newName, oldDescription, newDescription, oldScoreType, newScoreType);
+
+            // assert
+            Assert.AreEqual(expected, actual);
+
+        }
 
     }
 }

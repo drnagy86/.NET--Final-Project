@@ -14,5 +14,9 @@ namespace DataAccessInterFaces
         int InsertRubric(string name, string description, string scoreType, string rubricCreator);
         Rubric SelectRubricByRubricDetials(string name, string description, string scoreType, string rubricCreator);
 
+        int UpdateRubricByRubricID(int rubricID, string oldName, string newName, string oldDescription, string newDescription, string oldScoreType, string newScoreType);
+
+
+
     }
 }

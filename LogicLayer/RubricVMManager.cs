@@ -139,6 +139,9 @@ namespace LogicLayer
             return criteriaList;
         }
 
-
+        public bool UpdateRubricByRubricID(int rubricID, string oldName, string newName, string oldDescription, string newDescription, string oldScoreType, string newScoreType)
+        {
+            return _rubricManager.UpdateRubricByRubricID(rubricID, oldName, newName, oldDescription, newDescription, oldScoreType, newScoreType);
+        }
     }
 }

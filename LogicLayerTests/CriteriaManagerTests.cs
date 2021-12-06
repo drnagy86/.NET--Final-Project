@@ -26,6 +26,8 @@ namespace LogicLayerTests
         {
             _criteriaManager = new CriteriaManager(new CriteriaAccessorFake());
 
+            // to make arranging easier
+            
             _oldFacetCriteria = new Dictionary<Facet, List<Criteria>>();
 
             _oldCriteriaList = new List<Criteria>();
@@ -475,5 +477,18 @@ namespace LogicLayerTests
             Assert.AreEqual(expected, actual);
         }
 
+        [TestMethod]
+        public void TestUpdateSingleCriteriaByCriteriaOnlyChangesCriteriaIDReturnsTrue()
+        {
+            // arrange
+            _newCriteriaList[1].CriteriaID = "Changed Value";
+            const bool expected = true;
+
+            // act
+            bool actual = _criteriaManager.UpdateSingleCriteriaByCriteria(_oldCriteriaList[1], _newCriteriaList[1]);
+
+            // assert
+            Assert.AreEqual(expected, actual);
+        }
     }
 }
