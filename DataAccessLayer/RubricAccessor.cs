@@ -243,5 +243,48 @@ namespace DataAccessLayer
 
             return rubrics;
         }
+
+        public int UpdateRubricByRubricID(int rubricID, string oldName, string newName, string oldDescription, string newDescription, string oldScoreType, string newScoreType)
+        {
+            int rowsAffected = 0;
+
+            // connection
+            var conn = DBConnection.GetConnection();
+
+            string cmdTxt = "sp_update_rubric_by_rubric_id";
+            var cmd = new SqlCommand(cmdTxt, conn);
+
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@RubricID", rubricID);
+            cmd.Parameters.AddWithValue("@OldName", oldName);
+            cmd.Parameters.AddWithValue("OldDescription", oldDescription);
+            cmd.Parameters.AddWithValue("OldScoreTypeID", oldScoreType);
+
+            cmd.Parameters.Add("@NewName", SqlDbType.NVarChar, 50);
+            cmd.Parameters.Add("@NewDescription", SqlDbType.NVarChar, 100);
+            cmd.Parameters.Add("@NewScoreTypeID", SqlDbType.NVarChar, 50);
+
+            cmd.Parameters["@NewName"].Value = newName;
+            cmd.Parameters["@NewDescription"].Value = newDescription;
+            cmd.Parameters["@NewScoreTypeID"].Value = newScoreType;
+            
+
+            try
+            {
+                conn.Open();
+                rowsAffected = cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return rowsAffected;
+
+        }
     }
 }

@@ -13,7 +13,7 @@ namespace RubricNorming
         {
             bool isValid = false;
 
-            if (stringToTest.Length <= maxLength)
+            if (stringToTest.Length <= maxLength || stringToTest == "" || stringToTest == null)
             {
                 isValid = true;
             }

@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         x:Name="frmMainWindow"
         Title="Rubric Norming" Height="900" Width="1200" WindowStartupLocation="CenterScreen" Loaded="frmMainWindow_Loaded"  WindowState="Maximized" >
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
@@ -27,9 +28,9 @@
 
             </MenuItem>
             <MenuItem x:Name="mnuEdit" Header="Edit" >
-                <MenuItem x:Name="mnuEditSelection" Header="Edit Selected Rubric"></MenuItem>
-                <MenuItem x:Name="mnuConfirmUpdatesToRubric" Header="Update Rubric" Click="mnuConfirmUpdatesToRubric_Click"/>
-                <MenuItem x:Name="mnuCancelUpdatesToRubric" Header="Cancel Updates" Click="mnuCancelUpdatesToRubric_Click" />
+                <MenuItem x:Name="mnuEditSelection" Header="Edit Current Rubric" IsEnabled="False" Click="mnuEditSelection_Click" ></MenuItem>
+                <MenuItem x:Name="mnuConfirmUpdatesToRubric" Header="Save Rubric" Click="mnuConfirmUpdatesToRubric_Click" Visibility="Collapsed"/>
+                <MenuItem x:Name="mnuCancelUpdatesToRubric" Header="Cancel Changes" Click="mnuCancelUpdatesToRubric_Click" Visibility="Collapsed"/>
             </MenuItem>
 
             <MenuItem x:Name="mnuCreate" Header="Create">
@@ -61,8 +62,9 @@
                 <StackPanel x:Name="stkCreateRubric" Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
                     
                     <Button x:Name="btnCreateNewRubric" Content="New Rubric" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Padding="2" Click="mnuCreateNewRubric_Click"/>
-                    <Button x:Name="btnSave" Content="Save"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Padding="2" Click="btnSave_Click"/>
-                    <Button x:Name="btnCancel" Content="Remove Changes" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Padding="2" Click="btnCancel_Click"/>
+                    <Button x:Name="btnEditSelection" Content="Edit Selected Rubric" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Padding="2" Visibility="Collapsed" Click="mnuEditSelection_Click"/>
+                    <Button x:Name="btnSave" Content="Save Rubric"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Padding="2" Click="btnSave_Click" Visibility="Collapsed"/>
+                    <Button x:Name="btnCancel" Content="Cancel Changes" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Padding="2" Click="btnCancel_Click" Visibility="Collapsed"/>
                     <!--<Label Content="Create Rubric Controls" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="10"/>-->
                     
                 </StackPanel>
@@ -198,15 +200,13 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Vertical" >
-                                        <Label Content="{Binding Key.FacetID}"/>
+                                        <Label Content="{Binding Key.FacetID}" ToolTip="{Binding Key.Description}"/>                                        
                                         <ItemsControl ItemsSource="{Binding Value}" >
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate>
                                                     <StackPanel Orientation="Vertical">
-
-                                                        <TextBox Height="25" Width="150" Text="{Binding CriteriaID}" TextAlignment="Center" FontWeight="Bold" TextWrapping="Wrap"/>
-                                                        <TextBox Height="125" Width="150" Text="{Binding Content}" TextWrapping="Wrap"/>
-
+                                                        <TextBox Height="25" Width="150" Text="{Binding CriteriaID}" TextAlignment="Center" FontWeight="Bold" TextWrapping="Wrap" TextChanged="TextBox_TextChanged" />
+                                                        <TextBox Height="125" Width="150" Text="{Binding Content}" TextWrapping="Wrap" TextChanged="TextBox_TextChanged_1"/>
                                                     </StackPanel>
                                                 </DataTemplate>
                                             </ItemsControl.ItemTemplate>
@@ -266,7 +266,7 @@
                         <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" x:Name="txtBoxTitle" Margin="10" VerticalContentAlignment="Center" Padding="5,0,0,0"></TextBox>
 
                         <Label Grid.Row="3" Grid.Column="0" x:Name="lblDescription"  HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0, 10, 0, 0">Description:</Label>
-                        <TextBox Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="1" x:Name="txtBoxDescription" Margin="10px" Padding="5,5,0,0"></TextBox>
+                        <TextBox Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="1" x:Name="txtBoxDescription" Margin="10px" Padding="5,5,0,0" TextWrapping="Wrap"></TextBox>
 
 
                         <Label Grid.Row="4" Grid.Column="0" x:Name="lblScoreType" HorizontalAlignment="Right" VerticalAlignment="Center">Score Type:</Label>
@@ -445,7 +445,7 @@
 
         <StatusBar Grid.Row="5">
             <StatusBarItem x:Name="staMessage" Content="Welcome. Please log in to continue." 
-                           Padding="20px, 0px"/>
+                           Padding="20px, 0px" />
         </StatusBar>
     </Grid>
 </Window>

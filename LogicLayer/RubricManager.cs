@@ -119,8 +119,20 @@ namespace LogicLayer
             return rubric;
         }
 
+        public bool UpdateRubricByRubricID(int rubricID, string oldName, string newName, string oldDescription, string newDescription, string oldScoreType, string newScoreType)
+        {
+            bool result;
 
+            try
+            {
+                result = (1 == _rubricAccessor.UpdateRubricByRubricID(rubricID, oldName, newName, oldDescription, newDescription, oldScoreType, newScoreType));
+            }
+            catch (Exception ex)
+            {   
+                throw ex;
+            }            
 
-
+            return result;
+        }
     }
 }

@@ -23,7 +23,7 @@ namespace RubricNorming
         ScoreTypeManager _scoreTypeManager = null;
         FacetTypeManager _facetTypeManager = null;
 
-        CreateOrUpdateMode _createOrUpdateMode;
+        UIState _currentUIState;
 
         //try to get rid of this guy
         IRubricManager<Rubric> _rubricManager = null;
@@ -35,6 +35,10 @@ namespace RubricNorming
 
         Rubric _rubric = null;
         RubricVM _rubricVM = null;
+        RubricVM _oldRubricVM = null;
+
+        bool _criteriaIDChangedFlag = false;
+        bool _criteriaContentsChangedFlag = false;
 
         public MainWindow()
         {
@@ -323,6 +327,8 @@ namespace RubricNorming
 
         private void viewAllActiveRubrics()
         {
+            setCurrentUIState(UIState.View);
+
             tabsetCreateControls.Visibility = Visibility.Hidden;
 
             List<Rubric> rubricList = null;
@@ -426,39 +432,45 @@ namespace RubricNorming
         {
             viewAllActivateFacets();
         }
-        //private void mnuRetrieveFacetsByRubricID_Click(object sender, RoutedEventArgs e)
-        //{
-        //    preparegrdCreateControlsForRetrieveFacetsByRubricID();
-        //}
 
-        //private void mnuRetrieveCriteriaByRubricID_Click(object sender, RoutedEventArgs e)
-        //{
-        //    //preparegrdCreateControlsForRetrieveCriteriaByRubicID();
-        //}
-
-        private void datViewList_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void datViewList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-
+            
             _rubric = (Rubric)datViewList.SelectedItem;
 
             try
             {
                 // errors with fakes here
                 _rubricVM = _rubricVMManager.RetrieveRubricByRubricID(_rubric.RubricID);
+                
+                staMessage.Content = "Viewing the rubric. Click Edit Rubric if you would like to make changes.";
+                
+                rubricVMDetailView();
 
+                txtBoxTitle.Text = _rubricVM.Name;
+                txtBoxDescription.Text = _rubricVM.Description;
+                cmbBoxScoreTypes.SelectedItem = _rubricVM.ScoreTypeID;
+
+                foreach (ScoreType scoreType in _scoreTypes)
+                {
+                    if (scoreType.ScoreTypeID == _rubricVM.ScoreTypeID)
+                    {
+                        txtBlockScoreTypeDescription.Text = scoreType.Description;
+                        break;
+                    }
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Problem retrieving the single rubric." + ex.Message);
+                staMessage.Content = "Problem retrieving the single rubric." + ex.Message;
+                viewAllActiveRubrics();
             }
-            rubricVMDetailView();
-
-            _createOrUpdateMode = CreateOrUpdateMode.Edit;
-
         }
 
         private void rubricVMDetailView()
         {
+            setCurrentUIState(UIState.View);
 
             datViewList.Visibility = Visibility.Hidden;
             toggleListAndDetails();
@@ -468,24 +480,38 @@ namespace RubricNorming
             this.DataContext = _rubricVM;
             icFacetCriteria.ItemsSource = _rubricVM.FacetCriteria;
             icScores.ItemsSource = _rubricVM.RubricScoreColumn();
-
         }
 
         private void toggleListAndDetails()
         {
             if (datViewList.Visibility == Visibility.Visible)
             {
-                btnSave.Visibility = Visibility.Hidden;
-                btnCancel.Visibility = Visibility.Hidden;
+                //btnSave.Visibility = Visibility.Hidden;
+                //btnCancel.Visibility = Visibility.Hidden;
                 //lblActionAreaTitle.Visibility = Visibility.Visible;
+
+                mnuEditSelection.IsEnabled = false;
+                btnEditSelection.Visibility = Visibility.Collapsed;
+                btnSave.Visibility = Visibility.Collapsed;
+                btnCancel.Visibility = Visibility.Collapsed;
+                mnuConfirmUpdatesToRubric.Visibility = Visibility.Collapsed;
+                mnuCancelUpdatesToRubric.Visibility = Visibility.Collapsed;
+
+                tabsetCreateControls.Visibility = Visibility.Collapsed;
+
                 icFacetCriteria.Visibility = Visibility.Hidden;
                 icScores.Visibility = Visibility.Hidden;
             }
             else
             {
-                btnSave.Visibility = Visibility.Visible;
-                btnCancel.Visibility = Visibility.Visible;
+                //btnSave.Visibility = Visibility.Visible;
+                //btnCancel.Visibility = Visibility.Visible;
                 //lblActionAreaTitle.Visibility = Visibility.Visible;
+                mnuEditSelection.IsEnabled = true;
+                btnEditSelection.Visibility = Visibility.Visible;
+
+                tabsetCreateControls.Visibility = Visibility.Visible;
+
                 icFacetCriteria.Visibility = Visibility.Visible;
                 icScores.Visibility = Visibility.Visible;
             }
@@ -520,11 +546,14 @@ namespace RubricNorming
             catch (Exception ex)
             {
                 MessageBox.Show("There was a problem creating the rubric.\n" + ex.Message, "Problem Creating Rubric");
+                staMessage.Content = "There was a problem creating the rubric. " + ex.Message;
             }
 
             sldCriteriaBottomRange.Value = 1;
             sldCriteriaTopRange.Value = 4;
-            _createOrUpdateMode = CreateOrUpdateMode.Create;
+
+            setCurrentUIState(UIState.Create);
+
         }
 
 
@@ -538,6 +567,7 @@ namespace RubricNorming
             catch (Exception ex)
             {
                 MessageBox.Show("There was a problem creating this facet.\n" + ex.Message, "Problem Creating Rubric");
+                staMessage.Content = "There was a problem creating this facet. " + ex.Message;
             }
 
             try
@@ -548,6 +578,7 @@ namespace RubricNorming
             {
 
                 MessageBox.Show("There was a problem creating the rubric.\n" + ex.Message, "Problem Creating Rubric");
+                staMessage.Content = "There was a problem creating the rubric. " + ex.Message;
             }
 
             rubricVMDetailView();
@@ -579,11 +610,6 @@ namespace RubricNorming
             }
         }
 
-        //private void btnCreateFacetNext_Click(object sender, RoutedEventArgs e)
-        //{
-        //    tabCriteria.Focus();
-        //}
-
         private void mnuCancelUpdatesToRubric_Click(object sender, RoutedEventArgs e)
         {
             cancelUpdatesToRubric();
@@ -605,10 +631,16 @@ namespace RubricNorming
                         this.DataContext = _rubricVM;
                         icFacetCriteria.ItemsSource = _rubricVM.FacetCriteria;
                         icScores.ItemsSource = _rubricVM.RubricScoreColumn();
+
+                        txtBoxTitle.Text = _rubricVM.Name;
+                        txtBoxDescription.Text = _rubricVM.Description;
+                        cmbBoxScoreTypes.SelectedItem = _rubricVM.ScoreTypeID;
+
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("Problem retrieving old rubric" + ex.Message);
+                        MessageBox.Show("Problem retrieving old rubric \n" + ex.Message);
+                        staMessage.Content = "Problem retrieving old rubric \n" + ex.Message;
                     }
                     break;
                 case MessageBoxResult.Cancel:
@@ -620,19 +652,30 @@ namespace RubricNorming
 
         private void UpdateRubric()
         {
-            RubricVM oldRubricVM = _rubricVMManager.RetrieveRubricByRubricID(_rubric.RubricID);
+            
+            try
+            {
+                _oldRubricVM = _rubricVMManager.RetrieveRubricByRubricID(_rubric.RubricID);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("There was a problem updating the rubric.\n" + ex.Message, "Problem Updating Rubric");
+                staMessage.Content = "There was a problem creating the rubric. " + ex.Message;
+            }
 
-            // not great, but removes focus if the event is trigger while the cursor is in the box
+
+            // not great, but removes focus if the event is triggered while the cursor is in the box
             pwdPassword.Focus();
 
-            //RubricVM oldRubricVM = createRubricVM(_rubric);            
+            // find out if there were changes or not, send to the right place
 
-            if (isValidFacetCriteriaDictionary())
+            if (isValidRubricUpdate())
             {
                 string resultMessage = "";
                 try
                 {
-                    bool result = _criteriaManager.UpdateCriteriaByCriteriaFacetDictionary(oldRubricVM.FacetCriteria, _rubricVM.FacetCriteria);
+                    bool result = _rubricManager.UpdateRubricByRubricID(_oldRubricVM.RubricID, _oldRubricVM.Name, txtBoxTitle.Text, _oldRubricVM.Description, txtBoxDescription.Text, _oldRubricVM.ScoreTypeID, cmbBoxScoreTypes.SelectedItem.ToString());
+
                     if (result)
                     {
                         resultMessage = "Successfully updated rubric.";
@@ -647,7 +690,53 @@ namespace RubricNorming
                     resultMessage = "There was a problem updating:\n " + ex.Message;
                 }
                 MessageBox.Show(resultMessage);
+                staMessage.Content = resultMessage.Replace('\n', ' ');
             }
+
+            if (isValidFacetCriteriaDictionary() && (_criteriaIDChangedFlag || _criteriaContentsChangedFlag))
+            {
+                string resultMessage = "";
+                try
+                {
+                    bool result = _criteriaManager.UpdateCriteriaByCriteriaFacetDictionary(_oldRubricVM.FacetCriteria, _rubricVM.FacetCriteria);
+                    
+                    resultMessage = "Successfully updated rubric.";
+                    _criteriaContentsChangedFlag = _criteriaIDChangedFlag = false;
+
+                }
+                catch (Exception ex)
+                {
+                    resultMessage = "There was a problem updating:\n " + ex.Message;
+                }
+                MessageBox.Show(resultMessage);
+                staMessage.Content = resultMessage.Replace('\n', ' ');
+            }
+        }
+
+        private bool isValidRubricUpdate()
+        {
+            bool isValid = true;
+
+            // see if there were any changes
+            bool changedName = txtBoxTitle.Text == _oldRubricVM.Name; 
+            bool changedDescription = txtBoxDescription.Text == _oldRubricVM.Description;
+            bool changedScoreType = cmbBoxScoreTypes.SelectedItem.ToString() == _oldRubricVM.ScoreTypeID;
+
+            if (changedName && changedDescription && changedScoreType)
+            {
+                isValid = false;
+                return isValid;
+            }
+
+            bool isValidTitle = !ValidationHelpers.IsValidLength(txtBoxTitle.Text, 50);
+            bool isValidDescription = !ValidationHelpers.IsValidLength(txtBoxDescription.Text, 100);
+
+            if (isValidTitle && isValidDescription)
+            {
+                isValid = false;
+            }
+
+            return isValid;
         }
 
         private bool isValidFacetCriteriaDictionary()
@@ -660,31 +749,31 @@ namespace RubricNorming
                     if (!criteria.CriteriaID.IsValidLength(50))
                     {
                         MessageBox.Show("The criteria name of:\n" + criteria.CriteriaID + "\nis too long. Please shorten.", "Criteria Name Too Long");
+                        staMessage.Content = "The criteria name of: " + criteria.CriteriaID + " is too long. Please shorten.";
                         isValid = false;
                         break;
                     }
                     if (!criteria.Content.IsValidLength(255))
                     {
                         MessageBox.Show("The criteria content of:\n" + criteria.Content + "\nis too long. Please shorten.", "Criteria Content Too Long");
+                        staMessage.Content = "The criteria content of: " + criteria.Content + " is too long. Please shorten.";
                         isValid = false;
                         break;
                     }
                 }
             }
 
-
-
             return isValid;
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            switch (_createOrUpdateMode)
+            switch (_currentUIState)
             {
-                case CreateOrUpdateMode.Create:
+                case UIState.Create:
                     addFacetCriteriaDictionaryToDB();
                     break;
-                case CreateOrUpdateMode.Edit:
+                case UIState.Edit:
                     UpdateRubric();
                     break;
                 default:
@@ -694,12 +783,12 @@ namespace RubricNorming
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
-            switch (_createOrUpdateMode)
+            switch (_currentUIState)
             {
-                case CreateOrUpdateMode.Create:
+                case UIState.Create:
 
                     break;
-                case CreateOrUpdateMode.Edit:
+                case UIState.Edit:
                     cancelUpdatesToRubric();
                     break;
                 default:
@@ -721,13 +810,14 @@ namespace RubricNorming
                 catch (Exception ex)
                 {
                     MessageBox.Show("Problem saving facets and criteria.\n" + ex.Message);
+                    staMessage.Content ="Problem saving facets and criteria. " + ex.Message;
                 }
             }
 
             if (isAdded)
             {
                 MessageBox.Show("Successfully saved the rubric.");
-                
+                staMessage.Content = "Successfully saved the rubric.";
             }
 
             icScores.Visibility = Visibility.Visible;
@@ -740,12 +830,11 @@ namespace RubricNorming
             try
             {
                 _rubricVM = _rubricVMManager.RetrieveRubricByNameDescriptionScoreTypeIDRubricCreator(txtBoxTitle.Text, txtBoxDescription.Text, cmbBoxScoreTypes.SelectedItem.ToString(), _user.UserID);
-                
             }
             catch (Exception ex)
             {
-
                 MessageBox.Show("There was a problem creating the rubric.\n" + ex.Message, "Problem Creating Rubric");
+                staMessage.Content = "There was a problem creating the rubric. " + ex.Message;
             }
 
             foreach (var entry in _rubricVM.FacetCriteria)
@@ -805,11 +894,97 @@ namespace RubricNorming
 
             txtBoxTitle.Focus();
         }
+
+        private void mnuEditSelection_Click(object sender, RoutedEventArgs e)
+        {            
+            //buttons and menu options are availiable
+            staMessage.Content = "Make desired changes to the rubric. Click save or cancel when finished.";
+            btnEditSelection.Visibility = Visibility.Collapsed;
+            btnSave.Visibility = Visibility.Visible;
+            btnCancel.Visibility = Visibility.Visible;
+            mnuConfirmUpdatesToRubric.Visibility = Visibility.Visible;
+            mnuCancelUpdatesToRubric.Visibility = Visibility.Visible;
+
+            setCurrentUIState(UIState.Edit);
+            // change it so that all fields can be edited and not just viewed
+
+        }
+
+        private void setCurrentUIState(UIState uiState)
+        {
+            _currentUIState = uiState;
+
+            switch (_currentUIState)
+            {
+                case UIState.Create:
+                    break;
+                case UIState.Edit:
+
+                    tabCreate.Header = "Rubric Details";
+                    txtblkInstructions.Text = "Information about the rubric.";
+                    txtBlkTagTitle.Text = "Tags";
+                    txtBlkTags.Text = "Short descriptive tags that give information about the rubric.";
+
+                    txtBoxTitle.IsReadOnly = false;
+                    txtBoxDescription.IsReadOnly = false;
+                    cmbBoxScoreTypes.IsEnabled = true;
+
+                    txtBoxGradeLevel.IsReadOnly = false;
+                    txtBoxCourse.IsReadOnly = false;
+                    txtBoxUnit.IsReadOnly = false;
+                    txtBoxSubject.IsReadOnly = false;
+
+
+                    btnCreateRubricNext.Visibility = Visibility.Hidden;
+                    tabFacets.Visibility = Visibility.Collapsed;
+
+                    icFacetCriteria.IsEnabled = true;
+
+                    break;
+
+                case UIState.View:
+
+                    tabCreate.Header = "Rubric Details";
+                    txtblkInstructions.Text = "Information about the rubric.";
+                    txtBlkTagTitle.Text = "Tags";
+                    txtBlkTags.Text = "Short descriptive tags that give information about the rubric.";
+
+                    txtBoxTitle.IsReadOnly = true;
+                    txtBoxDescription.IsReadOnly = true;
+                    cmbBoxScoreTypes.IsEnabled = false;
+
+                    txtBoxGradeLevel.IsReadOnly = true;
+                    txtBoxCourse.IsReadOnly = true;
+                    txtBoxUnit.IsReadOnly = true;
+                    txtBoxSubject.IsReadOnly = true;
+
+
+                    btnCreateRubricNext.Visibility = Visibility.Hidden;
+                    tabFacets.Visibility = Visibility.Collapsed;
+
+                    icFacetCriteria.IsEnabled = false;
+
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            _criteriaContentsChangedFlag = true;
+        }
+
+        private void TextBox_TextChanged_1(object sender, TextChangedEventArgs e)
+        {
+            _criteriaContentsChangedFlag = true;
+        }
     }
 
-    enum CreateOrUpdateMode
+    internal enum UIState
     {
         Create,
-        Edit
+        Edit,
+        View
     }
 }

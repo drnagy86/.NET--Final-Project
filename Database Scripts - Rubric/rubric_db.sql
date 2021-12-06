@@ -109,8 +109,8 @@ INSERT INTO [dbo].[UserRole](
 	,('martin@company.com', 'Assessor')
 	,('ahmed@company.com', 'Norming Trainee')
 	,('leo@company.com', 'Norming Trainee')
-	,('maria@company.com', 'Norming Trainee')
 	,('maria@company.com', 'Assessor')
+	,('maria@company.com', 'Norming Trainee')
 
 GO
 
@@ -761,13 +761,36 @@ AS
 GO
 
 
-
-
-
-
-
-
-
+/*
+sp_update_rubric_by_rubric_id	IRubricAccessor
+*/
+print '' print '*** creating sp_update_rubric_by_rubric_id ***'
+GO
+CREATE PROCEDURE [dbo].[sp_update_rubric_by_rubric_id]
+(
+	@RubricID			int
+	,@OldName			nvarchar(50)
+	,@OldDescription		nvarchar(100)
+	,@NewName			nvarchar(50)
+	,@NewDescription		nvarchar(100)
+	,@OldScoreTypeID		nvarchar(50)
+	,@NewScoreTypeID		nvarchar(50)
+)
+AS
+	BEGIN
+		UPDATE [Rubric]
+		SET 
+			[Name] = @NewName
+			,[Description] = @NewDescription
+			,[DateUpdated] = CURRENT_TIMESTAMP
+			,[ScoreTypeID] = @NewScoreTypeID			
+		WHERE 
+			[Name] = @OldName
+			AND [Description] = @OldDescription
+			AND [ScoreTypeID] = @OldScoreTypeID
+		RETURN @@ROWCOUNT
+	END	
+GO
 
 
 
