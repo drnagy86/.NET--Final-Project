@@ -387,9 +387,7 @@
                                 </Grid.ColumnDefinitions>
                                 <Slider x:Name="sldCriteriaBottomRange" Grid.Row="0" Grid.Column="0" Margin="10" VerticalAlignment="Center" Minimum="0" Maximum="8" TickPlacement="BottomRight" IsSnapToTickEnabled="True" ValueChanged="sldCriteriaBottomRange_ValueChanged" Value="1"/>
                                 <TextBox x:Name="txtBoxCriteriaBottomRange" Grid.Row="0" Grid.Column="1" Text="{Binding ElementName=sldCriteriaBottomRange, Path=Value, UpdateSourceTrigger=PropertyChanged}"   Margin="10"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Width="20" />
-
                             </Grid>
-
 
                             <Label x:Name="lblCriteriaTopRange" Grid.Row="3" Content="Choose the top range for criteria scores" HorizontalContentAlignment="Left" Margin="10" VerticalContentAlignment="Center" Grid.ColumnSpan="2"/>
 
@@ -416,19 +414,111 @@
 
                                 <Button x:Name="btnCriteriaBack" Content="Back" Grid.Row="0"  Grid.Column="0" Margin="10,5"/>
                                 <Button x:Name="btnScoreRangeAdd" Content="Add Range" Grid.Row="0" Grid.Column="1" Margin="10,5" Click="btnScoreRangeAdd_Click" />
-
-
                             </Grid>
-
-
-
-
                         </Grid>
-
                     </Grid>
-
                 </TabItem>
 
+                <TabItem x:Name="tabFacetDetailView" Header="Facets">
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock x:Name="txtblkFacetTabTitle" Grid.Row="0" TextWrapping="Wrap" TextAlignment="Left" FontSize="14" FontWeight="Bold" Margin="10" >Facets for the Rubric</TextBlock>
+                        <TextBlock x:Name="txtblkFacetTabInstructions" Grid.Row="1" TextWrapping="Wrap" TextAlignment="Left"  Margin="10, 0, 10, 10" Text="Details about the facets for the rubric."></TextBlock>
+
+                        <ScrollViewer Grid.Row="2">
+                            <ItemsControl x:Name="icFacetControls">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Vertical"></StackPanel>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+
+                                        <Grid Margin="10">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition/>
+                                                <RowDefinition/>
+                                                <RowDefinition Height="50"/>
+                                                <RowDefinition/>
+
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <Grid Grid.Row="0" Grid.Column="0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <Label Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Content="Facet Name:" Margin="0,0,5,0"/>
+                                                <Label Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Content="{Binding FacetID}" Margin="5,0,0,0"/>
+                                            </Grid>
+
+                                            <Grid Grid.Row="0" Grid.Column="1">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <Label Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Content="Date Created:" Margin="0,0,5,0"/>
+                                                <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Text="{Binding DateCreated, StringFormat=\{0:MM/dd/yy\}}" Margin="5,0,0,0"/>
+                                            </Grid>
+
+                                            <Grid Grid.Row="1" Grid.Column="0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <Label Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Content="Facet Type:" Margin="0,0,5,0"/>
+                                                <Label Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Content="{Binding FacetType}" Margin="5,0,0,0"/>
+                                            </Grid>
+
+                                            <Grid Grid.Row="1" Grid.Column="1">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <Label Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Content="Last Update:" Margin="0,0,5,0"/>
+                                                <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Text="{Binding DateUpdated, StringFormat=\{0:MM/dd/yy\}}" Margin="5,0,0,0"/>
+                                            </Grid>
+                                            <!--{StringFormat=\{0:MM/dd/yy\}-->
+
+                                            <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" >
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <Label Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Top" Content="Description:" Margin="0,0,5,0"/>
+                                                <TextBox Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Description}" Padding="5,5,0,0" TextWrapping="Wrap" Margin="2,0,0,0"/>
+                                            </Grid>
+
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                        
+                    </Grid>
+                </TabItem>
             </TabControl>
 
 
