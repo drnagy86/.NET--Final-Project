@@ -39,6 +39,7 @@ namespace RubricNorming
 
         bool _criteriaIDChangedFlag = false;
         bool _criteriaContentsChangedFlag = false;
+        bool _facetDescriptionContentChangedFlag = false;
 
         public MainWindow()
         {
@@ -477,6 +478,8 @@ namespace RubricNorming
 
             lblActionAreaTitle.Content = _rubricVM.Name;
 
+            tabCreate.Focus();
+
             this.DataContext = _rubricVM;
             icFacetCriteria.ItemsSource = _rubricVM.FacetCriteria;
             icScores.ItemsSource = _rubricVM.RubricScoreColumn();
@@ -519,7 +522,7 @@ namespace RubricNorming
 
         private void mnuConfirmUpdatesToRubric_Click(object sender, RoutedEventArgs e)
         {
-            UpdateRubric();
+            updateRubric();
         }
 
         private void mnuExit_Click(object sender, RoutedEventArgs e)
@@ -627,6 +630,7 @@ namespace RubricNorming
                         this.DataContext = _rubricVM;
                         icFacetCriteria.ItemsSource = _rubricVM.FacetCriteria;
                         icScores.ItemsSource = _rubricVM.RubricScoreColumn();
+                        icFacetControls.ItemsSource = _rubricVM.Facets;
 
                         txtBoxTitle.Text = _rubricVM.Name;
                         txtBoxDescription.Text = _rubricVM.Description;
@@ -634,8 +638,8 @@ namespace RubricNorming
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("Problem retrieving old rubric \n" + ex.Message);
-                        staMessage.Content = "Problem retrieving old rubric \n" + ex.Message;
+                        MessageBox.Show("Problem retrieving old rubric \n " + ex.Message + " ");
+                        staMessage.Content = "Problem retrieving old rubric " + ex.Message + " ";
                     }
                     break;
                 case MessageBoxResult.Cancel:
@@ -645,17 +649,16 @@ namespace RubricNorming
             }
         }
 
-        private void UpdateRubric()
-        {
-            
+        private void updateRubric()
+        {            
             try
             {
                 _oldRubricVM = _rubricVMManager.RetrieveRubricByRubricID(_rubric.RubricID);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("There was a problem updating the rubric.\n" + ex.Message, "Problem Updating Rubric");
-                staMessage.Content = "There was a problem creating the rubric. " + ex.Message;
+                MessageBox.Show("There was a problem updating the rubric.\n " + ex.Message + " ", "Problem Updating Rubric");
+                staMessage.Content = "There was a problem creating the rubric. " + ex.Message + " ";
             }
 
 
@@ -663,49 +666,80 @@ namespace RubricNorming
             pwdPassword.Focus();
 
             // find out if there were changes or not, send to the right place
+            string resultMessage = "";
+            bool rubricUpdated = false;
+            bool facetCriteriaDictionaryUpdated = false;
+            bool facetDescriptionUpdated = false;
 
             if (isValidRubricUpdate())
             {
-                string resultMessage = "";
+                
                 try
                 {
-                    bool result = _rubricManager.UpdateRubricByRubricID(_oldRubricVM.RubricID, _oldRubricVM.Name, txtBoxTitle.Text, _oldRubricVM.Description, txtBoxDescription.Text, _oldRubricVM.ScoreTypeID, cmbBoxScoreTypes.SelectedItem.ToString());
+                    rubricUpdated = _rubricManager.UpdateRubricByRubricID(_oldRubricVM.RubricID, _oldRubricVM.Name, txtBoxTitle.Text, _oldRubricVM.Description, txtBoxDescription.Text, _oldRubricVM.ScoreTypeID, cmbBoxScoreTypes.SelectedItem.ToString());
 
-                    if (result)
+                    if (rubricUpdated)
                     {
-                        resultMessage = "Successfully updated rubric.";
+                        resultMessage += "Successfully updated rubric. ";
                     }
                     else
                     {
-                        resultMessage = "Did not update the rubric.";
+                        resultMessage += "Did not update the rubric. ";
                     }
                 }
                 catch (Exception ex)
                 {
-                    resultMessage = "There was a problem updating:\n " + ex.Message;
+                    resultMessage += "There was a problem updating:\n " + ex.Message + " ";
                 }
-                MessageBox.Show(resultMessage);
-                staMessage.Content = resultMessage.Replace('\n', ' ');
+                //MessageBox.Show(resultMessage);
+                //staMessage.Content = resultMessage.Replace('\n', ' ');
             }
 
             if (isValidFacetCriteriaDictionary() && (_criteriaIDChangedFlag || _criteriaContentsChangedFlag))
             {
-                string resultMessage = "";
+                //string resultMessage = "";
                 try
                 {
-                    bool result = _criteriaManager.UpdateCriteriaByCriteriaFacetDictionary(_oldRubricVM.FacetCriteria, _rubricVM.FacetCriteria);
+                    facetCriteriaDictionaryUpdated = _criteriaManager.UpdateCriteriaByCriteriaFacetDictionary(_oldRubricVM.FacetCriteria, _rubricVM.FacetCriteria);
                     
-                    resultMessage = "Successfully updated rubric.";
+                    resultMessage += "Successfully updated rubric. ";
                     _criteriaContentsChangedFlag = _criteriaIDChangedFlag = false;
 
                 }
                 catch (Exception ex)
                 {
-                    resultMessage = "There was a problem updating:\n " + ex.Message;
+                    resultMessage += "There was a problem updating:\n " + ex.Message + " ";
                 }
-                MessageBox.Show(resultMessage);
+                //MessageBox.Show(resultMessage);
+                //staMessage.Content = resultMessage.Replace('\n', ' ');
+            }
+
+            if (_facetDescriptionContentChangedFlag)
+            {
+                //string resultMessage = "";
+                try
+                {
+                    foreach (Facet facet in _rubricVM.Facets)
+                    {
+                        facetDescriptionUpdated = _facetManager.UpdateFacetDescriptionByRubricIDAndFacetID(_oldRubricVM.RubricID, facet.FacetID, _oldRubricVM.Facets.First(f => f.FacetID == facet.FacetID).Description, facet.Description);
+                    }
+
+                    resultMessage += "Successfully updated rubric facets. ";
+                    _facetDescriptionContentChangedFlag = false;
+
+                }
+                catch (Exception ex)
+                {
+                    resultMessage += "There was a problem updating:\n " + ex.Message + " ";
+                }
+            }
+
+            if (rubricUpdated || facetCriteriaDictionaryUpdated || facetDescriptionUpdated)
+            {
+                MessageBox.Show(resultMessage, "Rubric Save");
                 staMessage.Content = resultMessage.Replace('\n', ' ');
             }
+
         }
 
         private bool isValidRubricUpdate()
@@ -733,6 +767,7 @@ namespace RubricNorming
 
             return isValid;
         }
+
 
         private bool isValidFacetCriteriaDictionary()
         {
@@ -769,7 +804,7 @@ namespace RubricNorming
                     addFacetCriteriaDictionaryToDB();
                     break;
                 case UIState.Edit:
-                    UpdateRubric();
+                    updateRubric();
                     break;
                 default:
                     break;
@@ -912,6 +947,9 @@ namespace RubricNorming
             switch (_currentUIState)
             {
                 case UIState.Create:
+
+
+
                     break;
                 case UIState.Edit:
 
@@ -934,6 +972,7 @@ namespace RubricNorming
                     tabFacets.Visibility = Visibility.Collapsed;
 
                     icFacetCriteria.IsEnabled = true;
+                    icFacetControls.IsEnabled = true;
 
                     break;
 
@@ -958,6 +997,8 @@ namespace RubricNorming
                     tabFacets.Visibility = Visibility.Collapsed;
 
                     icFacetCriteria.IsEnabled = false;
+                    icFacetControls.IsEnabled = false;
+
 
                     break;
                 default:
@@ -973,6 +1014,26 @@ namespace RubricNorming
         private void TextBox_TextChanged_1(object sender, TextChangedEventArgs e)
         {
             _criteriaContentsChangedFlag = true;
+        }
+
+        private void TextBox_TextChanged_2(object sender, TextChangedEventArgs e)
+        {
+            // facet description change
+            _facetDescriptionContentChangedFlag = true;
+
+            TextBox textBox = (TextBox)sender;
+
+            if (!ValidationHelpers.IsValidLength(textBox.Text, 100))
+            {
+                textBox.Text = textBox.Text.Substring(0, 99);                
+
+                MessageBox.Show("The description for the facet is too long.", "Description too long");
+                staMessage.Content = "The description for the facet is too long.";
+
+                textBox.Focus();
+            }
+            
+
         }
     }
 

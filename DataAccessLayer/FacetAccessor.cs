@@ -156,5 +156,40 @@ namespace DataAccessLayer
 
             return facets;
         }
+
+        public int UpdateFacetDescriptionByRubricIDAndFacetID(int rubricID, string facetID, string oldDescription, string newDescription)
+        {
+            int rowsAffected = 0;
+
+            // connection
+            var conn = DBConnection.GetConnection();
+
+            string cmdTxt = "sp_update_facet_description_by_rubric_id_and_facet_id";
+            var cmd = new SqlCommand(cmdTxt, conn);
+
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@RubricID", rubricID);
+            cmd.Parameters.AddWithValue("@FacetID", facetID);
+            cmd.Parameters.AddWithValue("OldDescription", oldDescription);
+                        
+            cmd.Parameters.Add("@NewDescription", SqlDbType.NVarChar, 100);
+            cmd.Parameters["@NewDescription"].Value = newDescription;            
+
+            try
+            {
+                conn.Open();
+                rowsAffected = cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return rowsAffected;
+        }
     }
 }

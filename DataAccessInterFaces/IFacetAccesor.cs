@@ -12,5 +12,7 @@ namespace DataAccessInterFaces
         List<Facet> SelectFacets();
         List<Facet> SelectFacetsByRubricID(int rubricID);
         int InsertFacet(int rubricID, string facetID, string description, string facetType);
+        int UpdateFacetDescriptionByRubricIDAndFacetID(int rubricID, string facetID, string oldDescription, string newDescription);
+
     }
 }

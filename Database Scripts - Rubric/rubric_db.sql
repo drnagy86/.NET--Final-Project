@@ -373,6 +373,7 @@ CREATE TABLE [dbo].[Facet] (
 	,[DateUpdated]		[DateTime]					NOT NULL DEFAULT CURRENT_TIMESTAMP
 	,[Active]			[bit]						NOT NULL DEFAULT 1
 	,[RubricID]			[int]						NOT NULL
+	,[RubricID]			[int]						NOT NULL
 	,[FacetTypeID]		[nvarchar](50)				NOT NULL
 
 	CONSTRAINT [pk_FacetID] PRIMARY KEY([FacetID],[RubricID]),
@@ -793,5 +794,48 @@ AS
 GO
 
 
+/*
+sp_update_facet_description_by_rubric_id_and_facet_id	IFacetAccessor
+*/
+print '' print '*** creating sp_update_facet_description_by_rubric_id_and_facet_id ***'
+GO
+CREATE PROCEDURE [dbo].[sp_update_facet_description_by_rubric_id_and_facet_id]
+(
+	@RubricID			int
+	,@FacetID			nvarchar(50)
+	,@OldDescription	nvarchar(100)
+	,@NewDescription	nvarchar(100)
+)
+AS
+	BEGIN
+		UPDATE [Facet]
+		SET
+			[Description] = @NewDescription
+			,[DateUpdated] = CURRENT_TIMESTAMP			
+		WHERE
+			[Description] = @OldDescription			
+		RETURN @@ROWCOUNT
+	END	
+GO
 
 
+/*
+sp_deactivate_rubric_by_rubric_id	IRubricAccessor
+*/
+print '' print '*** creating sp_deactivate_rubric_by_rubric_id ***'
+GO
+CREATE PROCEDURE [dbo].[sp_deactivate_rubric_by_rubric_id]
+(
+	@RubricID			int
+)
+AS
+	BEGIN
+		UPDATE [Rubric]
+		SET			
+			[DateUpdated] = CURRENT_TIMESTAMP
+			,[Active] = 0
+		WHERE
+			[RubricID] = @RubricID
+		RETURN @@ROWCOUNT
+	END	
+GO
