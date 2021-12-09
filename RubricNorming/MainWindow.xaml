@@ -206,7 +206,7 @@
                                                 <DataTemplate>
                                                     <StackPanel Orientation="Vertical">
                                                         <TextBox Height="25" Width="150" Text="{Binding CriteriaID}" TextAlignment="Center" FontWeight="Bold" TextWrapping="Wrap" TextChanged="TextBox_TextChanged" />
-                                                        <TextBox Height="125" Width="150" Text="{Binding Content}" TextWrapping="Wrap" TextChanged="TextBox_TextChanged_1"/>
+                                                        <TextBox Height="125" Width="150" Text="{Binding Content}" TextWrapping="Wrap" TextChanged="TextBox_TextChanged_1" VerticalScrollBarVisibility="Auto" />
                                                     </StackPanel>
                                                 </DataTemplate>
                                             </ItemsControl.ItemTemplate>
@@ -266,14 +266,14 @@
                         <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" x:Name="txtBoxTitle" Margin="10" VerticalContentAlignment="Center" Padding="5,0,0,0"></TextBox>
 
                         <Label Grid.Row="3" Grid.Column="0" x:Name="lblDescription"  HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0, 10, 0, 0">Description:</Label>
-                        <TextBox Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="1" x:Name="txtBoxDescription" Margin="10px" Padding="5,5,0,0" TextWrapping="Wrap"></TextBox>
+                        <TextBox Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="1" x:Name="txtBoxDescription" Margin="10px" Padding="5,5,0,0" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"></TextBox>
 
 
                         <Label Grid.Row="4" Grid.Column="0" x:Name="lblScoreType" HorizontalAlignment="Right" VerticalAlignment="Center">Score Type:</Label>
                         <ComboBox Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" Margin="10" x:Name="cmbBoxScoreTypes" VerticalContentAlignment="Center"  DropDownClosed="cmbBoxScoreTypes_DropDownClosed" />
 
                         <TextBlock Grid.Row="5" Grid.Column="0" x:Name="lblScoreTypeDescription" HorizontalAlignment="Right" Text="Score Type Decription:" TextWrapping="Wrap" VerticalAlignment="Center"/>
-                        <TextBlock Grid.Row="5" Grid.Column="1"  Grid.ColumnSpan="2" x:Name="txtBlockScoreTypeDescription" Margin="10" Text="" VerticalAlignment="Center" HorizontalAlignment="Left" TextWrapping="Wrap"/>
+                        <TextBlock Grid.Row="5" Grid.Column="1"  Grid.ColumnSpan="2" x:Name="txtBlockScoreTypeDescription" Margin="10" Text="" VerticalAlignment="Center" HorizontalAlignment="Left" TextWrapping="Wrap" />
 
                         <Grid Grid.Row="6" Grid.ColumnSpan="3" >
                             <Grid.RowDefinitions>
@@ -346,7 +346,7 @@
                             <TextBox x:Name="txtBoxFacetTitle" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Margin="10" VerticalContentAlignment="Center" Padding="5,0,0,0"/>
 
                             <Label x:Name="lblFacetDescription" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0, 10, 0, 0" >Description:</Label>
-                            <TextBox x:Name="txtBoxFacetDescription" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Margin="10" Padding="5,5,0,0" />
+                            <TextBox x:Name="txtBoxFacetDescription" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Margin="10" Padding="5,5,0,0" VerticalScrollBarVisibility="Auto" />
 
                             <Label x:Name="lblFacetType" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center">Facet Type:</Label>
                             <ComboBox x:Name="cmbBoxFacetType" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Margin="10" DropDownClosed="cmbBoxFacetType_DropDownClosed" VerticalContentAlignment="Center"/>
@@ -444,9 +444,10 @@
 
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-
                                         <Grid Margin="10">
                                             <Grid.RowDefinitions>
+                                                <RowDefinition/>
+                                                <RowDefinition/>
                                                 <RowDefinition/>
                                                 <RowDefinition/>
                                                 <RowDefinition Height="50"/>
@@ -454,62 +455,40 @@
 
                                             </Grid.RowDefinitions>
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition/>
+                                                <ColumnDefinition Width=".25*"/>
                                                 <ColumnDefinition/>
                                             </Grid.ColumnDefinitions>
 
-                                            <Grid Grid.Row="0" Grid.Column="0">
+                                            <Label Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" Content="Facet Name:"  Margin="0,0,5,0"/>
+                                            <Label Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Content="{Binding FacetID}" Margin="5,0,0,0"/>
+
+
+                                            <Label Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" Content="Facet Type:" Margin="0,0,5,0"/>
+                                            <Label Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Content="{Binding FacetType}" Margin="5,0,0,0"/>
+
+                                            <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition/>
+                                                </Grid.RowDefinitions>
+
                                                 <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition/>
                                                     <ColumnDefinition/>
                                                     <ColumnDefinition/>
                                                 </Grid.ColumnDefinitions>
 
-                                                <Label Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Content="Facet Name:" Margin="0,0,5,0"/>
-                                                <Label Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Content="{Binding FacetID}" Margin="5,0,0,0"/>
-                                            </Grid>
-
-                                            <Grid Grid.Row="0" Grid.Column="1">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition/>
-                                                    <ColumnDefinition/>
-                                                </Grid.ColumnDefinitions>
-
-                                                <Label Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Content="Date Created:" Margin="0,0,5,0"/>
+                                                <Label Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" Content="Date Created:" Margin="0,0,5,0"/>
                                                 <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Text="{Binding DateCreated, StringFormat=\{0:MM/dd/yy\}}" Margin="5,0,0,0"/>
+
+                                                <Label Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left" Content="Last Update:" Margin="0,0,5,0"/>
+                                                <TextBlock Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Left" Text="{Binding DateUpdated, StringFormat=\{0:MM/dd/yy\}}" Margin="5,0,0,0"/>
+                                                
                                             </Grid>
 
-                                            <Grid Grid.Row="1" Grid.Column="0">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition/>
-                                                    <ColumnDefinition/>
-                                                </Grid.ColumnDefinitions>
-
-                                                <Label Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Content="Facet Type:" Margin="0,0,5,0"/>
-                                                <Label Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Content="{Binding FacetType}" Margin="5,0,0,0"/>
-                                            </Grid>
-
-                                            <Grid Grid.Row="1" Grid.Column="1">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition/>
-                                                    <ColumnDefinition/>
-                                                </Grid.ColumnDefinitions>
-
-                                                <Label Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Content="Last Update:" Margin="0,0,5,0"/>
-                                                <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Text="{Binding DateUpdated, StringFormat=\{0:MM/dd/yy\}}" Margin="5,0,0,0"/>
-                                            </Grid>
-                                            <!--{StringFormat=\{0:MM/dd/yy\}-->
-
-                                            <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" >
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition/>
-                                                    <ColumnDefinition/>
-                                                    <ColumnDefinition/>
-                                                    <ColumnDefinition/>
-                                                </Grid.ColumnDefinitions>
-
-                                                <Label Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Top" Content="Description:" Margin="0,0,5,0"/>
-                                                <TextBox Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Description}" Padding="5,5,0,0" TextWrapping="Wrap" Margin="2,0,0,0"/>
-                                            </Grid>
+                                                <Label Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Description:" Margin="0,0,5,0"/>
+                                            <TextBox Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Description}" Padding="5,5,0,0" TextWrapping="Wrap" Margin="2,0,0,0" ScrollViewer.CanContentScroll="False" VerticalScrollBarVisibility="Auto" TextChanged="TextBox_TextChanged_2"/>
+                                            
 
                                         </Grid>
                                     </DataTemplate>
@@ -520,18 +499,7 @@
                     </Grid>
                 </TabItem>
             </TabControl>
-
-
-
-
-
-
         </Grid>
-
-
-
-
-
 
         <StatusBar Grid.Row="5">
             <StatusBarItem x:Name="staMessage" Content="Welcome. Please log in to continue." 

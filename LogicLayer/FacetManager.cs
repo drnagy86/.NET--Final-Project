@@ -91,5 +91,26 @@ namespace LogicLayer
             return facets;
 
         }
+
+        public bool UpdateFacetDescriptionByRubricIDAndFacetID(int rubricID, string facetID, string oldDescription, string newDescription)
+        {
+            bool result = false;
+
+            try
+            {
+                result = (1 ==_facetAccesor.UpdateFacetDescriptionByRubricIDAndFacetID(rubricID, facetID, oldDescription, newDescription));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            if (!result)
+            {
+                throw new ApplicationException("Facet not found ");
+            }
+
+            return result;
+        }
     }
 }

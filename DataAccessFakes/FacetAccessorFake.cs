@@ -103,5 +103,25 @@ namespace DataAccessFakes
             return facetByID;
 
         }
+
+        public int UpdateFacetDescriptionByRubricIDAndFacetID(int rubricID, string facetID, string oldDescription, string newDescription)
+        {
+            int rowsAffected = 0;
+
+            foreach (Facet facet in _fakeFacetList)
+            {
+                if (facet.RubricID == rubricID && facet.FacetID == facetID && facet.Description == oldDescription)
+                {
+                    facet.Description = newDescription;
+                    rowsAffected++;
+                    break;
+                }
+            }
+
+
+
+            return rowsAffected;
+
+        }
     }
 }

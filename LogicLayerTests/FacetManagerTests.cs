@@ -206,5 +206,45 @@ namespace LogicLayerTests
             // assert
             Assert.AreEqual(expected, actual);
         }
+
+        [TestMethod]
+        public void TestUpdateFacetDescriptionReturnsTrueIfSuccessfull()
+        {
+            // arrange
+            const int rubricID = 100000;
+            const string facetID = "Fake Facet 1";
+            const string oldDescription = "A longer description";
+            const bool expected = true;
+            bool actual;
+
+            const string expectedDescription = "Change";
+            //string actualDescription = "";
+
+            // act
+            actual = _facetManager.UpdateFacetDescriptionByRubricIDAndFacetID(rubricID, facetID, oldDescription, expectedDescription);
+
+            // assert
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ApplicationException))]
+        public void TestUpdateFacetDescriptionThrowsExceptionIfNotFound()        
+        {
+            // arrange
+            const int rubricID = 100009;
+            const string facetID = "Fake Facet 1";
+            const string oldDescription = "A longer description";
+            
+            
+            const string expectedDescription = "Change";
+            //string actualDescription = "";
+
+            // act
+            _facetManager.UpdateFacetDescriptionByRubricIDAndFacetID(rubricID, facetID, oldDescription, expectedDescription);
+
+            // assert
+            // nothing to assert, expecting exception
+        }
     }
 }
