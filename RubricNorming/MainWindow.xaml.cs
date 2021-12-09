@@ -264,11 +264,16 @@ namespace RubricNorming
             mnuView.Visibility = Visibility.Collapsed;
             mnuEdit.Visibility = Visibility.Collapsed;
             mnuCreate.Visibility = Visibility.Collapsed;
+            mnuAdmin.IsEnabled = false;
+            mnuAdmin.Visibility = Visibility.Collapsed;
+
 
             tabsetCreateControls.Visibility = Visibility.Collapsed;
 
             btnSave.Visibility = Visibility.Hidden;
             btnCancel.Visibility = Visibility.Hidden;
+            btnDeleteRubric.Visibility = Visibility.Collapsed;
+
         }
 
         private void prepareUIForRoles()
@@ -284,6 +289,7 @@ namespace RubricNorming
                 {
                     case "Admin":
                         creatorUI();
+                        adminUI();
                         break;
                     case "Creator":
                         creatorUI();
@@ -295,6 +301,15 @@ namespace RubricNorming
                         break;
                 }
             }
+        }
+
+        private void adminUI()
+        {
+            mnuAdmin.IsEnabled = true;
+            mnuAdmin.Visibility = Visibility.Visible;
+
+
+
         }
 
         private void creatorUI()
@@ -329,6 +344,9 @@ namespace RubricNorming
         private void viewAllActiveRubrics()
         {
             setCurrentUIState(UIState.View);
+
+            btnDeleteRubric.Visibility = Visibility.Collapsed;
+            mnuAdminDeleteRubric.IsEnabled = false;
 
             tabsetCreateControls.Visibility = Visibility.Hidden;
 
@@ -472,6 +490,12 @@ namespace RubricNorming
         private void rubricVMDetailView()
         {
             setCurrentUIState(UIState.View);
+
+            if (_user.Roles.Contains("Admin"))
+            {
+                btnDeleteRubric.Visibility = Visibility.Visible;
+                mnuAdminDeleteRubric.IsEnabled = true;
+            }
 
             datViewList.Visibility = Visibility.Hidden;
             toggleListAndDetails();
@@ -1006,6 +1030,7 @@ namespace RubricNorming
                     icFacetCriteria.IsEnabled = true;
                     icFacetControls.IsEnabled = true;
 
+
                     break;
 
                 case UIState.View:
@@ -1030,6 +1055,7 @@ namespace RubricNorming
 
                     icFacetCriteria.IsEnabled = false;
                     icFacetControls.IsEnabled = false;
+
 
 
                     break;
@@ -1103,6 +1129,38 @@ namespace RubricNorming
                     break;
             }
 
+        }
+
+        private void mnuAdminDeleteRubric_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("Are you sure you want to delete this rubric?\nThere will be no way to recover it.", "Delete", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+            switch (result)
+            {
+                case MessageBoxResult.None:
+                    break;
+                case MessageBoxResult.OK:
+                    break;
+                case MessageBoxResult.Cancel:
+                    break;
+                case MessageBoxResult.Yes:
+                    try
+                    {
+                        _rubricVMManager.DeleteRubricByRubricID(_rubricVM.RubricID);
+                        MessageBox.Show("Rubric successfully deleted.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                        staMessage.Content = "Rubric successfully deleted.";
+                        viewAllActiveRubrics();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Problem deleting the rubric.\n" + ex.Message, "Delete", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                    break;
+                case MessageBoxResult.No:
+                    break;
+                default:
+                    break;
+            }
 
         }
     }

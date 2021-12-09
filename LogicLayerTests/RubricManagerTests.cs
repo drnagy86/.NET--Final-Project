@@ -391,5 +391,37 @@ namespace LogicLayerTests
         }
 
 
+        [TestMethod]
+        public void TestDeleteRubricByRubricIDReturnsTrue()
+        {
+            // arrange
+            const int rubricID = 100000;
+            const bool expected = true;
+            bool actual;
+
+            // act
+            actual = rubricManager.DeleteRubricByRubricID(rubricID);
+
+            // assert
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ApplicationException))]
+        public void TestDeleteRubricByRubricIDThrowsExceptionWithBadRubricID()
+        {
+            // arrange
+            const int rubricID = 1000000;
+            const bool expected = true;
+            bool actual;
+
+            // act
+            actual = rubricManager.DeleteRubricByRubricID(rubricID);
+
+            // assert
+            Assert.AreEqual(expected, actual);
+        }
+
+
     }
 }

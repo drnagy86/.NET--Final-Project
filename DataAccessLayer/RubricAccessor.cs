@@ -45,6 +45,37 @@ namespace DataAccessLayer
 
         }
 
+        public int DeleteRubricByRubricID(int rubricID)
+        {
+            int rowsAffected = 0;
+
+            // connection
+            var conn = DBConnection.GetConnection();
+
+            string cmdTxt = "sp_delete_rubric_by_rubric_id";
+            var cmd = new SqlCommand(cmdTxt, conn);
+
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@RubricID", rubricID);
+
+
+            try
+            {
+                conn.Open();
+                rowsAffected = cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return rowsAffected;
+        }
+
         public int InsertRubric(string name, string description, string scoreType, string rubricCreator)
         {
             int rowsAffected = 0;

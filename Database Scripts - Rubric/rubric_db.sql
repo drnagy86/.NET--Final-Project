@@ -232,7 +232,7 @@ CREATE TABLE [dbo].[Rubric] (
 
 	CONSTRAINT [pk_RubricID] PRIMARY KEY([RubricID]),
 	CONSTRAINT [fk_ScoreTypeID] FOREIGN KEY([ScoreTypeID])
-		REFERENCES [dbo].[ScoreType]([ScoreTypeID]),
+		REFERENCES [dbo].[ScoreType]([ScoreTypeID]) ON UPDATE CASCADE,
 	CONSTRAINT [fk_RubricCreator] FOREIGN KEY([RubricCreator])
 		REFERENCES [dbo].[User]([UserID])
 )
@@ -377,9 +377,9 @@ CREATE TABLE [dbo].[Facet] (
 
 	CONSTRAINT [pk_FacetID] PRIMARY KEY([FacetID],[RubricID]),
 	CONSTRAINT [fk_RubricID] FOREIGN KEY([RubricID])
-		REFERENCES [dbo].[Rubric]([RubricID]),	
+		REFERENCES [dbo].[Rubric]([RubricID]) ON DELETE CASCADE,	
 	CONSTRAINT [fk_FacetTypeID] FOREIGN KEY([FacetTypeID])
-		REFERENCES [dbo].[FacetType]([FacetTypeID])
+		REFERENCES [dbo].[FacetType]([FacetTypeID]) ON UPDATE CASCADE
 )
 GO
 
@@ -478,7 +478,7 @@ CREATE TABLE [dbo].[Criteria] (
 	CONSTRAINT [fk_RubricID_Criteria] FOREIGN KEY([RubricID])
 		REFERENCES [dbo].[Rubric]([RubricID]),	
 	CONSTRAINT [fk_FacetID] FOREIGN KEY([FacetID],[RubricID])
-		REFERENCES [dbo].[Facet]([FacetID],[RubricID]) ON UPDATE CASCADE
+		REFERENCES [dbo].[Facet]([FacetID],[RubricID]) ON UPDATE CASCADE ON DELETE CASCADE
 )
 GO
 
@@ -833,6 +833,27 @@ AS
 		SET			
 			[DateUpdated] = CURRENT_TIMESTAMP
 			,[Active] = 0
+		WHERE
+			[RubricID] = @RubricID
+		RETURN @@ROWCOUNT
+	END	
+GO
+
+
+
+
+/*
+sp_delete_rubric_by_rubric_id	@RubricID	int	IRubricAccessor
+*/
+print '' print '*** creating sp_delete_rubric_by_rubric_id ***'
+GO
+CREATE PROCEDURE [dbo].[sp_delete_rubric_by_rubric_id]
+(
+	@RubricID			int
+)
+AS
+	BEGIN
+		DELETE FROM [Rubric]
 		WHERE
 			[RubricID] = @RubricID
 		RETURN @@ROWCOUNT

@@ -21,5 +21,7 @@ namespace LogicLayer
 
         bool DeactivateRubricByRubricID(int rubricID);
 
+        bool DeleteRubricByRubricID(int rubricID);
+
     }
 }

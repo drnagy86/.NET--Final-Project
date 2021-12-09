@@ -18,5 +18,7 @@ namespace DataAccessInterFaces
 
         int DeactivateRubricByRubricID(int rubricID);
 
+        int DeleteRubricByRubricID(int rubricID);
+
     }
 }
