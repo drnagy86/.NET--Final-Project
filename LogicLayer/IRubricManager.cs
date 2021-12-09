@@ -19,5 +19,7 @@ namespace LogicLayer
 
         bool UpdateRubricByRubricID(int rubricID, string oldName, string newName, string oldDescription, string newDescription, string oldScoreType, string newScoreType);
 
+        bool DeactivateRubricByRubricID(int rubricID);
+
     }
 }

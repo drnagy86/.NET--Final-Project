@@ -143,5 +143,10 @@ namespace LogicLayer
         {
             return _rubricManager.UpdateRubricByRubricID(rubricID, oldName, newName, oldDescription, newDescription, oldScoreType, newScoreType);
         }
+
+        public bool DeactivateRubricByRubricID(int rubricID)
+        {
+            return _rubricManager.DeactivateRubricByRubricID(rubricID);
+        }
     }
 }

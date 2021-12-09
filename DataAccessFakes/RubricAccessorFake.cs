@@ -119,6 +119,23 @@ namespace DataAccessFakes
 
         }
 
+        public int DeactivateRubricByRubricID(int rubricID)
+        {
+            int rowsAffected = 0;
+
+            foreach (Rubric rubric in _fakeRubrics)
+            {
+                if (rubric.RubricID == rubricID)
+                {
+                    rubric.Active = false;
+                    rowsAffected++;
+                    break;
+                }
+            }
+
+            return rowsAffected;
+        }
+
         public int InsertRubric(string name, string description, string scoreType, string rubricCreator)
         {
             int rowsAffected = 0;

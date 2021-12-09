@@ -59,7 +59,7 @@ namespace RubricNorming
             //_userManager = new UserManager(userAccessorFake);
             //_facetManager = new FacetManager(new FacetAccessorFake());
             //_criteriaManager = new CriteriaManager(new CriteriaAccessorFake());
-            //_rubricManagerVM = new RubricVMManager(_rubricManager, _userManager, _facetManager, _criteriaManager);
+            //_rubricVMManager = new RubricVMManager(_rubricManager, _userManager, _facetManager, _criteriaManager);
             //_scoreTypeManager = new ScoreTypeManager(new ScoreTypeFake());
             //_facetTypeManager = new FacetTypeManager(new FacetTypeFakes());
 
@@ -494,11 +494,16 @@ namespace RubricNorming
                 //lblActionAreaTitle.Visibility = Visibility.Visible;
 
                 mnuEditSelection.IsEnabled = false;
+                
                 btnEditSelection.Visibility = Visibility.Collapsed;
                 btnSave.Visibility = Visibility.Collapsed;
                 btnCancel.Visibility = Visibility.Collapsed;
+                btnDeactivateRubric.Visibility = Visibility.Collapsed;
+
+
                 mnuConfirmUpdatesToRubric.Visibility = Visibility.Collapsed;
                 mnuCancelUpdatesToRubric.Visibility = Visibility.Collapsed;
+                mnuDeactivateRubric.Visibility = Visibility.Collapsed;
 
                 tabsetCreateControls.Visibility = Visibility.Collapsed;
 
@@ -635,6 +640,8 @@ namespace RubricNorming
                         txtBoxTitle.Text = _rubricVM.Name;
                         txtBoxDescription.Text = _rubricVM.Description;
                         cmbBoxScoreTypes.SelectedItem = _rubricVM.ScoreTypeID;
+
+                        
                     }
                     catch (Exception ex)
                     {
@@ -647,98 +654,120 @@ namespace RubricNorming
                 default:
                     break;
             }
+
+            
         }
 
         private void updateRubric()
-        {            
-            try
+        {
+            MessageBoxResult result = MessageBox.Show("Are you sure you want to save the edits? This can not be changed.", "Confirm Edits", MessageBoxButton.YesNo);
+
+            switch (result)
             {
-                _oldRubricVM = _rubricVMManager.RetrieveRubricByRubricID(_rubric.RubricID);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("There was a problem updating the rubric.\n " + ex.Message + " ", "Problem Updating Rubric");
-                staMessage.Content = "There was a problem creating the rubric. " + ex.Message + " ";
-            }
+                case MessageBoxResult.Yes:
 
-
-            // not great, but removes focus if the event is triggered while the cursor is in the box
-            pwdPassword.Focus();
-
-            // find out if there were changes or not, send to the right place
-            string resultMessage = "";
-            bool rubricUpdated = false;
-            bool facetCriteriaDictionaryUpdated = false;
-            bool facetDescriptionUpdated = false;
-
-            if (isValidRubricUpdate())
-            {
-                
-                try
-                {
-                    rubricUpdated = _rubricManager.UpdateRubricByRubricID(_oldRubricVM.RubricID, _oldRubricVM.Name, txtBoxTitle.Text, _oldRubricVM.Description, txtBoxDescription.Text, _oldRubricVM.ScoreTypeID, cmbBoxScoreTypes.SelectedItem.ToString());
-
-                    if (rubricUpdated)
+                    try
                     {
-                        resultMessage += "Successfully updated rubric. ";
+                        _oldRubricVM = _rubricVMManager.RetrieveRubricByRubricID(_rubric.RubricID);
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        resultMessage += "Did not update the rubric. ";
+                        MessageBox.Show("There was a problem updating the rubric.\n " + ex.Message + " ", "Problem Updating Rubric");
+                        staMessage.Content = "There was a problem creating the rubric. " + ex.Message + " ";
                     }
-                }
-                catch (Exception ex)
-                {
-                    resultMessage += "There was a problem updating:\n " + ex.Message + " ";
-                }
-                //MessageBox.Show(resultMessage);
-                //staMessage.Content = resultMessage.Replace('\n', ' ');
-            }
 
-            if (isValidFacetCriteriaDictionary() && (_criteriaIDChangedFlag || _criteriaContentsChangedFlag))
-            {
-                //string resultMessage = "";
-                try
-                {
-                    facetCriteriaDictionaryUpdated = _criteriaManager.UpdateCriteriaByCriteriaFacetDictionary(_oldRubricVM.FacetCriteria, _rubricVM.FacetCriteria);
+
+                    // not great, but removes focus if the event is triggered while the cursor is in the box
+                    pwdPassword.Focus();
+
+                    // find out if there were changes or not, send to the right place
+                    string resultMessage = "";
+                    bool rubricUpdated = false;
+                    bool facetCriteriaDictionaryUpdated = false;
+                    bool facetDescriptionUpdated = false;
+
+                    if (isValidRubricUpdate())
+                    {
+
+                        try
+                        {
+                            rubricUpdated = _rubricManager.UpdateRubricByRubricID(_oldRubricVM.RubricID, _oldRubricVM.Name, txtBoxTitle.Text, _oldRubricVM.Description, txtBoxDescription.Text, _oldRubricVM.ScoreTypeID, cmbBoxScoreTypes.SelectedItem.ToString());
+
+                            if (rubricUpdated)
+                            {
+                                resultMessage += "Successfully updated rubric. ";
+                            }
+                            else
+                            {
+                                resultMessage += "Did not update the rubric. ";
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            resultMessage += "There was a problem updating:\n " + ex.Message + " ";
+                        }
+                        //MessageBox.Show(resultMessage);
+                        //staMessage.Content = resultMessage.Replace('\n', ' ');
+                    }
+
+                    if (isValidFacetCriteriaDictionary() && (_criteriaIDChangedFlag || _criteriaContentsChangedFlag))
+                    {
+                        //string resultMessage = "";
+                        try
+                        {
+                            facetCriteriaDictionaryUpdated = _criteriaManager.UpdateCriteriaByCriteriaFacetDictionary(_oldRubricVM.FacetCriteria, _rubricVM.FacetCriteria);
+
+                            resultMessage += "Successfully updated rubric. ";
+                            _criteriaContentsChangedFlag = _criteriaIDChangedFlag = false;
+
+                        }
+                        catch (Exception ex)
+                        {
+                            resultMessage += "There was a problem updating:\n " + ex.Message + " ";
+                        }
+                        //MessageBox.Show(resultMessage);
+                        //staMessage.Content = resultMessage.Replace('\n', ' ');
+                    }
+
+                    if (_facetDescriptionContentChangedFlag)
+                    {
+                        //string resultMessage = "";
+                        try
+                        {
+                            foreach (Facet facet in _rubricVM.Facets)
+                            {
+                                facetDescriptionUpdated = _facetManager.UpdateFacetDescriptionByRubricIDAndFacetID(_oldRubricVM.RubricID, facet.FacetID, _oldRubricVM.Facets.First(f => f.FacetID == facet.FacetID).Description, facet.Description);
+                            }
+
+                            resultMessage += "Successfully updated rubric facets. ";
+                            _facetDescriptionContentChangedFlag = false;
+
+                        }
+                        catch (Exception ex)
+                        {
+                            resultMessage += "There was a problem updating:\n " + ex.Message + " ";
+                        }
+                    }
+
+                    if (rubricUpdated || facetCriteriaDictionaryUpdated || facetDescriptionUpdated)
+                    {
+                        MessageBox.Show(resultMessage, "Rubric Save");
+                        staMessage.Content = resultMessage.Replace('\n', ' ');
+                    }
+
+
+                    break;
+                case MessageBoxResult.None:
                     
-                    resultMessage += "Successfully updated rubric. ";
-                    _criteriaContentsChangedFlag = _criteriaIDChangedFlag = false;
-
-                }
-                catch (Exception ex)
-                {
-                    resultMessage += "There was a problem updating:\n " + ex.Message + " ";
-                }
-                //MessageBox.Show(resultMessage);
-                //staMessage.Content = resultMessage.Replace('\n', ' ');
+                case MessageBoxResult.Cancel:
+                    
+                case MessageBoxResult.No:
+                    
+                default:
+                    break;
             }
 
-            if (_facetDescriptionContentChangedFlag)
-            {
-                //string resultMessage = "";
-                try
-                {
-                    foreach (Facet facet in _rubricVM.Facets)
-                    {
-                        facetDescriptionUpdated = _facetManager.UpdateFacetDescriptionByRubricIDAndFacetID(_oldRubricVM.RubricID, facet.FacetID, _oldRubricVM.Facets.First(f => f.FacetID == facet.FacetID).Description, facet.Description);
-                    }
-
-                    resultMessage += "Successfully updated rubric facets. ";
-                    _facetDescriptionContentChangedFlag = false;
-
-                }
-                catch (Exception ex)
-                {
-                    resultMessage += "There was a problem updating:\n " + ex.Message + " ";
-                }
-            }
-
-            if (rubricUpdated || facetCriteriaDictionaryUpdated || facetDescriptionUpdated)
-            {
-                MessageBox.Show(resultMessage, "Rubric Save");
-                staMessage.Content = resultMessage.Replace('\n', ' ');
-            }
+            
 
         }
 
@@ -932,8 +961,11 @@ namespace RubricNorming
             btnEditSelection.Visibility = Visibility.Collapsed;
             btnSave.Visibility = Visibility.Visible;
             btnCancel.Visibility = Visibility.Visible;
+            btnDeactivateRubric.Visibility = Visibility.Visible;
+            
             mnuConfirmUpdatesToRubric.Visibility = Visibility.Visible;
             mnuCancelUpdatesToRubric.Visibility = Visibility.Visible;
+            mnuDeactivateRubric.Visibility = Visibility.Visible;
 
             setCurrentUIState(UIState.Edit);
             // change it so that all fields can be edited and not just viewed
@@ -1030,9 +1062,47 @@ namespace RubricNorming
                 MessageBox.Show("The description for the facet is too long.", "Description too long");
                 staMessage.Content = "The description for the facet is too long.";
 
-                textBox.Focus();
+                textBox.CaretIndex = 99;
             }
             
+
+        }
+
+        private void mnuDeactivateRubric_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("Are you sure you would like to deactivate this rubric?\nYou will need to ask an administrator to reactivate it.", "Confirm Deactivation", MessageBoxButton.YesNo,MessageBoxImage.Question);
+
+            switch (result)
+            {
+                case MessageBoxResult.None:
+                    break;
+                case MessageBoxResult.OK:
+                    break;
+                case MessageBoxResult.Cancel:
+                    break;
+                case MessageBoxResult.Yes:
+
+                    try
+                    {
+                        _rubricManager.DeactivateRubricByRubricID(_rubric.RubricID);
+                        MessageBox.Show("Deactivated Successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                        staMessage.Content = "Deactivated Successfully";
+
+                        viewAllActiveRubrics();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("There was an error deactivating the rubric.\n" + ex.Message, "Problem Deactivating", MessageBoxButton.OK, MessageBoxImage.Error);
+                        staMessage.Content = "There was an error deactivating the rubric. " + ex.Message.Replace('\n',' ');
+                    }
+
+                    break;
+                case MessageBoxResult.No:
+                    break;
+                default:
+                    break;
+            }
+
 
         }
     }

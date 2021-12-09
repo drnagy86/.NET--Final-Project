@@ -16,7 +16,7 @@ namespace DataAccessInterFaces
 
         int UpdateRubricByRubricID(int rubricID, string oldName, string newName, string oldDescription, string newDescription, string oldScoreType, string newScoreType);
 
-
+        int DeactivateRubricByRubricID(int rubricID);
 
     }
 }

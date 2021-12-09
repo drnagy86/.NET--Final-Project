@@ -31,6 +31,8 @@
                 <MenuItem x:Name="mnuEditSelection" Header="Edit Current Rubric" IsEnabled="False" Click="mnuEditSelection_Click" ></MenuItem>
                 <MenuItem x:Name="mnuConfirmUpdatesToRubric" Header="Save Rubric" Click="mnuConfirmUpdatesToRubric_Click" Visibility="Collapsed"/>
                 <MenuItem x:Name="mnuCancelUpdatesToRubric" Header="Cancel Changes" Click="mnuCancelUpdatesToRubric_Click" Visibility="Collapsed"/>
+                <MenuItem x:Name="mnuDeactivateRubric" Header="Deactivate Rubric" Visibility="Collapsed" Click="mnuDeactivateRubric_Click" />
+                
             </MenuItem>
 
             <MenuItem x:Name="mnuCreate" Header="Create">
@@ -66,7 +68,9 @@
                     <Button x:Name="btnSave" Content="Save Rubric"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Padding="2" Click="btnSave_Click" Visibility="Collapsed"/>
                     <Button x:Name="btnCancel" Content="Cancel Changes" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Padding="2" Click="btnCancel_Click" Visibility="Collapsed"/>
                     <!--<Label Content="Create Rubric Controls" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="10"/>-->
-                    
+                    <Button x:Name="btnDeactivateRubric" Content="Deactivate Rubric" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Padding="2" Visibility="Collapsed" Click="mnuDeactivateRubric_Click"/>
+
+
                 </StackPanel>
                 <!--</Border>-->
             </StackPanel>
