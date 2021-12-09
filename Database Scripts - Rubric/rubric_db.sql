@@ -373,7 +373,6 @@ CREATE TABLE [dbo].[Facet] (
 	,[DateUpdated]		[DateTime]					NOT NULL DEFAULT CURRENT_TIMESTAMP
 	,[Active]			[bit]						NOT NULL DEFAULT 1
 	,[RubricID]			[int]						NOT NULL
-	,[RubricID]			[int]						NOT NULL
 	,[FacetTypeID]		[nvarchar](50)				NOT NULL
 
 	CONSTRAINT [pk_FacetID] PRIMARY KEY([FacetID],[RubricID]),

@@ -351,7 +351,6 @@ namespace LogicLayerTests
             const bool expected = false;
             bool actual;
 
-
             // act
             actual = rubricManager.UpdateRubricByRubricID(rubricID, oldName, newName, oldDescription, newDescription, oldScoreType, newScoreType);
 
@@ -359,6 +358,38 @@ namespace LogicLayerTests
             Assert.AreEqual(expected, actual);
 
         }
+
+        [TestMethod]
+        public void TestDeactivateRubricByRubricIDReturnsTrue()
+        {
+            // arrange
+            const int rubricID = 100000;
+            const bool expected = true;
+            bool actual;
+
+            // act
+            actual = rubricManager.DeactivateRubricByRubricID(rubricID);
+
+            // assert
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ApplicationException))]
+        public void TestDeactivateRubricByRubricIDThrowsExceptionWithBadRubricID()
+        {
+            // arrange
+            const int rubricID = 1000000;
+            const bool expected = true;
+            bool actual;
+
+            // act
+            actual = rubricManager.DeactivateRubricByRubricID(rubricID);
+
+            // assert
+            Assert.AreEqual(expected, actual);
+        }
+
 
     }
 }

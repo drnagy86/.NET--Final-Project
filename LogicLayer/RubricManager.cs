@@ -63,6 +63,27 @@ namespace LogicLayer
             return isCreated;
         }
 
+        public bool DeactivateRubricByRubricID(int rubricID)
+        {
+            bool result = false;
+
+            try
+            {
+                result = (1 == _rubricAccessor.DeactivateRubricByRubricID(rubricID));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            if (!result)
+            {
+                throw new ApplicationException("Rubric not deactivated.");
+            }
+
+            return result;
+        }
+
         public List<Rubric> RetrieveActiveRubrics()
         {
             List<Rubric> rubricList = null;
