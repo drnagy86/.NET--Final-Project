@@ -197,7 +197,7 @@
                     </ItemsControl>
 
                     <Grid x:Name="grdActionArea" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" >
-                        <ItemsControl x:Name="icFacetCriteria">
+                        <ItemsControl x:Name="icFacetCriteria" ItemsSource="{Binding}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <StackPanel Orientation="Horizontal"></StackPanel>
@@ -319,24 +319,80 @@
                     </Grid>
                 </TabItem>
 
-                <TabItem x:Name="tabFacets" Header="Facets And Criteria">
+                <TabItem x:Name="tabScoreRange" Header="Score Range" IsEnabled="False" Visibility="Collapsed">
 
-                    <Grid>
+                    <Grid x:Name="grdCriteria">
                         <Grid.RowDefinitions>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
                             <RowDefinition/>
-                            <RowDefinition/>
+                            <RowDefinition Height="35"/>
+
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
+                            <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
 
-                        <Grid Grid.Row="0" Grid.Column="0">
+                        <TextBlock x:Name="txtblkCriteriaTitle" Grid.Row="0" Grid.ColumnSpan="2" TextWrapping="Wrap" TextAlignment="Left" FontSize="14" FontWeight="Bold" Margin="10" >Criteria</TextBlock>
+                        <Label x:Name="lblCriteriaBottomRange" Grid.Row="1" Content="Choose the bottom range for criteria scores" HorizontalContentAlignment="Left" Margin="10" VerticalContentAlignment="Center" Grid.ColumnSpan="2"/>
+
+                        <Grid Grid.Row="2" Grid.ColumnSpan="2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="40"/>
+                            </Grid.ColumnDefinitions>
+                            <Slider x:Name="sldCriteriaBottomRange" Grid.Row="0" Grid.Column="0" Margin="10" VerticalAlignment="Center" Minimum="0" Maximum="8" TickPlacement="BottomRight" IsSnapToTickEnabled="True" ValueChanged="sldCriteriaBottomRange_ValueChanged" Value="1"/>
+                            <TextBox x:Name="txtBoxCriteriaBottomRange" Grid.Row="0" Grid.Column="1" Text="{Binding ElementName=sldCriteriaBottomRange, Path=Value, UpdateSourceTrigger=PropertyChanged}"   Margin="10"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Width="20" />
+                        </Grid>
+
+                        <Label x:Name="lblCriteriaTopRange" Grid.Row="3" Content="Choose the top range for criteria scores" HorizontalContentAlignment="Left" Margin="10" VerticalContentAlignment="Center" Grid.ColumnSpan="2"/>
+
+                        <Grid Grid.Row="4" Grid.ColumnSpan="2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="40"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Slider x:Name="sldCriteriaTopRange" Grid.Row="0" Grid.Column="0" Margin="10" VerticalAlignment="Center" Minimum="1" Maximum="9" TickPlacement="BottomRight" IsSnapToTickEnabled="True" ValueChanged="sldCriteriaTopRange_ValueChanged" Value="4"/>
+                            <TextBox x:Name="txtBoxCriteriaTopRange" Grid.Row="0" Grid.Column="1" Text="{Binding ElementName=sldCriteriaTopRange, Path=Value, UpdateSourceTrigger=PropertyChanged}"   Margin="10"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Width="20" />
+
+                        </Grid>
+
+                        <Grid Grid.Row="6" Grid.ColumnSpan="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <Button x:Name="btnCriteriaBack" Content="Back" Grid.Row="0"  Grid.Column="0" Margin="10,5"/>
+                            <Button x:Name="btnScoreRangeAdd" Content="Add Range" Grid.Row="0" Grid.Column="1" Margin="10,5" Click="btnScoreRangeAdd_Click" />
+                        </Grid>
+                    </Grid>
+
+
+                </TabItem>
+
+                <TabItem x:Name="tabFacets" Header="Facets">                    
+
+                        <Grid >
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="90"/>
                                 <RowDefinition Height="50"/>
                                 <RowDefinition Height="100"/>
                                 <RowDefinition Height="50"/>
-                                <RowDefinition/>
+                            <RowDefinition Height="100"/>
+                            <RowDefinition/>
 
                                 <RowDefinition Height="35"/>
                             </Grid.RowDefinitions>
@@ -373,65 +429,8 @@
 
                         </Grid>
 
-                        <Grid x:Name="grdCriteria" Grid.Row="1">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="40"/>
-                                <RowDefinition Height="50"/>
-                                <RowDefinition Height="50"/>
-                                <RowDefinition Height="50"/>
-                                <RowDefinition Height="50"/>
-                                <RowDefinition/>
-                                <RowDefinition Height="35"/>
-
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-
-                            <TextBlock x:Name="txtblkCriteriaTitle" Grid.Row="0" Grid.ColumnSpan="2" TextWrapping="Wrap" TextAlignment="Left" FontSize="14" FontWeight="Bold" Margin="10" >Criteria</TextBlock>
-                            <Label x:Name="lblCriteriaBottomRange" Grid.Row="1" Content="Choose the bottom range for criteria scores" HorizontalContentAlignment="Left" Margin="10" VerticalContentAlignment="Center" Grid.ColumnSpan="2"/>
-
-                            <Grid Grid.Row="2" Grid.ColumnSpan="2">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition/>
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition Width="40"/>
-                                </Grid.ColumnDefinitions>
-                                <Slider x:Name="sldCriteriaBottomRange" Grid.Row="0" Grid.Column="0" Margin="10" VerticalAlignment="Center" Minimum="0" Maximum="8" TickPlacement="BottomRight" IsSnapToTickEnabled="True" ValueChanged="sldCriteriaBottomRange_ValueChanged" Value="1"/>
-                                <TextBox x:Name="txtBoxCriteriaBottomRange" Grid.Row="0" Grid.Column="1" Text="{Binding ElementName=sldCriteriaBottomRange, Path=Value, UpdateSourceTrigger=PropertyChanged}"   Margin="10"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Width="20" />
-                            </Grid>
-
-                            <Label x:Name="lblCriteriaTopRange" Grid.Row="3" Content="Choose the top range for criteria scores" HorizontalContentAlignment="Left" Margin="10" VerticalContentAlignment="Center" Grid.ColumnSpan="2"/>
-
-                            <Grid Grid.Row="4" Grid.ColumnSpan="2">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition/>
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition Width="40"/>
-                                </Grid.ColumnDefinitions>
-
-                                <Slider x:Name="sldCriteriaTopRange" Grid.Row="0" Grid.Column="0" Margin="10" VerticalAlignment="Center" Minimum="1" Maximum="9" TickPlacement="BottomRight" IsSnapToTickEnabled="True" ValueChanged="sldCriteriaTopRange_ValueChanged" Value="4"/>
-                                <TextBox x:Name="txtBoxCriteriaTopRange" Grid.Row="0" Grid.Column="1" Text="{Binding ElementName=sldCriteriaTopRange, Path=Value, UpdateSourceTrigger=PropertyChanged}"   Margin="10"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Width="20" />
-
-                            </Grid>
-
-                            <Grid Grid.Row="6" Grid.ColumnSpan="2">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-
-                                <Button x:Name="btnCriteriaBack" Content="Back" Grid.Row="0"  Grid.Column="0" Margin="10,5"/>
-                                <Button x:Name="btnScoreRangeAdd" Content="Add Range" Grid.Row="0" Grid.Column="1" Margin="10,5" Click="btnScoreRangeAdd_Click" />
-                            </Grid>
-                        </Grid>
-                    </Grid>
+                        
+                    
                 </TabItem>
 
                 <TabItem x:Name="tabFacetDetailView" Header="Facets">

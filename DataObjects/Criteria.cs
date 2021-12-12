@@ -30,6 +30,18 @@ namespace DataObjects
             this.Active = true;
         }
 
+        public Criteria(string facetID, int score)
+        {
+            this.CriteriaID = " ";
+            this.RubricID = 0;
+            this.FacetID = facetID;
+            this.DateCreated = DateTime.Now;
+            this.DateUpdated = DateTime.Now;
+            this.Content = " ";
+            this.Score = score;
+            this.Active = true;
+        }
+
         public Criteria(int rubricID, string facetID)
         {
             this.CriteriaID = "";
