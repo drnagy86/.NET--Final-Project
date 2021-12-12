@@ -8,12 +8,11 @@ namespace RubricNorming
 {
     public static class ValidationHelpers
     {
-
-        public static bool IsValidLength(this string stringToTest, int maxLength)
+        public static bool IsValidLength(this string stringToTest, int maxLengthInclusive)
         {
             bool isValid = false;
 
-            if (stringToTest.Length <= maxLength || stringToTest == "" || stringToTest == null)
+            if (stringToTest.Length <= maxLengthInclusive && stringToTest != "" && stringToTest != null)
             {
                 isValid = true;
             }

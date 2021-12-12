@@ -18,6 +18,20 @@ namespace DataObjects
         public User RubricCreator { get; set; }
         public bool Active { get; set; }
 
+        public Rubric()
+        {
+
+        }
+
+        public Rubric(string name, string description, string scoreTypeID, User rubricCreator, bool active = true)
+        {
+            this.Name = name;
+            this.Description = description;
+            this.ScoreTypeID = scoreTypeID;
+            this.RubricCreator = rubricCreator;
+            this.Active = active;
+        }
+
     }
 
 
