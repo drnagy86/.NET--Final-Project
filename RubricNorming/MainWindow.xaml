@@ -6,22 +6,34 @@
         xmlns:local="clr-namespace:RubricNorming"
         mc:Ignorable="d"
         x:Name="frmMainWindow"
-        Title="Rubric Norming" Height="900" Width="1200" WindowStartupLocation="CenterScreen" Loaded="frmMainWindow_Loaded"  WindowState="Maximized" >
+        Title="Rubric Norming"
+        WindowStartupLocation="CenterScreen"
+        Loaded="frmMainWindow_Loaded"  
+        WindowState="Maximized" 
+        xmlns:ui="http://schemas.modernwpf.com/2019"
+        ui:WindowHelper.UseModernWindowStyle="True"
+        Height="{Binding SystemParameters.PrimaryScreenHeight}" 
+        Width="{Binding SystemParameters.PrimaryScreenWidth}"        
+        >
+
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="25"/>
-            <RowDefinition Height="50"/>
-            <RowDefinition/>
-            <RowDefinition Height="25"/>
             <RowDefinition Height="35"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition/>            
+            <RowDefinition Height="45"/>
         </Grid.RowDefinitions>
 
         <Menu Grid.Row="0" Padding="20px, 0px">
             <MenuItem x:Name="mnuFile" Header="File">
                 <MenuItem x:Name="mnuLog" Header="Log In/Log Out"></MenuItem>
+                <Separator/>
+                <MenuItem x:Name="mnuChangeTheme" Header="Change Theme" Click="mnuChangeTheme_Click" />
+                <Separator/>
                 <MenuItem x:Name="mnuExit" Header="Exit (Ctrl+W)" Click="mnuExit_Click"  ></MenuItem>
             </MenuItem>
             <MenuItem x:Name="mnuView" Header="View">
+                
                 <MenuItem x:Name="mnuViewAllRubrics" Header="View All Rubrics" Click="mnuViewAllRubrics_Click"></MenuItem>
                 <MenuItem x:Name="mnuViewAllFacets" Header="All Facets" Click="mnuViewAllFacets_Click"></MenuItem>
 
@@ -36,6 +48,7 @@
 
             <MenuItem x:Name="mnuCreate" Header="Create">
                 <MenuItem x:Name="mnuCreateNewRubric" Header="New Rubric" Click="mnuCreateNewRubric_Click" />
+                <MenuItem x:Name="mnuSaveRubric" Header="Save Rubric" Click="btnSave_Click" Visibility="Visible" IsEnabled="False"/>
             </MenuItem>
 
             <MenuItem x:Name="mnuAdmin" Header="Admin" IsEnabled="False" Visibility="Collapsed">
@@ -53,58 +66,60 @@
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
-                <ColumnDefinition Width="240"/>
-                <ColumnDefinition Width="240"/>
-                <ColumnDefinition Width="120" />
+                <ColumnDefinition Width="300"/>
+                <ColumnDefinition Width="300"/>
+                <ColumnDefinition Width="100" />
             </Grid.ColumnDefinitions>
 
-            <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Margin="10, 0, 0, 0" >
+            <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Margin="10, 0, 0, 0" VerticalAlignment="Center">
                 <StackPanel x:Name="stkRubricControls">
-                    <Button x:Name="btnRetrieveActiveRubrics" Content="All Rubrics" HorizontalAlignment="Left" VerticalAlignment="Top" Click="btnRetrieveActiveRubrics_Click" Margin="5" Padding="2"/>
+                    <Button x:Name="btnRetrieveActiveRubrics" Content="All Rubrics" HorizontalAlignment="Left" VerticalAlignment="Top" Click="btnRetrieveActiveRubrics_Click" Margin="5" Padding="5"/>
                     <!--<Label Content="View Controls" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="10"/>-->
                 </StackPanel>
+
+                
                 <!--<Border CornerRadius="2" BorderThickness="1" BorderBrush="Black" >-->
                 <StackPanel x:Name="stkCreateRubric" Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
                     
-                    <Button x:Name="btnCreateNewRubric" Content="New Rubric" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Padding="2" Click="mnuCreateNewRubric_Click"/>
-                    <Button x:Name="btnEditSelection" Content="Edit Selected Rubric" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Padding="2" Visibility="Collapsed" Click="mnuEditSelection_Click"/>
-                    <Button x:Name="btnSave" Content="Save Rubric"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Padding="2" Click="btnSave_Click" Visibility="Collapsed"/>
-                    <Button x:Name="btnCancel" Content="Cancel Changes" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Padding="2" Click="btnCancel_Click" Visibility="Collapsed"/>
+                    <Button x:Name="btnCreateNewRubric" Content="New Rubric" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Padding="5" Click="mnuCreateNewRubric_Click"/>
+                    <Button x:Name="btnEditSelection" Content="Edit Selected Rubric" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Padding="5" Visibility="Collapsed" Click="mnuEditSelection_Click"/>
+                    <Button x:Name="btnSave" Content="Save Rubric" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Padding="5" Click="btnSave_Click"/>
+                    <Button x:Name="btnCancel" Content="Cancel Changes" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Padding="5" Click="btnCancel_Click" Visibility="Collapsed"/>
                     <!--<Label Content="Create Rubric Controls" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="10"/>-->
-                    <Button x:Name="btnDeactivateRubric" Content="Deactivate Rubric" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Padding="2" Visibility="Collapsed" Click="mnuDeactivateRubric_Click"/>
+                    <Button x:Name="btnDeactivateRubric" Content="Deactivate Rubric" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Padding="5" Visibility="Collapsed" Click="mnuDeactivateRubric_Click"/>
                 </StackPanel>
 
                 <StackPanel x:Name="stkAdminButtons" Grid.Row="0" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Button x:Name="btnDeleteRubric" Content="Delete Rubric" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5" Padding="2" Visibility="Collapsed" Click="mnuAdminDeleteRubric_Click"/>
+                    <Button x:Name="btnDeleteRubric" Content="Delete Rubric" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5" Padding="5" Visibility="Collapsed" Click="mnuAdminDeleteRubric_Click"/>
 
                 </StackPanel>
                 
                 <!--</Border>-->
             </StackPanel>
 
-            <Grid Grid.Row="0" Grid.Column="1">
+            <Grid x:Name="grdEmail" Grid.Row="0" Grid.Column="1">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="70"/>
+                    <ColumnDefinition Width="80"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
-                <Label x:Name="lblUserID" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="10">Email:</Label>
+                <Label x:Name="lblUserID" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10">Email:</Label>
                 <TextBox x:Name="txtUserID" Margin="10px" Grid.Row="0" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></TextBox>
             </Grid>
 
-            <Grid Grid.Row="0" Grid.Column="2">
+            <Grid x:Name="grdPassword" Grid.Row="0" Grid.Column="2">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="90"/>
+                    <ColumnDefinition Width="80"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
-                <Label x:Name="lblPassword" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="10">Password:</Label>
+                <Label x:Name="lblPassword" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10">Password:</Label>
                 <PasswordBox x:Name="pwdPassword" Margin="10px" Grid.Row="0" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></PasswordBox>
             </Grid>
             <Button Margin="10px" Grid.Column="3" Grid.Row="0" Content="Login" x:Name="btnLogin" Click="btnLogin_Click" />
@@ -196,12 +211,14 @@
                     </ItemsControl>
 
                     <Grid x:Name="grdActionArea" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" >
-                        <ItemsControl x:Name="icFacetCriteria" ItemsSource="{Binding}">
+                        <ItemsControl x:Name="icFacetCriteria" ItemsSource="{Binding}" Tag="False" xmlns:local="clr-namespace:RubricNorming">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <StackPanel Orientation="Horizontal"></StackPanel>
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
+                            
+                            
 
                             <!--<ItemsControl.ItemContainerStyle>
                             <Style>
@@ -211,34 +228,48 @@
                             </Style>
                         </ItemsControl.ItemContainerStyle>-->
                             <!--<BitmapImage x:Key="Trash_16x" UriSource="Icons/Trash_16x.png"/>-->
-                            <ItemsControl.ItemTemplate>
-                                
+                            <ItemsControl.ItemTemplate>                                
                                 <DataTemplate>
-                                    <StackPanel Orientation="Vertical" >
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition/>
-                                                <ColumnDefinition/>
-                                            </Grid.ColumnDefinitions>
+                                    <Grid Margin="10">
+                                        <!--<Border BorderBrush="Black" BorderThickness="3" CornerRadius="5"/>-->
+                                        <StackPanel Orientation="Vertical" Margin="10" >
                                             
-                                            <Label Grid.Column="0" Content="{Binding Key.FacetID}" ToolTip="{Binding Key.Description}" HorizontalAlignment="Left"/>
-                                            <Button x:Name="btnDeleteFacet" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="2" Padding="2" Click="btnDeleteFacet_Click"  Tag="{Binding Key.FacetID}" Visibility="Hidden" IsEnabledChanged="btnDeleteFacet_IsEnabledChanged" >
-                                                <Image Source="/Icons/Trash_16x.png"/>
-                                            </Button>
-                                        </Grid>
-                                        
-                                        
-                                        <ItemsControl ItemsSource="{Binding Value}" >
-                                            <ItemsControl.ItemTemplate>
-                                                <DataTemplate>
-                                                    <StackPanel Orientation="Vertical">
-                                                        <TextBox Height="25" Width="150" Text="{Binding CriteriaID}" TextAlignment="Center" FontWeight="Bold" TextWrapping="Wrap" TextChanged="TextBox_TextChanged" />
-                                                        <TextBox Height="125" Width="150" Text="{Binding Content}" TextWrapping="Wrap" TextChanged="TextBox_TextChanged_1" VerticalScrollBarVisibility="Auto" />
-                                                    </StackPanel>
-                                                </DataTemplate>
-                                            </ItemsControl.ItemTemplate>
-                                        </ItemsControl>
-                                    </StackPanel>
+                                            <Grid>                                                
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition/>
+                                                </Grid.ColumnDefinitions>
+                                                <Label Grid.Column="0" Content="{Binding Key.FacetID}" ToolTip="{Binding Key.Description}" HorizontalAlignment="Left" Margin="5"/>
+                                                <Button x:Name="btnDeleteFacet" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="2" Padding="2" Click="btnDeleteFacet_Click"  Tag="{Binding Key.FacetID}" Visibility="Hidden" IsEnabledChanged="btnDeleteFacet_IsEnabledChanged" Initialized="btnDeleteFacet_Initialized"  >
+                                                    <Image Source="/Icons/Trash_16x.png"/>
+                                                </Button>
+                                            </Grid>
+                                            <ItemsControl ItemsSource="{Binding Value}" >
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Grid>
+                                                            <!--<Border BorderBrush="Black" BorderThickness="3" CornerRadius="5"/>-->
+                                                            <Grid Margin="0,0,0,10">
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="25"/>
+                                                                    <ColumnDefinition/>
+                                                                </Grid.ColumnDefinitions>
+                                                                
+                                                                <Label Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Content="{Binding Score}"/>
+                                                                <StackPanel Orientation="Vertical" Grid.Column="1">
+       
+                                                                    <TextBox x:Name="txtCriteriaID" Height="25" Width="150" Text="{Binding CriteriaID}" TextAlignment="Center" FontWeight="Bold" TextWrapping="Wrap" TextChanged="TextBox_TextChanged" Margin="5" Initialized="txtCriteriaID_Initialized"/>
+                                                                    <TextBox Height="125" Width="150" Text="{Binding Content}" TextWrapping="Wrap" TextChanged="TextBox_TextChanged_1" VerticalScrollBarVisibility="Auto" Margin="5,5,5,20" Initialized="txtCriteriaID_Initialized">
+                                                                    </TextBox>
+                                                                </StackPanel>
+                                                            </Grid>
+                                                        </Grid>
+                                                        
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </StackPanel>
+                                    </Grid>                                    
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
@@ -256,26 +287,26 @@
                 </Grid>
 
             </ScrollViewer>
-
-            <TabControl x:Name="tabsetCreateControls" Grid.Row="2" Grid.Column="0" Margin="10, 0, 0, 0">
-
+            <Border x:Name="brdTabSetCreateControlsBorder" BorderBrush="#00ABE1" BorderThickness="2" CornerRadius="3" Margin="10, 0, 0, 0" />
+            <TabControl x:Name="tabsetCreateControls" Grid.Row="2" Grid.Column="0" Margin="10, 0, 0, 0" Background="#00ABE1">
+                
                 <TabItem x:Name="tabCreate" Header="Create">
 
                     <Grid Grid.Row="0" x:Name="grdCreateControls" Grid.Column="0">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="40"/>
                             <RowDefinition Height="50"/>
-                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="120"/>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="60"/>
                             <RowDefinition Height="100"/>
-                            <RowDefinition Height="50"/>
-                            <RowDefinition Height="50"/>
-                            <RowDefinition Height="90"/>
-                            <RowDefinition Height="50"/>
-                            <RowDefinition Height="50"/>
-                            <RowDefinition Height="50"/>
-                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="60"/>
                             <RowDefinition/>
-                            <RowDefinition Height="35"/>
+                            <RowDefinition Height="45"/>
                         </Grid.RowDefinitions>
 
                         <Grid.ColumnDefinitions>
@@ -286,10 +317,11 @@
 
                         <TextBlock x:Name="txtblkDockPanelTitle" Grid.Row="0" Grid.ColumnSpan="2" TextWrapping="Wrap" TextAlignment="Left" FontSize="14" FontWeight="Bold" Margin="10" >Rubric</TextBlock>
                         <TextBlock x:Name="txtblkInstructions" Grid.Row="1" Grid.ColumnSpan="2" TextWrapping="Wrap" TextAlignment="Left"  Margin="10, 0, 10, 10" Text="Describe what the rubric will be used for."></TextBlock>
+                        
 
 
 
-                        <Label Grid.Row="2" Grid.Column="0" x:Name="lblTitle" HorizontalAlignment="Right" VerticalAlignment="Center">Title:</Label>
+                            <Label Grid.Row="2" Grid.Column="0" x:Name="lblTitle" HorizontalAlignment="Right" VerticalAlignment="Center">Title:</Label>
                         <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" x:Name="txtBoxTitle" Margin="10" VerticalContentAlignment="Center" Padding="5,0,0,0"></TextBox>
 
                         <Label Grid.Row="3" Grid.Column="0" x:Name="lblDescription"  HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0, 10, 0, 0">Description:</Label>
@@ -335,13 +367,13 @@
 
                     <Grid x:Name="grdCriteria">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="40"/>
                             <RowDefinition Height="50"/>
-                            <RowDefinition Height="50"/>
-                            <RowDefinition Height="50"/>
-                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="60"/>
                             <RowDefinition/>
-                            <RowDefinition Height="35"/>
+                            <RowDefinition Height="45"/>
 
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
@@ -361,7 +393,7 @@
                                 <ColumnDefinition Width="40"/>
                             </Grid.ColumnDefinitions>
                             <Slider x:Name="sldCriteriaBottomRange" Grid.Row="0" Grid.Column="0" Margin="10" VerticalAlignment="Center" Minimum="0" Maximum="8" TickPlacement="BottomRight" IsSnapToTickEnabled="True" ValueChanged="sldCriteriaBottomRange_ValueChanged" Value="1"/>
-                            <TextBox x:Name="txtBoxCriteriaBottomRange" Grid.Row="0" Grid.Column="1" Text="{Binding ElementName=sldCriteriaBottomRange, Path=Value, UpdateSourceTrigger=PropertyChanged}"   Margin="10"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Width="20" />
+                            <Label x:Name="txtBoxCriteriaBottomRange" Grid.Row="0" Grid.Column="1" Content="{Binding ElementName=sldCriteriaBottomRange, Path=Value, UpdateSourceTrigger=PropertyChanged}"  Margin="10"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Padding="0" VerticalAlignment="Center"/>
                         </Grid>
 
                         <Label x:Name="lblCriteriaTopRange" Grid.Row="3" Content="Choose the top range for criteria scores" HorizontalContentAlignment="Left" Margin="10" VerticalContentAlignment="Center" Grid.ColumnSpan="2"/>
@@ -376,7 +408,7 @@
                             </Grid.ColumnDefinitions>
 
                             <Slider x:Name="sldCriteriaTopRange" Grid.Row="0" Grid.Column="0" Margin="10" VerticalAlignment="Center" Minimum="1" Maximum="9" TickPlacement="BottomRight" IsSnapToTickEnabled="True" ValueChanged="sldCriteriaTopRange_ValueChanged" Value="4"/>
-                            <TextBox x:Name="txtBoxCriteriaTopRange" Grid.Row="0" Grid.Column="1" Text="{Binding ElementName=sldCriteriaTopRange, Path=Value, UpdateSourceTrigger=PropertyChanged}"   Margin="10"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Width="20" />
+                            <Label x:Name="txtBoxCriteriaTopRange" Grid.Row="0" Grid.Column="1" Content="{Binding ElementName=sldCriteriaTopRange, Path=Value, UpdateSourceTrigger=PropertyChanged}"   Margin="10"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Width="20" />
 
                         </Grid>
 
@@ -399,14 +431,14 @@
 
                         <Grid >
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="90"/>
-                                <RowDefinition Height="50"/>
                                 <RowDefinition Height="100"/>
-                                <RowDefinition Height="50"/>
-                            <RowDefinition Height="100"/>
+                                <RowDefinition Height="60"/>
+                                <RowDefinition Height="110"/>
+                                <RowDefinition Height="60"/>
+                            <RowDefinition Height="110"/>
                             <RowDefinition/>
 
-                                <RowDefinition Height="35"/>
+                                <RowDefinition Height="45"/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
@@ -416,8 +448,8 @@
 
                             <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="40"/>
                                     <RowDefinition Height="50"/>
+                                    <RowDefinition Height="60"/>
                                 </Grid.RowDefinitions>
 
                                 <Label x:Name="lblFacetSectionTitle" Grid.Row="0" Content="Add Facets" HorizontalContentAlignment="Left" FontSize="14" FontWeight="Bold" Margin="10, 10, 10, 0"/>
@@ -449,8 +481,8 @@
 
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="40"/>
                             <RowDefinition Height="50"/>
+                            <RowDefinition Height="60"/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
@@ -476,7 +508,7 @@
                                                 <RowDefinition/>
                                                 <RowDefinition/>
                                                 <RowDefinition/>
-                                                <RowDefinition Height="50"/>
+                                                <RowDefinition Height="60"/>
                                                 <RowDefinition/>
 
                                             </Grid.RowDefinitions>
