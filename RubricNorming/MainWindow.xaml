@@ -7,7 +7,6 @@
         mc:Ignorable="d"
         x:Name="frmMainWindow"
         Title="Rubric Norming" Height="900" Width="1200" WindowStartupLocation="CenterScreen" Loaded="frmMainWindow_Loaded"  WindowState="Maximized" >
-
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
@@ -211,11 +210,24 @@
                                 
                             </Style>
                         </ItemsControl.ItemContainerStyle>-->
-
+                            <!--<BitmapImage x:Key="Trash_16x" UriSource="Icons/Trash_16x.png"/>-->
                             <ItemsControl.ItemTemplate>
+                                
                                 <DataTemplate>
                                     <StackPanel Orientation="Vertical" >
-                                        <Label Content="{Binding Key.FacetID}" ToolTip="{Binding Key.Description}"/>                                        
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            
+                                            <Label Grid.Column="0" Content="{Binding Key.FacetID}" ToolTip="{Binding Key.Description}" HorizontalAlignment="Left"/>
+                                            <Button x:Name="btnDeleteFacet" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="2" Padding="2" Click="btnDeleteFacet_Click"  Tag="{Binding Key.FacetID}" Visibility="Hidden" IsEnabledChanged="btnDeleteFacet_IsEnabledChanged" >
+                                                <Image Source="/Icons/Trash_16x.png"/>
+                                            </Button>
+                                        </Grid>
+                                        
+                                        
                                         <ItemsControl ItemsSource="{Binding Value}" >
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate>

@@ -859,3 +859,25 @@ AS
 		RETURN @@ROWCOUNT
 	END	
 GO
+
+
+/*
+sp_delete_facet_by_rubric_id_and_facet_id	IFacetAccessor
+*/
+print '' print '*** creating sp_delete_facet_by_rubric_id_and_facet_id ***'
+GO
+CREATE PROCEDURE [dbo].[sp_delete_facet_by_rubric_id_and_facet_id]
+(
+	@RubricID			int
+	,@FacetID			nvarchar(50)	
+)
+AS
+	BEGIN
+		DELETE FROM [Facet]
+		WHERE
+			[RubricID] = @RubricID
+			AND [FacetID] = @FacetID
+		RETURN @@ROWCOUNT
+	END	
+GO
+

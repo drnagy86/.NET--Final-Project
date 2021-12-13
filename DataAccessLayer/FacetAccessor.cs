@@ -12,6 +12,38 @@ namespace DataAccessLayer
 {
     public class FacetAccessor : IFacetAccesor
     {
+        public int DeleteFacetByRubricIDAndFacetID(int rubricID, string facetID)
+        {
+            int rowsAffected = 0;
+
+            // connection
+            var conn = DBConnection.GetConnection();
+
+            string cmdTxt = "sp_delete_facet_by_rubric_id_and_facet_id";
+            var cmd = new SqlCommand(cmdTxt, conn);
+
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@RubricID", rubricID);
+            cmd.Parameters.AddWithValue("@FacetID", facetID);
+
+
+            try
+            {
+                conn.Open();
+                rowsAffected = cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return rowsAffected;
+        }
+
         public int InsertFacet(int rubricID, string facetID, string description, string facetType)
         {
             int rowsAffected = 0;
