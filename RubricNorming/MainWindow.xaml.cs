@@ -327,7 +327,7 @@ namespace RubricNorming
             detailActionArea.Visibility = Visibility.Visible;
 
             viewAllActiveRubrics();
-            
+
         }
 
         private void viewerUI()
@@ -462,14 +462,50 @@ namespace RubricNorming
         {
             _rubric = (Rubric)datViewList.SelectedItem;
 
+            setCurrentRubricVM();
+            rubricVMDetailView();
+
+            //try
+            //{
+            //    // errors with fakes here
+            //    _rubricVM = _rubricVMManager.RetrieveRubricByRubricID(_rubric.RubricID);
+
+            //    staMessage.Content = "Viewing the rubric. Click \"Edit Rubric\" if you would like to make changes.";
+
+            //    rubricVMDetailView();
+
+            //    txtBoxTitle.Text = _rubricVM.Name;
+            //    txtBoxDescription.Text = _rubricVM.Description;
+            //    cmbBoxScoreTypes.SelectedItem = _rubricVM.ScoreTypeID;
+            //    icFacetControls.ItemsSource = _rubricVM.Facets;
+
+            //    foreach (ScoreType scoreType in _scoreTypes)
+            //    {
+            //        if (scoreType.ScoreTypeID == _rubricVM.ScoreTypeID)
+            //        {
+            //            txtBlockScoreTypeDescription.Text = scoreType.Description;
+            //            break;
+            //        }
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show("Problem retrieving the single rubric." + ex.Message);
+            //    staMessage.Content = "Problem retrieving the single rubric." + ex.Message;
+            //    viewAllActiveRubrics();
+            //}
+        }
+
+        private void setCurrentRubricVM()
+        {
             try
             {
                 // errors with fakes here
                 _rubricVM = _rubricVMManager.RetrieveRubricByRubricID(_rubric.RubricID);
-                
+
                 staMessage.Content = "Viewing the rubric. Click \"Edit Rubric\" if you would like to make changes.";
-                
-                rubricVMDetailView();
+
+                //rubricVMDetailView();
 
                 txtBoxTitle.Text = _rubricVM.Name;
                 txtBoxDescription.Text = _rubricVM.Description;
@@ -770,7 +806,15 @@ namespace RubricNorming
                         txtBoxDescription.Text = _rubricVM.Description;
                         cmbBoxScoreTypes.SelectedItem = _rubricVM.ScoreTypeID;
 
-                        
+                        setCurrentUIState(UIState.View);
+
+
+                        btnEditSelection.Visibility = Visibility.Collapsed;
+                        btnSave.Visibility = Visibility.Visible;
+                        btnCancel.Visibility = Visibility.Visible;
+                        btnDeactivateRubric.Visibility = Visibility.Visible;
+
+
                     }
                     catch (Exception ex)
                     {
@@ -1162,8 +1206,12 @@ namespace RubricNorming
 
         private void mnuCreateNewRubric_Click(object sender, RoutedEventArgs e)
         {
+            //_rubric = new Rubric();
+            //_rubricVM = new RubricVM();
             _facets = new List<Facet>();
             _criteriaList = new List<Criteria>();
+            icFacetCriteria.ItemsSource = null;
+            icScores.ItemsSource = null;
 
 
             _unsavedWorkFlag = true;
@@ -1188,6 +1236,8 @@ namespace RubricNorming
             mnuDeactivateRubric.Visibility = Visibility.Visible;
 
             setCurrentUIState(UIState.Edit);
+
+            //tabsetCreateControls.IsEnabled = true;
             // change it so that all fields can be edited and not just viewed
 
         }
@@ -1309,8 +1359,10 @@ namespace RubricNorming
 
                     txtBoxTitle.IsReadOnly = false;
                     txtBoxTitle.Text = "";
+                    txtBoxTitle.IsEnabled = true;
                     txtBoxDescription.IsReadOnly = false;
                     txtBoxDescription.Text = "";
+                    txtBoxDescription.IsEnabled = true;
                     cmbBoxScoreTypes.IsEnabled = true;
 
                     txtBoxGradeLevel.IsReadOnly = false;
@@ -1328,6 +1380,7 @@ namespace RubricNorming
                     btnDeleteRubric.Visibility = Visibility.Collapsed;
 
                     tabsetCreateControls.Visibility = Visibility.Visible;
+                    tabsetCreateControls.IsEnabled = true;
 
                     tabScoreRange.IsEnabled = false;
                     tabScoreRange.Visibility = Visibility.Visible;
@@ -1338,7 +1391,7 @@ namespace RubricNorming
 
                     //icFacetCriteria.IsEnabled = true;
                     //icFacetCriteria.Visibility = Visibility.Visible;
-                    //icFacetControls.IsEnabled = true;
+                    icFacetControls.IsEnabled = true;
 
 
                     lblActionAreaTitle.Visibility = Visibility.Hidden;                    
@@ -1350,13 +1403,17 @@ namespace RubricNorming
                     break;
                 case UIState.Edit:
 
+                    tabsetCreateControls.IsEnabled = true;
+
                     tabCreate.Header = "Rubric Details";
                     txtblkInstructions.Text = "Information about the rubric.";
                     txtBlkTagTitle.Text = "Tags";
                     txtBlkTags.Text = "Short descriptive tags that give information about the rubric.";
 
                     txtBoxTitle.IsReadOnly = false;
+                    txtBoxTitle.IsEnabled = true;
                     txtBoxDescription.IsReadOnly = false;
+                    txtBoxDescription.IsEnabled = true;
                     cmbBoxScoreTypes.IsEnabled = true;
 
                     txtBoxGradeLevel.IsReadOnly = false;
@@ -1364,17 +1421,18 @@ namespace RubricNorming
                     txtBoxUnit.IsReadOnly = false;
                     txtBoxSubject.IsReadOnly = false;
 
-
                     btnCreateRubricNext.Visibility = Visibility.Hidden;
                     tabFacets.Visibility = Visibility.Collapsed;
 
                     icFacetCriteria.IsEnabled = true;
                     icFacetControls.IsEnabled = true;
+                    
 
 
                     break;
 
                 case UIState.View:
+                    tabsetCreateControls.IsEnabled = true;
 
                     tabCreate.Header = "Rubric Details";
                     txtblkInstructions.Text = "Information about the rubric.";
@@ -1382,7 +1440,9 @@ namespace RubricNorming
                     txtBlkTags.Text = "Short descriptive tags that give information about the rubric.";
 
                     txtBoxTitle.IsReadOnly = true;
+                    txtBoxTitle.IsEnabled = false;
                     txtBoxDescription.IsReadOnly = true;
+                    txtBoxDescription.IsEnabled = false;
                     cmbBoxScoreTypes.IsEnabled = false;
 
                     txtBoxGradeLevel.IsReadOnly = true;
@@ -1390,16 +1450,19 @@ namespace RubricNorming
                     txtBoxUnit.IsReadOnly = true;
                     txtBoxSubject.IsReadOnly = true;
 
+                    btnEditSelection.Visibility = Visibility.Visible;
+                    btnSave.Visibility = Visibility.Collapsed;
+                    btnCancel.Visibility = Visibility.Collapsed;
+                    btnDeactivateRubric.Visibility = Visibility.Collapsed;
+
 
                     btnCreateRubricNext.Visibility = Visibility.Hidden;
                     tabFacets.Visibility = Visibility.Collapsed;
                     tabFacetDetailView.Visibility = Visibility.Visible;
                     tabScoreRange.Visibility = Visibility.Collapsed;
 
-
                     icFacetCriteria.IsEnabled = false;
                     icFacetControls.IsEnabled = false;
-
 
 
                     break;
@@ -1440,7 +1503,13 @@ namespace RubricNorming
 
         private void mnuDeactivateRubric_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult result = MessageBox.Show("Are you sure you would like to deactivate this rubric?\nYou will need to ask an administrator to reactivate it.", "Confirm Deactivation", MessageBoxButton.YesNo,MessageBoxImage.Question);
+            deactivateRubric();
+
+        }
+
+        private void deactivateRubric()
+        {
+            MessageBoxResult result = MessageBox.Show("Are you sure you would like to deactivate this rubric?\nYou will need to ask an administrator to reactivate it.", "Confirm Deactivation", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
             switch (result)
             {
@@ -1463,7 +1532,7 @@ namespace RubricNorming
                     catch (Exception ex)
                     {
                         MessageBox.Show("There was an error deactivating the rubric.\n" + ex.Message, "Problem Deactivating", MessageBoxButton.OK, MessageBoxImage.Error);
-                        staMessage.Content = "There was an error deactivating the rubric. " + ex.Message.Replace('\n',' ');
+                        staMessage.Content = "There was an error deactivating the rubric. " + ex.Message.Replace('\n', ' ');
                     }
 
                     break;
@@ -1472,7 +1541,6 @@ namespace RubricNorming
                 default:
                     break;
             }
-
         }
 
         private void mnuAdminDeleteRubric_Click(object sender, RoutedEventArgs e)
@@ -1504,6 +1572,86 @@ namespace RubricNorming
                     break;
                 default:
                     break;
+            }
+
+        }
+
+
+        private void btnDeleteFacet_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = (Button)sender;
+
+
+            MessageBoxResult result = MessageBox.Show("Are you sure you would like to delete the facet \"" + button.Tag.ToString() + "\" and all of it's criteria? This can not be undone.", "Delete Facet", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            switch (result)
+            {
+                case MessageBoxResult.None:
+                    break;
+                case MessageBoxResult.OK:
+                    break;
+                case MessageBoxResult.Cancel:
+                    break;
+                case MessageBoxResult.Yes:
+                    try
+                    {
+                        if (_rubricVM.FacetCriteria.Count == 1)
+                        {
+                            deactivateRubric();
+                        }
+                        else
+                        {
+                            _facetManager.DeleteFacetByRubricIDAndFacetID(_rubricVM.RubricID, button.Tag.ToString());
+                            staMessage.Content = "Deleted \"" + button.Tag.ToString() + "\" successfully.";
+
+                            switch (_currentUIState)
+                            {
+                                case UIState.Create:
+
+                                    break;
+                                case UIState.Edit:
+                                    _rubric = (Rubric)datViewList.SelectedItem;
+
+                                    setCurrentRubricVM();
+                                    rubricVMDetailView();
+
+                                    break;
+                                case UIState.View:
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Problem deleting the facet" + ex.Message, "Problem Deleting Facet", MessageBoxButton.OK, MessageBoxImage.Error);
+                        staMessage.Content = "Problem deleting the facet" + ex.Message.Replace('\n', ' ');
+                    }
+
+                    break;
+                case MessageBoxResult.No:
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void btnDeleteFacet_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            Button button = (Button)sender;
+
+            if (icFacetCriteria.IsEnabled == true)
+            {
+                button.IsEnabled = true;
+                button.Visibility = Visibility.Visible;
+
+            }
+            else if (icFacetCriteria.IsEnabled == false)
+            {
+                button.IsEnabled = false;
+                button.Visibility = Visibility.Hidden;
             }
 
         }

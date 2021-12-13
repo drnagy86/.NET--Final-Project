@@ -8,7 +8,7 @@ using DataAccessInterFaces;
 
 namespace DataAccessFakes
 {
-    public class FacetAccessorFake: IFacetAccesor
+    public class FacetAccessorFake : IFacetAccesor
     {
         private List<Facet> _fakeFacetList = new List<Facet>();
 
@@ -68,6 +68,25 @@ namespace DataAccessFakes
                 RubricID = 100001,
                 FacetType = "Type2"
             });
+        }
+
+        public int DeleteFacetByRubricIDAndFacetID(int rubricID, string facetID)
+        {
+            int rowsAffected = 0;
+
+            foreach (Facet facet in _fakeFacetList)
+            {
+                if (facet.FacetID == facetID && facet.RubricID == rubricID)
+                {
+                    _fakeFacetList.Remove(facet);
+                    rowsAffected++;
+                    return rowsAffected;
+
+                }
+            }
+
+
+            return rowsAffected;
         }
 
         public int InsertFacet(int rubricID, string facetID, string description, string facetType)

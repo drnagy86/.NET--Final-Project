@@ -246,5 +246,39 @@ namespace LogicLayerTests
             // assert
             // nothing to assert, expecting exception
         }
+
+
+        [TestMethod]
+        public void TestDeleteFacetByRubricIDAndFacetIDReturnsTrue()
+        {
+            // arrange
+            const int rubricID = 100000;
+            const string facetID = "Fake Facet 1";
+            const bool expected = true;
+            bool actual;
+
+            // act
+            actual = _facetManager.DeleteFacetByRubricIDAndFacetID(rubricID, facetID);
+
+            // assert
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ApplicationException))]
+        public void TestDeleteFacetByRubricIDAndFacetIDThrowsExceptionWithBadRubricID()
+        {
+            const int rubricID = 1000000;
+            const string facetID = "Fake Facet 1";
+            const bool expected = true;
+            bool actual;
+
+            // act
+            actual = _facetManager.DeleteFacetByRubricIDAndFacetID(rubricID, facetID);
+
+            // assert
+            Assert.AreEqual(expected, actual);
+        }
+
     }
 }

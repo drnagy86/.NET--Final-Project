@@ -99,7 +99,7 @@ namespace LogicLayer
 
             if (!result)
             {
-                throw new ApplicationException("Rubric not deactivated.");
+                throw new ApplicationException("Rubric not deleted.");
             }
 
             return result;

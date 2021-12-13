@@ -59,6 +59,27 @@ namespace LogicLayer
             return isCreated;
         }
 
+        public bool DeleteFacetByRubricIDAndFacetID(int rubricID, string facetID)
+        {
+            bool result = false;
+
+            try
+            {
+                result = (1 == _facetAccesor.DeleteFacetByRubricIDAndFacetID(rubricID,facetID));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            if (!result)
+            {
+                throw new ApplicationException("Facet not deleted.");
+            }
+
+            return result;
+        }
+
         public List<Facet> RetrieveActiveFacets()
         {
             List<Facet> facets = null;
