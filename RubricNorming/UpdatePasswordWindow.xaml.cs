@@ -54,7 +54,8 @@ namespace RubricNorming
         {
             if (pwdNewPassword.Password != pwdRetypePassword.Password)
             {
-                MessageBox.Show("New password and retype password must match");
+                //MessageBox.Show("New password and retype password must match");
+                DialogControls.OneButton("Must Match", "New password and retype password must match");
                 pwdNewPassword.Password = "";
                 pwdOldPassword.Password = "";
                 pwdRetypePassword.Password = "";
@@ -70,17 +71,16 @@ namespace RubricNorming
 
                 if (_userManager.ResetPassword(_user.UserID, oldPassword, newPassword))
                 {
-                    MessageBox.Show("Password successfully updated");
+                    //MessageBox.Show("Password successfully updated");
+                    DialogControls.OneButton("Success","Password successfully updated");
                     this.DialogResult = true;
                 }
-
             }
             catch (Exception ex)
             {
-
-                MessageBox.Show("Update failed.\n\n" + ex.Message);
+                //MessageBox.Show("Update failed.\n\n" + ex.Message);
+                DialogControls.OneButton("Failed", "Update failed.\n\n" + ex.Message);
             }
-
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)

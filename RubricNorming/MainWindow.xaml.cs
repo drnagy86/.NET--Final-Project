@@ -10,6 +10,8 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.ComponentModel;
 using ModernWpf;
+using ModernWpf.Controls;
+using Windows.Foundation.Metadata;
 
 namespace RubricNorming
 {
@@ -28,7 +30,6 @@ namespace RubricNorming
 
         UIState _currentUIState;
 
-        //try to get rid of this guy
         IRubricManager<Rubric> _rubricManager = null;
 
         string _executionChoice = "";
@@ -47,6 +48,13 @@ namespace RubricNorming
         bool _criteriaContentsChangedFlag = false;
         bool _facetDescriptionContentChangedFlag = false;
         bool _unsavedWorkFlag = false;
+
+        ContentDialogResult _dialogResult;
+        private object noWifiDialog;
+        private object elementAlreadyInMyAppWindow;
+
+        
+
 
         public MainWindow()
         {
@@ -107,17 +115,17 @@ namespace RubricNorming
                             {
                                 rolesList += " " + role;
                             }
-                            MessageBox.Show("Welcome back, " + _user.GivenName +
+                            //MessageBox.Show("Welcome back, " + _user.GivenName +
+                            //    "\n\n" + "Your roles are:" + rolesList);
+                            DialogControls.OneButton("Welcome Back", "Welcome back, " + _user.GivenName +
                                 "\n\n" + "Your roles are:" + rolesList);
-
-
-
                         }
                         else
                         {
                             _user = null;
                             updateUIforLogOut();
-                            MessageBox.Show("You did not update your password. You will be logged out.");
+                            //MessageBox.Show("You did not update your password. You will be logged out.");
+                            DialogControls.OneButton("No Update", "You did not update your password. You will be logged out.");
                         }
                     }
                     else if (_user != null)
@@ -128,11 +136,14 @@ namespace RubricNorming
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message + "\n\n" +
-                        ex.InnerException.Message,
-                        "Alert!",
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Error);
+                    //MessageBox.Show(ex.Message + "\n\n" +
+                    //    ex.InnerException.Message,
+                    //    "Alert!",
+                    //    MessageBoxButton.OK,
+                    //    MessageBoxImage.Error);
+
+                    DialogControls.OneButton("Alert!", ex.Message + "\n\n" +
+                        ex.InnerException.Message, "Okay");
 
                     pwdPassword.Password = "";
                     txtUserID.Select(0, Int32.MaxValue);
@@ -238,7 +249,10 @@ namespace RubricNorming
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Problem retrieving score types.\n" + ex.Message);
+                //MessageBox.Show("Problem retrieving score types.\n" + ex.Message);
+                DialogControls.OneButton("Error", "Problem retrieving score types.\n" + ex.Message);
+
+
             }
 
             try
@@ -251,7 +265,8 @@ namespace RubricNorming
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Problem retrieving facet types.\n" + ex.Message);
+                //MessageBox.Show("Problem retrieving facet types.\n" + ex.Message);
+                DialogControls.OneButton("Error", "Problem retrieving facet types.\n" + ex.Message);
             }
 
             hideAllControls();
@@ -371,7 +386,8 @@ namespace RubricNorming
             }
             catch (Exception ex)
             {
-                MessageBox.Show("There was a problem retrieving the list of rubrics." + ex.Message);
+                //MessageBox.Show("There was a problem retrieving the list of rubrics." + ex.Message);
+                DialogControls.OneButton("Error","There was a problem retrieving the list of rubrics." + ex.Message);
             }
 
             lblActionAreaTitle.Content = "All Rubrics";
@@ -398,7 +414,8 @@ namespace RubricNorming
             }
             catch (Exception ex)
             {
-                MessageBox.Show("There was a problem retrieving the list of facets." + ex.Message);
+                //MessageBox.Show("There was a problem retrieving the list of facets." + ex.Message);
+                DialogControls.OneButton("Error", "There was a problem retrieving the list of facets." + ex.Message);
             }
 
             var facetListSorted = facets.Select(f => new { f.FacetID, f.Description, f.DateCreated, f.DateUpdated, f.FacetType });
@@ -420,7 +437,8 @@ namespace RubricNorming
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("There was a problem retrieving the list of facets." + ex.Message);
+                        //MessageBox.Show("There was a problem retrieving the list of facets." + ex.Message);
+                        DialogControls.OneButton("Error", "There was a problem retrieving the list of facets." + ex.Message);
                     }
 
                     var facetListSorted = facetList.Select(f => new { f.FacetID, f.Description, f.FacetType });
@@ -438,7 +456,9 @@ namespace RubricNorming
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("There was a problem retrieving the list of criteria." + ex.Message);
+                        //MessageBox.Show("There was a problem retrieving the list of criteria." + ex.Message);
+                        DialogControls.OneButton("Error", "There was a problem retrieving the list of criteria." + ex.Message);
+                        
                     }
 
                     var criteriaListSorted = criteriaList.Select(c => new { c.FacetID, c.CriteriaID, c.Content, c.Score });
@@ -505,7 +525,9 @@ namespace RubricNorming
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Problem retrieving the single rubric." + ex.Message);
+                //MessageBox.Show("Problem retrieving the single rubric." + ex.Message);
+                DialogControls.OneButton("Error", "Problem retrieving the single rubric." + ex.Message);
+
                 staMessage.Content = "Problem retrieving the single rubric." + ex.Message;
                 viewAllActiveRubrics();
             }
@@ -613,9 +635,20 @@ namespace RubricNorming
 
         private void mnuExit_Click(object sender, RoutedEventArgs e)
         {
+            //MessageBoxResult result = MessageBox.Show("Are you sure you want to quit?\nAny unsaved work will be lost.", "Quit?", MessageBoxButton.OKCancel, MessageBoxImage.Question);
+
+            ////DialogControls.OkayCancel("Quit", "Are you sure you want to quit?\nAny unsaved work will be lost.");
+
+            ////contentDialogOkayCancel("Quit", "Are you sure you want to quit?\nAny unsaved work will be lost.");
+            //contentDialogQuit();
+
+            //staMessage.Content = DialogControls.DialogResult.ToString();
+
             if (_unsavedWorkFlag)
             {
                 MessageBoxResult result = MessageBox.Show("Are you sure you want to quit?\nAny unsaved work will be lost.", "Quit?", MessageBoxButton.OKCancel, MessageBoxImage.Question);
+
+                //DialogControls.OkayCancel("Quit", "Are you sure you want to quit?\nAny unsaved work will be lost.");
 
                 switch (result)
                 {
@@ -624,11 +657,43 @@ namespace RubricNorming
                     case MessageBoxResult.OK:
                         this.Close();
                         break;
-                    case MessageBoxResult.Cancel:                        
+                    case MessageBoxResult.Cancel:
+                        break;
+                    case MessageBoxResult.Yes:
+                        break;
+                    case MessageBoxResult.No:
                         break;
                     default:
                         break;
                 }
+                
+            }
+        }
+
+
+        private async void contentDialogQuit()
+        {
+            ContentDialog oneButton = new ContentDialog
+            {
+                Title = "Quit",
+                Content = "Are you sure you want to quit?\nAny unsaved work will be lost.",
+                PrimaryButtonText = "Yes",
+                CloseButtonText = "No"
+            };
+
+            ContentDialogResult result = await oneButton.ShowAsync();
+
+            switch (result)
+            {
+                case ContentDialogResult.None:
+                    break;
+                case ContentDialogResult.Primary:
+                    staMessage.Content = "Did it";
+                    break;
+                case ContentDialogResult.Secondary:
+                    break;
+                default:
+                    break;
             }
         }
 
@@ -645,20 +710,23 @@ namespace RubricNorming
             }
             else if (!isValidTitle && !isValidDescription)
             {
-                MessageBox.Show("Invalid title and description for the rubric.", "Invalid Title and Description", MessageBoxButton.OK, MessageBoxImage.Error);
+                //MessageBox.Show("Invalid title and description for the rubric.", "Invalid Title and Description", MessageBoxButton.OK, MessageBoxImage.Error);
+                DialogControls.OneButton("Invalid Title and Description", "Invalid title and description for the rubric.");
                 staMessage.Content = "Invalid title and description for the rubric.";
                 txtBoxTitle.Focus();
             }
             else if (!isValidTitle)
             {
-                MessageBox.Show("Invalid title for the rubric.", "Invalid Title", MessageBoxButton.OK, MessageBoxImage.Error);
+                //MessageBox.Show("Invalid title for the rubric.", "Invalid Title", MessageBoxButton.OK, MessageBoxImage.Error);
+                DialogControls.OneButton("Invalid Title", "Invalid title for the rubric.");
                 staMessage.Content = "Invalid title for the rubric.";
                 txtBoxTitle.Focus();
 
             }
             else if (!isValidDescription)
             {
-                MessageBox.Show("Invalid description for the rubric", "Invalid Description", MessageBoxButton.OK, MessageBoxImage.Error);
+                //MessageBox.Show("Invalid description for the rubric", "Invalid Description", MessageBoxButton.OK, MessageBoxImage.Error);
+                DialogControls.OneButton("Invalid Description", "Invalid description for the rubric");
                 staMessage.Content = "Invalid description for the rubric.";
                 txtBoxDescription.Focus();
             }
@@ -762,7 +830,8 @@ namespace RubricNorming
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("Problem retrieving old rubric \n " + ex.Message + " ");
+                        //MessageBox.Show("Problem retrieving old rubric \n " + ex.Message + " ");
+                        DialogControls.OneButton("Error", "Problem retrieving old rubric \n " + ex.Message);
                         staMessage.Content = "Problem retrieving old rubric " + ex.Message + " ";
                     }
                     break;
@@ -789,7 +858,8 @@ namespace RubricNorming
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("There was a problem updating the rubric.\n " + ex.Message + " ", "Problem Updating Rubric");
+                        //MessageBox.Show("There was a problem updating the rubric.\n " + ex.Message + " ", "Problem Updating Rubric");
+                        DialogControls.OneButton("Problem Updating Rubric", "There was a problem updating the rubric.\n " + ex.Message);
                         staMessage.Content = "There was a problem creating the rubric. " + ex.Message + " ";
                     }
 
@@ -868,7 +938,9 @@ namespace RubricNorming
 
                     if (rubricUpdated || facetCriteriaDictionaryUpdated || facetDescriptionUpdated)
                     {
-                        MessageBox.Show(resultMessage, "Rubric Save");
+                        //MessageBox.Show(resultMessage, "Rubric Save");
+
+                        DialogControls.OneButton("Rubric Save", resultMessage);
                         staMessage.Content = resultMessage.Replace('\n', ' ');
                         _unsavedWorkFlag = false;
                     }
@@ -921,14 +993,17 @@ namespace RubricNorming
                 {
                     if (!criteria.CriteriaID.IsValidLength(50))
                     {
-                        MessageBox.Show("The criteria name of:\n" + criteria.CriteriaID + "\nis too long. Please shorten.", "Criteria Name Too Long");
+                        //MessageBox.Show("The criteria name of:\n" + criteria.CriteriaID + "\nis too long. Please shorten.", "Criteria Name Too Long");
+                        DialogControls.OneButton("Criteria Name Too Long", "The criteria name of:\n" + criteria.CriteriaID + "\nis too long. Please shorten.");
+
                         staMessage.Content = "The criteria name of: " + criteria.CriteriaID + " is too long. Please shorten.";
                         isValid = false;
                         break;
                     }
                     if (!criteria.Content.IsValidLength(255))
                     {
-                        MessageBox.Show("The criteria content of:\n" + criteria.Content + "\nis too long. Please shorten.", "Criteria Content Too Long");
+                        //MessageBox.Show("The criteria content of:\n" + criteria.Content + "\nis too long. Please shorten.", "Criteria Content Too Long");
+                        DialogControls.OneButton("Criteria Content Too Long", "The criteria content of:\n" + criteria.Content + "\nis too long. Please shorten.");
                         staMessage.Content = "The criteria content of: " + criteria.Content + " is too long. Please shorten.";
                         isValid = false;
                         break;
@@ -1014,7 +1089,8 @@ namespace RubricNorming
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("There was a problem creating the rubric.\n" + ex.Message, "Problem Creating Rubric");
+                    //MessageBox.Show("There was a problem creating the rubric.\n" + ex.Message, "Problem Creating Rubric");
+                    DialogControls.OneButton("Problem Creating Rubric", "There was a problem creating the rubric.\n" + ex.Message);
                     staMessage.Content = "There was a problem creating the rubric. " + ex.Message;
                     
                 }
@@ -1033,85 +1109,39 @@ namespace RubricNorming
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("Problem saving facets and criteria.\n" + ex.Message);
+                        //MessageBox.Show("Problem saving facets and criteria.\n" + ex.Message);
+                        DialogControls.OneButton("Error", "Problem saving facets and criteria.\n" + ex.Message);
                         staMessage.Content = "Problem saving facets and criteria. " + ex.Message;
                     }
-
 
                     if (isAdded)
                     {
                         MessageBox.Show("Successfully saved the rubric.");
+                        DialogControls.OneButton("Success", "Successfully saved the rubric.");
                         staMessage.Content = "Successfully saved the rubric.";
                         _unsavedWorkFlag = false;
                         
                         viewAllActiveRubrics();
-
                     }
                     else
                     {
                         //icScores.Visibility = Visibility.Visible;
                         icFacetCriteria.Visibility = Visibility.Visible;
                     }
-
-
-
                 }
-
-
             }
-
-
-
-
-
-
-            //try
-            //{
-            //    _facetManager.CreateFacet(_rubricVM.RubricID, txtBoxFacetTitle.Text, txtBoxFacetDescription.Text, cmbBoxFacetType.SelectedItem.ToString());
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show("There was a problem creating this facet.\n" + ex.Message, "Problem Creating Rubric");
-            //    staMessage.Content = "There was a problem creating this facet. " + ex.Message;
-            //}
-
-
-
-
-
-
 
         }
 
         private void btnScoreRangeAdd_Click(object sender, RoutedEventArgs e)
         {
             // start building the rubric vm without sending it off to the data base
-
             _rubric = new Rubric(txtBoxTitle.Text, txtBoxDescription.Text, cmbBoxScoreTypes.SelectedItem.ToString(), _user);
-
             _rubricVM = new RubricVM(_rubric, new List<Facet>(), new List<Criteria>());
 
-
-            //try
-            //{
-            //    _rubricVM = _rubricVMManager.RetrieveRubricByNameDescriptionScoreTypeIDRubricCreator(txtBoxTitle.Text, txtBoxDescription.Text, cmbBoxScoreTypes.SelectedItem.ToString(), _user.UserID);
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show("There was a problem creating the rubric.\n" + ex.Message, "Problem Creating Rubric");
-            //    staMessage.Content = "There was a problem creating the rubric. " + ex.Message;
-            //}
-
-            //foreach (var entry in _rubricVM.FacetCriteria)
-            //{
-            //    List<Criteria> criteriaList = _rubricVMManager.CreateBlankCriteriaForCreateRubricVM(entry.Key.RubricID, entry.Key.FacetID, sldCriteriaBottomRange.Value, sldCriteriaTopRange.Value);
-            //    entry.Value.Clear();
-            //    entry.Value.AddRange(criteriaList);
-            //}
             tabFacets.IsEnabled = true;
             tabFacets.Focus();
 
-            //rubricVMDetailView();
             rubricVMDetailViewForCreate();
 
         }
@@ -1150,8 +1180,7 @@ namespace RubricNorming
 
         private void mnuCreateNewRubric_Click(object sender, RoutedEventArgs e)
         {
-            //_rubric = new Rubric();
-            //_rubricVM = new RubricVM();
+
             _facets = new List<Facet>();
             _criteriaList = new List<Criteria>();
             icFacetCriteria.ItemsSource = null;
@@ -1431,7 +1460,9 @@ namespace RubricNorming
             {
                 textBox.Text = textBox.Text.Substring(0, 99);                
 
-                MessageBox.Show("The description for the facet is too long.", "Description too long");
+                //MessageBox.Show("The description for the facet is too long.", "Description too long");
+                DialogControls.OneButton("Description too long", "The description for the facet is too long.");
+
                 staMessage.Content = "The description for the facet is too long.";
 
                 textBox.CaretIndex = 99;
@@ -1463,14 +1494,18 @@ namespace RubricNorming
                     try
                     {
                         _rubricManager.DeactivateRubricByRubricID(_rubric.RubricID);
-                        MessageBox.Show("Deactivated Successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                        //MessageBox.Show("Deactivated Successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                        DialogControls.OneButton("Success", "Deactivated Successfully");
+
                         staMessage.Content = "Deactivated Successfully";
 
                         viewAllActiveRubrics();
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("There was an error deactivating the rubric.\n" + ex.Message, "Problem Deactivating", MessageBoxButton.OK, MessageBoxImage.Error);
+                        //MessageBox.Show("There was an error deactivating the rubric.\n" + ex.Message, "Problem Deactivating", MessageBoxButton.OK, MessageBoxImage.Error);
+                        DialogControls.OneButton("Problem Deactivating", "There was an error deactivating the rubric.\n" + ex.Message);
+
                         staMessage.Content = "There was an error deactivating the rubric. " + ex.Message.Replace('\n', ' ');
                     }
 
@@ -1498,13 +1533,15 @@ namespace RubricNorming
                     try
                     {
                         _rubricVMManager.DeleteRubricByRubricID(_rubricVM.RubricID);
-                        MessageBox.Show("Rubric successfully deleted.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                        //MessageBox.Show("Rubric successfully deleted.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                        DialogControls.OneButton("Success", "Rubric successfully deleted.");
                         staMessage.Content = "Rubric successfully deleted.";
                         viewAllActiveRubrics();
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("Problem deleting the rubric.\n" + ex.Message, "Delete", MessageBoxButton.OK, MessageBoxImage.Error);
+                        //MessageBox.Show("Problem deleting the rubric.\n" + ex.Message, "Delete", MessageBoxButton.OK, MessageBoxImage.Error);
+                        DialogControls.OneButton("Delete", "Problem deleting the rubric.\n" + ex.Message);
                     }
                     break;
                 case MessageBoxResult.No:
@@ -1539,6 +1576,7 @@ namespace RubricNorming
                             if (_facets.Count == 1)
                             {
                                 MessageBox.Show("There must be at least one facet to make a rubric.", "Facet Warning", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                                DialogControls.OneButton("Facet Warning", "There must be at least one facet to make a rubric.");
                                 break;
                             }
 
@@ -1608,13 +1646,13 @@ namespace RubricNorming
 
                                     setCurrentRubricVM();
                                     rubricVMDetailView();
-
                                 }
 
                             }
                             catch (Exception ex)
                             {
-                                MessageBox.Show("Problem deleting the facet" + ex.Message, "Problem Deleting Facet", MessageBoxButton.OK, MessageBoxImage.Error);
+                                //MessageBox.Show("Problem deleting the facet" + ex.Message, "Problem Deleting Facet", MessageBoxButton.OK, MessageBoxImage.Error);
+                                DialogControls.OneButton("Problem Deleting Facet", "Problem deleting the facet" + ex.Message);
                                 staMessage.Content = "Problem deleting the facet" + ex.Message.Replace('\n', ' ');
                             }
 
@@ -1699,6 +1737,46 @@ namespace RubricNorming
                 button.Visibility = Visibility.Visible;
             }
         }
+
+        //private async void contentDialogOneButton(string title, string content, string closeButtonText = "Okay")
+        //{
+        //    ContentDialog oneButton = new ContentDialog
+        //    {
+        //        Title = title,
+        //        Content = content,
+        //        CloseButtonText = closeButtonText
+        //    };
+
+        //    _dialogResult = await oneButton.ShowAsync();
+        //}
+
+        //private async void contentDialogOkayCancel(string title, string content, string primaryButtonText = "Okay", string closeButtonText = "Cancel")
+        //{
+        //    ContentDialog oneButton = new ContentDialog
+        //    {
+        //        Title = title,
+        //        Content = content,
+        //        PrimaryButtonText = primaryButtonText,
+        //        CloseButtonText = closeButtonText
+        //    };
+
+            
+
+        //    _dialogResult = await oneButton.ShowAsync();
+        //}
+
+        //private async void contentDialogYesNo(string title, string content, string primaryButtonText = "Yes", string closeButtonText = "No")
+        //{
+        //    ContentDialog oneButton = new ContentDialog
+        //    {
+        //        Title = title,
+        //        Content = content,
+        //        PrimaryButtonText = primaryButtonText,
+        //        CloseButtonText = closeButtonText
+        //    };
+
+        //    _dialogResult = await oneButton.ShowAsync();
+        //}
     }
 
     internal enum UIState

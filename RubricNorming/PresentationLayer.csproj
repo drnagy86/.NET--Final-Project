@@ -58,6 +58,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DialogControls.cs" />
     <Compile Include="EnterRubricIDForCriteria.xaml.cs">
       <DependentUpon>EnterRubricIDForCriteria.xaml</DependentUpon>
     </Compile>
