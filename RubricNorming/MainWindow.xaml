@@ -20,8 +20,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="35"/>
             <RowDefinition Height="60"/>
-            <RowDefinition/>
-            <RowDefinition Height="35"/>
+            <RowDefinition/>            
             <RowDefinition Height="45"/>
         </Grid.RowDefinitions>
 
@@ -49,6 +48,7 @@
 
             <MenuItem x:Name="mnuCreate" Header="Create">
                 <MenuItem x:Name="mnuCreateNewRubric" Header="New Rubric" Click="mnuCreateNewRubric_Click" />
+                <MenuItem x:Name="mnuSaveRubric" Header="Save Rubric" Click="btnSave_Click" Visibility="Visible" IsEnabled="False"/>
             </MenuItem>
 
             <MenuItem x:Name="mnuAdmin" Header="Admin" IsEnabled="False" Visibility="Collapsed">
@@ -66,14 +66,14 @@
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
-                <ColumnDefinition Width="240"/>
-                <ColumnDefinition Width="240"/>
-                <ColumnDefinition Width="120" />
+                <ColumnDefinition Width="300"/>
+                <ColumnDefinition Width="300"/>
+                <ColumnDefinition Width="100" />
             </Grid.ColumnDefinitions>
 
             <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Margin="10, 0, 0, 0" VerticalAlignment="Center">
                 <StackPanel x:Name="stkRubricControls">
-                    <Button x:Name="btnRetrieveActiveRubrics" Content="All Rubrics" HorizontalAlignment="Left" VerticalAlignment="Top" Click="btnRetrieveActiveRubrics_Click" Margin="5" Padding="5" FontSize="11"/>
+                    <Button x:Name="btnRetrieveActiveRubrics" Content="All Rubrics" HorizontalAlignment="Left" VerticalAlignment="Top" Click="btnRetrieveActiveRubrics_Click" Margin="5" Padding="5"/>
                     <!--<Label Content="View Controls" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="10"/>-->
                 </StackPanel>
 
@@ -83,7 +83,7 @@
                     
                     <Button x:Name="btnCreateNewRubric" Content="New Rubric" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Padding="5" Click="mnuCreateNewRubric_Click"/>
                     <Button x:Name="btnEditSelection" Content="Edit Selected Rubric" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Padding="5" Visibility="Collapsed" Click="mnuEditSelection_Click"/>
-                    <Button x:Name="btnSave" Content="Save Rubric" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Padding="5" Click="btnSave_Click" Visibility="Collapsed"/>
+                    <Button x:Name="btnSave" Content="Save Rubric" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Padding="5" Click="btnSave_Click"/>
                     <Button x:Name="btnCancel" Content="Cancel Changes" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Padding="5" Click="btnCancel_Click" Visibility="Collapsed"/>
                     <!--<Label Content="Create Rubric Controls" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="10"/>-->
                     <Button x:Name="btnDeactivateRubric" Content="Deactivate Rubric" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Padding="5" Visibility="Collapsed" Click="mnuDeactivateRubric_Click"/>
@@ -97,7 +97,7 @@
                 <!--</Border>-->
             </StackPanel>
 
-            <Grid Grid.Row="0" Grid.Column="1">
+            <Grid x:Name="grdEmail" Grid.Row="0" Grid.Column="1">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
@@ -110,7 +110,7 @@
                 <TextBox x:Name="txtUserID" Margin="10px" Grid.Row="0" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></TextBox>
             </Grid>
 
-            <Grid Grid.Row="0" Grid.Column="2">
+            <Grid x:Name="grdPassword" Grid.Row="0" Grid.Column="2">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
@@ -240,7 +240,7 @@
                                                     <ColumnDefinition/>
                                                 </Grid.ColumnDefinitions>
                                                 <Label Grid.Column="0" Content="{Binding Key.FacetID}" ToolTip="{Binding Key.Description}" HorizontalAlignment="Left" Margin="5"/>
-                                                <Button x:Name="btnDeleteFacet" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="2" Padding="2" Click="btnDeleteFacet_Click"  Tag="{Binding Key.FacetID}" Visibility="Hidden" IsEnabledChanged="btnDeleteFacet_IsEnabledChanged">
+                                                <Button x:Name="btnDeleteFacet" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="2" Padding="2" Click="btnDeleteFacet_Click"  Tag="{Binding Key.FacetID}" Visibility="Hidden" IsEnabledChanged="btnDeleteFacet_IsEnabledChanged" Initialized="btnDeleteFacet_Initialized"  >
                                                     <Image Source="/Icons/Trash_16x.png"/>
                                                 </Button>
                                             </Grid>
@@ -287,26 +287,26 @@
                 </Grid>
 
             </ScrollViewer>
-
-            <TabControl x:Name="tabsetCreateControls" Grid.Row="2" Grid.Column="0" Margin="10, 0, 0, 0">
-
+            <Border x:Name="brdTabSetCreateControlsBorder" BorderBrush="#00ABE1" BorderThickness="2" CornerRadius="3" Margin="10, 0, 0, 0" />
+            <TabControl x:Name="tabsetCreateControls" Grid.Row="2" Grid.Column="0" Margin="10, 0, 0, 0" Background="#00ABE1">
+                
                 <TabItem x:Name="tabCreate" Header="Create">
 
                     <Grid Grid.Row="0" x:Name="grdCreateControls" Grid.Column="0">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="40"/>
                             <RowDefinition Height="50"/>
-                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="120"/>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="60"/>
                             <RowDefinition Height="100"/>
-                            <RowDefinition Height="50"/>
-                            <RowDefinition Height="50"/>
-                            <RowDefinition Height="90"/>
-                            <RowDefinition Height="50"/>
-                            <RowDefinition Height="50"/>
-                            <RowDefinition Height="50"/>
-                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="60"/>
                             <RowDefinition/>
-                            <RowDefinition Height="35"/>
+                            <RowDefinition Height="45"/>
                         </Grid.RowDefinitions>
 
                         <Grid.ColumnDefinitions>
@@ -367,13 +367,13 @@
 
                     <Grid x:Name="grdCriteria">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="40"/>
                             <RowDefinition Height="50"/>
-                            <RowDefinition Height="50"/>
-                            <RowDefinition Height="50"/>
-                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="60"/>
                             <RowDefinition/>
-                            <RowDefinition Height="35"/>
+                            <RowDefinition Height="45"/>
 
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
@@ -393,7 +393,7 @@
                                 <ColumnDefinition Width="40"/>
                             </Grid.ColumnDefinitions>
                             <Slider x:Name="sldCriteriaBottomRange" Grid.Row="0" Grid.Column="0" Margin="10" VerticalAlignment="Center" Minimum="0" Maximum="8" TickPlacement="BottomRight" IsSnapToTickEnabled="True" ValueChanged="sldCriteriaBottomRange_ValueChanged" Value="1"/>
-                            <TextBox x:Name="txtBoxCriteriaBottomRange" Grid.Row="0" Grid.Column="1" Text="{Binding ElementName=sldCriteriaBottomRange, Path=Value, UpdateSourceTrigger=PropertyChanged}"   Margin="10"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Width="20" />
+                            <Label x:Name="txtBoxCriteriaBottomRange" Grid.Row="0" Grid.Column="1" Content="{Binding ElementName=sldCriteriaBottomRange, Path=Value, UpdateSourceTrigger=PropertyChanged}"  Margin="10"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Padding="0" VerticalAlignment="Center"/>
                         </Grid>
 
                         <Label x:Name="lblCriteriaTopRange" Grid.Row="3" Content="Choose the top range for criteria scores" HorizontalContentAlignment="Left" Margin="10" VerticalContentAlignment="Center" Grid.ColumnSpan="2"/>
@@ -408,7 +408,7 @@
                             </Grid.ColumnDefinitions>
 
                             <Slider x:Name="sldCriteriaTopRange" Grid.Row="0" Grid.Column="0" Margin="10" VerticalAlignment="Center" Minimum="1" Maximum="9" TickPlacement="BottomRight" IsSnapToTickEnabled="True" ValueChanged="sldCriteriaTopRange_ValueChanged" Value="4"/>
-                            <TextBox x:Name="txtBoxCriteriaTopRange" Grid.Row="0" Grid.Column="1" Text="{Binding ElementName=sldCriteriaTopRange, Path=Value, UpdateSourceTrigger=PropertyChanged}"   Margin="10"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Width="20" />
+                            <Label x:Name="txtBoxCriteriaTopRange" Grid.Row="0" Grid.Column="1" Content="{Binding ElementName=sldCriteriaTopRange, Path=Value, UpdateSourceTrigger=PropertyChanged}"   Margin="10"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Width="20" />
 
                         </Grid>
 
@@ -431,14 +431,14 @@
 
                         <Grid >
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="90"/>
-                                <RowDefinition Height="50"/>
                                 <RowDefinition Height="100"/>
-                                <RowDefinition Height="50"/>
-                            <RowDefinition Height="100"/>
+                                <RowDefinition Height="60"/>
+                                <RowDefinition Height="110"/>
+                                <RowDefinition Height="60"/>
+                            <RowDefinition Height="110"/>
                             <RowDefinition/>
 
-                                <RowDefinition Height="35"/>
+                                <RowDefinition Height="45"/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
@@ -448,8 +448,8 @@
 
                             <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="40"/>
                                     <RowDefinition Height="50"/>
+                                    <RowDefinition Height="60"/>
                                 </Grid.RowDefinitions>
 
                                 <Label x:Name="lblFacetSectionTitle" Grid.Row="0" Content="Add Facets" HorizontalContentAlignment="Left" FontSize="14" FontWeight="Bold" Margin="10, 10, 10, 0"/>
@@ -481,8 +481,8 @@
 
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="40"/>
                             <RowDefinition Height="50"/>
+                            <RowDefinition Height="60"/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
@@ -508,7 +508,7 @@
                                                 <RowDefinition/>
                                                 <RowDefinition/>
                                                 <RowDefinition/>
-                                                <RowDefinition Height="50"/>
+                                                <RowDefinition Height="60"/>
                                                 <RowDefinition/>
 
                                             </Grid.RowDefinitions>

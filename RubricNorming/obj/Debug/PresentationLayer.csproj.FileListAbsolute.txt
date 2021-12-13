@@ -192,4 +192,3 @@ C:\Users\drnag\Documents\NET2\Rubric Project\NET2-RubricNormingSolution\RubricNo
 C:\Users\drnag\Documents\NET2\Rubric Project\NET2-RubricNormingSolution\RubricNorming\bin\Debug\zh-CN\ModernWpf.Controls.resources.dll
 C:\Users\drnag\Documents\NET2\Rubric Project\NET2-RubricNormingSolution\RubricNorming\bin\Debug\zh-TW\ModernWpf.Controls.resources.dll
 C:\Users\drnag\Documents\NET2\Rubric Project\NET2-RubricNormingSolution\RubricNorming\obj\Debug\App.baml
-C:\Users\drnag\Documents\NET2\Rubric Project\NET2-RubricNormingSolution\RubricNorming\obj\Debug\GeneratedInternalTypeHelper.g.cs
