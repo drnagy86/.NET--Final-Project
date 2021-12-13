@@ -1262,7 +1262,8 @@ namespace RubricNorming
 
                 for (int i = (int)sldCriteriaTopRange.Value; i >= (int)sldCriteriaBottomRange.Value; i--)
                 {
-                    Criteria criteria = new Criteria(facet.FacetID, i);
+                    //(int rubricID, string facetID, int score)
+                    Criteria criteria = new Criteria(facet.FacetID, i, i + " Points", "Criteria to meet for " + facet.FacetID + " to earn " + i + "points.");
                     _criteriaList.Add(criteria);
                 }
 
