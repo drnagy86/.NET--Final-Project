@@ -231,7 +231,7 @@
                             <ItemsControl.ItemTemplate>                                
                                 <DataTemplate>
                                     <Grid Margin="10">
-                                        <!--<Border BorderBrush="Black" BorderThickness="3" CornerRadius="5"/>-->
+                                        <Border BorderBrush="#709198" BorderThickness="3" CornerRadius="5" Background="#709198"/>
                                         <StackPanel Orientation="Vertical" Margin="10" >
                                             
                                             <Grid>                                                
@@ -239,7 +239,7 @@
                                                     <ColumnDefinition/>
                                                     <ColumnDefinition/>
                                                 </Grid.ColumnDefinitions>
-                                                <Label Grid.Column="0" Content="{Binding Key.FacetID}" ToolTip="{Binding Key.Description}" HorizontalAlignment="Left" Margin="5"/>
+                                                <Label Grid.Column="0" Content="{Binding Key.FacetID}" ToolTip="{Binding Key.Description}" HorizontalAlignment="Left" Margin="5" FontSize="16"/>
                                                 <Button x:Name="btnDeleteFacet" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="2" Padding="2" Click="btnDeleteFacet_Click"  Tag="{Binding Key.FacetID}" Visibility="Hidden" IsEnabledChanged="btnDeleteFacet_IsEnabledChanged" Initialized="btnDeleteFacet_Initialized"  >
                                                     <Image Source="/Icons/Trash_16x.png"/>
                                                 </Button>
@@ -248,17 +248,18 @@
                                                 <ItemsControl.ItemTemplate>
                                                     <DataTemplate>
                                                         <Grid>
-                                                            <!--<Border BorderBrush="Black" BorderThickness="3" CornerRadius="5"/>-->
+                                                            <Border BorderBrush="#7da2a9" BorderThickness="3" CornerRadius="2" Background="#7da2a9" Margin="5"/>
                                                             <Grid Margin="0,0,0,10">
                                                                 <Grid.ColumnDefinitions>
                                                                     <ColumnDefinition Width="25"/>
                                                                     <ColumnDefinition/>
+                                                                    <ColumnDefinition Width="25"/>                                                                   
                                                                 </Grid.ColumnDefinitions>
                                                                 
-                                                                <Label Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Content="{Binding Score}"/>
+                                                                <Label Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Content="{Binding Score}" FontWeight="Bold" FontSize="16"/>
                                                                 <StackPanel Orientation="Vertical" Grid.Column="1">
        
-                                                                    <TextBox x:Name="txtCriteriaID" Height="25" Width="150" Text="{Binding CriteriaID}" TextAlignment="Center" FontWeight="Bold" TextWrapping="Wrap" TextChanged="TextBox_TextChanged" Margin="5" Initialized="txtCriteriaID_Initialized"/>
+                                                                    <TextBox x:Name="txtCriteriaID" Height="25" Width="150" Text="{Binding CriteriaID}" TextAlignment="Center" TextWrapping="Wrap" TextChanged="TextBox_TextChanged" Margin="5,20,5,5" Initialized="txtCriteriaID_Initialized"/>
                                                                     <TextBox Height="125" Width="150" Text="{Binding Content}" TextWrapping="Wrap" TextChanged="TextBox_TextChanged_1" VerticalScrollBarVisibility="Auto" Margin="5,5,5,20" Initialized="txtCriteriaID_Initialized">
                                                                     </TextBox>
                                                                 </StackPanel>
@@ -287,8 +288,8 @@
                 </Grid>
 
             </ScrollViewer>
-            <Border x:Name="brdTabSetCreateControlsBorder" BorderBrush="#00ABE1" BorderThickness="2" CornerRadius="3" Margin="10, 0, 0, 0" />
-            <TabControl x:Name="tabsetCreateControls" Grid.Row="2" Grid.Column="0" Margin="10, 0, 0, 0" Background="#00ABE1">
+            <Border x:Name="brdTabSetCreateControlsBorder" BorderBrush="#7DA2A9" BorderThickness="2" CornerRadius="3" Margin="10, 0, 0, 0" />
+            <TabControl x:Name="tabsetCreateControls" Grid.Row="2" Grid.Column="0" Margin="10, 0, 0, 0" Background="#7DA2A9">
                 
                 <TabItem x:Name="tabCreate" Header="Create">
 

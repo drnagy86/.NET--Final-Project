@@ -109,6 +109,9 @@ namespace RubricNorming
                             }
                             MessageBox.Show("Welcome back, " + _user.GivenName +
                                 "\n\n" + "Your roles are:" + rolesList);
+
+
+
                         }
                         else
                         {
@@ -170,8 +173,8 @@ namespace RubricNorming
             lblUserID.Visibility = Visibility.Collapsed;
             lblPassword.Visibility = Visibility.Collapsed;
 
-            grdEmail.Visibility = Visibility.Collapsed;
-            grdPassword.Visibility = Visibility.Collapsed;
+            //grdEmail.Visibility = Visibility.Collapsed;
+            //grdPassword.Visibility = Visibility.Collapsed;
 
             btnLogin.Content = "Log Out";
             btnLogin.IsDefault = false;
@@ -380,7 +383,7 @@ namespace RubricNorming
             toggleListAndDetails();
 
             icFacetCriteria.Visibility = Visibility.Collapsed;
-            icScores.Visibility = Visibility.Collapsed;
+            //icScores.Visibility = Visibility.Collapsed;
 
         }
 
@@ -472,8 +475,7 @@ namespace RubricNorming
 
             setCurrentRubricVM();
             rubricVMDetailView();
-
-
+            stkRubricControls.Visibility = Visibility.Visible;
         }
 
         private void setCurrentRubricVM()
@@ -530,7 +532,7 @@ namespace RubricNorming
             icFacetCriteria.ItemsSource = _rubricVM.FacetCriteria;
 
 
-            icScores.ItemsSource = _rubricVM.RubricScoreColumn();
+            //icScores.ItemsSource = _rubricVM.RubricScoreColumn();
         }
 
 
@@ -554,7 +556,7 @@ namespace RubricNorming
             icFacetCriteria.Visibility = Visibility.Visible;
 
             //icScores.ItemsSource = _rubricVM.RubricScoreColumn();
-            icScores.Visibility = Visibility.Visible;
+            //icScores.Visibility = Visibility.Visible;
 
             
             lblActionAreaTitle.Visibility = Visibility.Visible;
@@ -586,7 +588,7 @@ namespace RubricNorming
                 brdTabSetCreateControlsBorder.Visibility = Visibility.Hidden;
 
                 icFacetCriteria.Visibility = Visibility.Hidden;
-                icScores.Visibility = Visibility.Hidden;
+                //icScores.Visibility = Visibility.Hidden;
             }
             else
             {
@@ -600,7 +602,7 @@ namespace RubricNorming
                 brdTabSetCreateControlsBorder.Visibility = Visibility.Visible;
 
                 icFacetCriteria.Visibility = Visibility.Visible;
-                icScores.Visibility = Visibility.Visible;
+                //icScores.Visibility = Visibility.Visible;
             }
         }
 
@@ -740,7 +742,7 @@ namespace RubricNorming
                         _rubricVM = oldRubricVM;
                         this.DataContext = _rubricVM;
                         icFacetCriteria.ItemsSource = _rubricVM.FacetCriteria;
-                        icScores.ItemsSource = _rubricVM.RubricScoreColumn();
+                        //icScores.ItemsSource = _rubricVM.RubricScoreColumn();
                         icFacetControls.ItemsSource = _rubricVM.Facets;
 
                         txtBoxTitle.Text = _rubricVM.Name;
@@ -1047,7 +1049,7 @@ namespace RubricNorming
                     }
                     else
                     {
-                        icScores.Visibility = Visibility.Visible;
+                        //icScores.Visibility = Visibility.Visible;
                         icFacetCriteria.Visibility = Visibility.Visible;
                     }
 
@@ -1153,7 +1155,7 @@ namespace RubricNorming
             _facets = new List<Facet>();
             _criteriaList = new List<Criteria>();
             icFacetCriteria.ItemsSource = null;
-            icScores.ItemsSource = null;
+            //icScores.ItemsSource = null;
 
             stkCreateRubric.Visibility = Visibility.Hidden;
 
@@ -1180,7 +1182,6 @@ namespace RubricNorming
             mnuDeactivateRubric.Visibility = Visibility.Visible;
 
             setCurrentUIState(UIState.Edit);
-
 
             _rubric = (Rubric)datViewList.SelectedItem;
 
@@ -1257,7 +1258,7 @@ namespace RubricNorming
             icFacetCriteria.ItemsSource = _rubricVM.FacetCriteria;
             icFacetCriteria.Visibility = Visibility.Visible;
 
-            icScores.ItemsSource = _rubricVM.RubricScoreColumn();
+            //icScores.ItemsSource = _rubricVM.RubricScoreColumn();
 
 
             btnSave.Visibility = Visibility.Visible;
@@ -1328,7 +1329,7 @@ namespace RubricNorming
 
                     lblActionAreaTitle.Visibility = Visibility.Hidden;                    
                     //toggleListAndDetails();
-                    icScores.Visibility = Visibility.Hidden;
+                    //icScores.Visibility = Visibility.Hidden;
                     icFacetCriteria.Visibility = Visibility.Hidden;
 
 
@@ -1519,61 +1520,123 @@ namespace RubricNorming
         {
             Button button = (Button)sender;
 
-
-            MessageBoxResult result = MessageBox.Show("Are you sure you would like to delete the facet \"" + button.Tag.ToString() + "\" and all of it's criteria? This can not be undone.", "Delete Facet", MessageBoxButton.YesNo, MessageBoxImage.Question);
-
-            switch (result)
+            switch (_currentUIState)
             {
-                case MessageBoxResult.None:
-                    break;
-                case MessageBoxResult.OK:
-                    break;
-                case MessageBoxResult.Cancel:
-                    break;
-                case MessageBoxResult.Yes:
-                    try
+                case UIState.Create:
+
+                    MessageBoxResult result1 = MessageBox.Show("Are you sure you would like to delete the facet \"" + button.Tag.ToString() + "\" and all of it's criteria? This can not be undone.", "Delete Facet", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                    switch (result1)
                     {
-                        if (_rubricVM.FacetCriteria.Count == 1)
-                        {
-                            deactivateRubric();
-                        }
-                        else
-                        {
-                            _facetManager.DeleteFacetByRubricIDAndFacetID(_rubricVM.RubricID, button.Tag.ToString());
-                            staMessage.Content = "Deleted \"" + button.Tag.ToString() + "\" successfully.";
+                        case MessageBoxResult.None:
+                            break;
+                        case MessageBoxResult.OK:
+                            break;
+                        case MessageBoxResult.Cancel:
+                            break;
+                        case MessageBoxResult.Yes:
 
-                            switch (_currentUIState)
+                            if (_facets.Count == 1)
                             {
-                                case UIState.Create:
+                                MessageBox.Show("There must be at least one facet to make a rubric.", "Facet Warning", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                                break;
+                            }
 
-                                    break;
-                                case UIState.Edit:
+                            //remove the facet
+                            _facets.Remove(_facets.First(f => f.FacetID == button.Tag.ToString()));
+
+                            // remove the criteria
+                            List<Criteria> tempCriteriaList = new List<Criteria>();
+
+                            foreach (Criteria criteria in _criteriaList)
+                            {
+                                if (criteria.FacetID != button.Tag.ToString())
+                                {
+                                    tempCriteriaList.Add(criteria);
+                                }
+                            }
+
+                            _criteriaList = tempCriteriaList;
+
+                            //_rubric = (Rubric)datViewList.SelectedItem;
+                            if (validateRubricTitleAndDescription())
+                            {
+                                updateRubricFromForm();
+                            }
+
+                            _rubricVM = new RubricVM(_rubric, _facets, _criteriaList);
+
+
+                            //setCurrentRubricVM();
+                            //rubricVMDetailView();
+                            this.DataContext = _rubricVM;
+                            icFacetCriteria.ItemsSource = _rubricVM.FacetCriteria;
+
+                            break;
+                        case MessageBoxResult.No:
+                            break;
+                        default:
+                            break;
+                    }
+
+                    break;
+
+                case UIState.Edit:
+                    MessageBoxResult result2 = MessageBox.Show("Are you sure you would like to delete the facet \"" + button.Tag.ToString() + "\" and all of it's criteria? This can not be undone.", "Delete Facet", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                    switch (result2)
+                    {
+                        case MessageBoxResult.None:
+                            break;
+                        case MessageBoxResult.OK:
+                            break;
+                        case MessageBoxResult.Cancel:
+                            break;
+                        case MessageBoxResult.Yes:
+                            try
+                            {
+                                if (_rubricVM.FacetCriteria.Count == 1)
+                                {
+                                    deactivateRubric();
+                                }
+                                else
+                                {
+                                    _facetManager.DeleteFacetByRubricIDAndFacetID(_rubricVM.RubricID, button.Tag.ToString());
+                                    staMessage.Content = "Deleted \"" + button.Tag.ToString() + "\" successfully.";
+
                                     _rubric = (Rubric)datViewList.SelectedItem;
 
                                     setCurrentRubricVM();
                                     rubricVMDetailView();
 
-                                    break;
-                                case UIState.View:
-                                    break;
-                                default:
-                                    break;
+                                }
+
                             }
-                        }
-                        
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Problem deleting the facet" + ex.Message, "Problem Deleting Facet", MessageBoxButton.OK, MessageBoxImage.Error);
-                        staMessage.Content = "Problem deleting the facet" + ex.Message.Replace('\n', ' ');
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show("Problem deleting the facet" + ex.Message, "Problem Deleting Facet", MessageBoxButton.OK, MessageBoxImage.Error);
+                                staMessage.Content = "Problem deleting the facet" + ex.Message.Replace('\n', ' ');
+                            }
+
+                            break;
+                        case MessageBoxResult.No:
+                            break;
+                        default:
+                            break;
                     }
 
+
                     break;
-                case MessageBoxResult.No:
+                case UIState.View:
                     break;
                 default:
                     break;
             }
+
+
+            
+
+            
         }
 
         private void btnDeleteFacet_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
