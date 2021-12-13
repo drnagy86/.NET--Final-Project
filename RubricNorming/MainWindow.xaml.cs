@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.ComponentModel;
+using ModernWpf;
 
 namespace RubricNorming
 {
@@ -22,6 +23,8 @@ namespace RubricNorming
         RubricVMManager _rubricVMManager = null;
         ScoreTypeManager _scoreTypeManager = null;
         FacetTypeManager _facetTypeManager = null;
+
+        
 
         UIState _currentUIState;
 
@@ -465,35 +468,7 @@ namespace RubricNorming
             setCurrentRubricVM();
             rubricVMDetailView();
 
-            //try
-            //{
-            //    // errors with fakes here
-            //    _rubricVM = _rubricVMManager.RetrieveRubricByRubricID(_rubric.RubricID);
 
-            //    staMessage.Content = "Viewing the rubric. Click \"Edit Rubric\" if you would like to make changes.";
-
-            //    rubricVMDetailView();
-
-            //    txtBoxTitle.Text = _rubricVM.Name;
-            //    txtBoxDescription.Text = _rubricVM.Description;
-            //    cmbBoxScoreTypes.SelectedItem = _rubricVM.ScoreTypeID;
-            //    icFacetControls.ItemsSource = _rubricVM.Facets;
-
-            //    foreach (ScoreType scoreType in _scoreTypes)
-            //    {
-            //        if (scoreType.ScoreTypeID == _rubricVM.ScoreTypeID)
-            //        {
-            //            txtBlockScoreTypeDescription.Text = scoreType.Description;
-            //            break;
-            //        }
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show("Problem retrieving the single rubric." + ex.Message);
-            //    staMessage.Content = "Problem retrieving the single rubric." + ex.Message;
-            //    viewAllActiveRubrics();
-            //}
         }
 
         private void setCurrentRubricVM()
@@ -548,6 +523,8 @@ namespace RubricNorming
 
             this.DataContext = _rubricVM;
             icFacetCriteria.ItemsSource = _rubricVM.FacetCriteria;
+
+
             icScores.ItemsSource = _rubricVM.RubricScoreColumn();
         }
 
@@ -696,62 +673,12 @@ namespace RubricNorming
 
         private void btnFacetAdd_Click(object sender, RoutedEventArgs e)
         {
-            //itemsourceTest();
 
-
-            //Facet facet = new Facet() {
-            //    FacetID = txtBoxFacetTitle.Text,
-            //    Description = txtBoxFacetDescription.Text,
-            //    FacetType = cmbBoxFacetType.SelectedItem.ToString()
-
-            //};
-
-            //List<Criteria> criteriaList = new List<Criteria>();
-
-            // count of criteria needed, add the criteria
-            //int count =(int)(sldCriteriaTopRange.Value - sldCriteriaBottomRange.Value);
-
-            //for (int i = (int)sldCriteriaTopRange.Value; i >= (int)sldCriteriaBottomRange.Value; i--)
-            //{
-            //    Criteria criteria = new Criteria(facet.FacetID, i);
-            //    _rubricVM.Criteria.Add(criteria);
-            //    criteriaList.Add(criteria);
-            //}
-
-
-            //_rubricVM.Facets.Add(facet);
-            //_rubricVM.FacetCriteria.Add(facet, criteriaList);
-
-
-            //this.DataContext = _rubricVM;
-
-            //try
-            //{
-            //    _facetManager.CreateFacet(_rubricVM.RubricID, txtBoxFacetTitle.Text, txtBoxFacetDescription.Text, cmbBoxFacetType.SelectedItem.ToString());
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show("There was a problem creating this facet.\n" + ex.Message, "Problem Creating Rubric");
-            //    staMessage.Content = "There was a problem creating this facet. " + ex.Message;
-            //}
-
-            //try
-            //{
-            //    _rubricVM = _rubricVMManager.RetrieveRubricByNameDescriptionScoreTypeIDRubricCreator(txtBoxTitle.Text, txtBoxDescription.Text, cmbBoxScoreTypes.SelectedItem.ToString(), _user.UserID);
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show("There was a problem creating the rubric.\n" + ex.Message, "Problem Creating Rubric");
-            //    staMessage.Content = "There was a problem creating the rubric. " + ex.Message;
-            //}
-
-            //rubricVMDetailView();
             addFacetandCriteriaToRubricVM();
             updateICFacetCriteria();
 
             btnSave.Visibility = Visibility.Visible;
 
-            //rubricVMDetailViewForCreate();
         }
 
         private void sldCriteriaBottomRange_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -1213,6 +1140,7 @@ namespace RubricNorming
             icFacetCriteria.ItemsSource = null;
             icScores.ItemsSource = null;
 
+            stkCreateRubric.Visibility = Visibility.Hidden;
 
             _unsavedWorkFlag = true;
             setCurrentUIState(UIState.Create);
@@ -1236,6 +1164,29 @@ namespace RubricNorming
             mnuDeactivateRubric.Visibility = Visibility.Visible;
 
             setCurrentUIState(UIState.Edit);
+
+
+            _rubric = (Rubric)datViewList.SelectedItem;
+
+            setCurrentRubricVM();
+
+            if (_user.Roles.Contains("Admin"))
+            {
+                btnDeleteRubric.Visibility = Visibility.Visible;
+                mnuAdminDeleteRubric.IsEnabled = true;
+            }
+
+            datViewList.Visibility = Visibility.Collapsed;
+            toggleListAndDetails();
+
+            lblActionAreaTitle.Content = _rubricVM.Name;
+
+            tabCreate.Focus();
+
+            this.DataContext = _rubricVM;
+            icFacetCriteria.ItemsSource = _rubricVM.FacetCriteria;
+
+
 
             //tabsetCreateControls.IsEnabled = true;
             // change it so that all fields can be edited and not just viewed
@@ -1328,6 +1279,8 @@ namespace RubricNorming
 
         private void updateICFacetCriteria()
         {
+
+
             _rubricVM = new RubricVM(_rubric, _facets, _criteriaList);
 
             this.DataContext = _rubricVM;
@@ -1440,9 +1393,9 @@ namespace RubricNorming
                     txtBlkTags.Text = "Short descriptive tags that give information about the rubric.";
 
                     txtBoxTitle.IsReadOnly = true;
-                    txtBoxTitle.IsEnabled = false;
+                    //txtBoxTitle.IsEnabled = false;
                     txtBoxDescription.IsReadOnly = true;
-                    txtBoxDescription.IsEnabled = false;
+                    //txtBoxDescription.IsEnabled = false;
                     cmbBoxScoreTypes.IsEnabled = false;
 
                     txtBoxGradeLevel.IsReadOnly = true;
@@ -1461,7 +1414,7 @@ namespace RubricNorming
                     tabFacetDetailView.Visibility = Visibility.Visible;
                     tabScoreRange.Visibility = Visibility.Collapsed;
 
-                    icFacetCriteria.IsEnabled = false;
+                    //icFacetCriteria.IsEnabled = false;
                     icFacetControls.IsEnabled = false;
 
 
@@ -1655,6 +1608,35 @@ namespace RubricNorming
             }
 
         }
+
+        private void mnuChangeTheme_Click(object sender, RoutedEventArgs e)
+        {
+            if (ThemeManager.Current.ApplicationTheme == ApplicationTheme.Dark)
+            {
+                ThemeManager.Current.ApplicationTheme = ApplicationTheme.Light;
+            }
+            else
+            {
+                ThemeManager.Current.ApplicationTheme = ApplicationTheme.Dark;
+            }
+            
+            
+        }
+
+        private void txtCriteriaID_Initialized(object sender, EventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            if (_currentUIState == UIState.View)
+            {
+                textBox.IsReadOnly = true;
+            }
+            else
+            {
+                textBox.IsReadOnly = false;
+            }
+
+        }
+
     }
 
     internal enum UIState
