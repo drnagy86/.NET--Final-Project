@@ -26,7 +26,7 @@
 
         <Menu Grid.Row="0" Padding="20px, 0px">
             <MenuItem x:Name="mnuFile" Header="File">
-                <MenuItem x:Name="mnuLog" Header="Log In/Log Out" Click="btnLogin_Click"></MenuItem>
+                <MenuItem x:Name="mnuLog" Header="Log In/Log Out" Click="btnLogin_Click" ></MenuItem>
                 <Separator/>
                 <MenuItem x:Name="mnuChangeTheme" Header="Change Theme" Click="mnuChangeTheme_Click" />
                 <Separator/>
