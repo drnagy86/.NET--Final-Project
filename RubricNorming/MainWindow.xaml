@@ -56,7 +56,7 @@
             </MenuItem>
 
             <MenuItem x:Name="mnuHelp" Header="Help">
-                <MenuItem x:Name="mnuAbout" Header="About"></MenuItem>
+                <MenuItem x:Name="mnuAbout" Header="About" Click="mnuAbout_Click" ></MenuItem>
             </MenuItem>
         </Menu>
 
@@ -142,7 +142,7 @@
 
 
             <ScrollViewer x:Name="detailActionArea" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" VerticalScrollBarVisibility="Auto">
-                <Grid Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3">
+                <Grid Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Margin="15">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="50"/>
                         <RowDefinition/>
@@ -263,15 +263,22 @@
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="40"/>
+                                <RowDefinition Height="100"/>
+                                <RowDefinition Height="40"/>
                                 <RowDefinition/>
-                                <RowDefinition/>
+                                <RowDefinition Height="10"/>
                             </Grid.RowDefinitions>
-                            
-                            <Label x:Name="subjectsAvailable" Content="Subjects Availalbe" Grid.Row="0"/>
-                            <DataGrid x:Name="datSubjects" Grid.Row="1" IsReadOnly="True" ItemsSource="{Binding}" AutoGenerateColumns="False" Margin="10" >
+
+                            <TextBlock Grid.Row="0" Text="Welcome"  Style="{StaticResource TitleTextBlockStyle}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10"/>
+                            <TextBlock Grid.Row="1" Grid.Column="1" Text="This is an app that assists in creating and managing analytic rubrics. You can see in more detail about the rubrics by double clicking on them.
+" Style="{StaticResource BodyTextBlockStyle}" VerticalAlignment="Top" Margin="10"/>
+
+                            <TextBlock Grid.Row="2" Text="Subjects"  Style="{StaticResource TitleTextBlockStyle}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10"/>
+                            <DataGrid Grid.Row="3" x:Name="datSubjects" IsReadOnly="True" ItemsSource="{Binding}" AutoGenerateColumns="False" Margin="10">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Subject Name" Binding="{Binding SubjectID}"/>
                                 </DataGrid.Columns>
+                                
                             </DataGrid>
                         </Grid>
                     </ScrollViewer>

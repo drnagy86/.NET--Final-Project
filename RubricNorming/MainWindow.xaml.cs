@@ -90,14 +90,11 @@ namespace RubricNorming
             var userID = this.txtUserID.Text;
             var pwd = this.pwdPassword.Password;
 
-
             if (btnLogin.Content.ToString() == "Login")
             {
-
                 try
                 {
                     _user = _userManager.LoginUser(userID, pwd);
-
 
                     string instructions = "On first login, all new users must choose a password to continue.";
 
@@ -1918,6 +1915,12 @@ namespace RubricNorming
                 textBox.CaretIndex = textBox.Text.Length;
             }
 
+        }
+
+        private void mnuAbout_Click(object sender, RoutedEventArgs e)
+        {
+            var aboutWindow = new AboutWindow();
+            aboutWindow.ShowDialog();
         }
     }
 

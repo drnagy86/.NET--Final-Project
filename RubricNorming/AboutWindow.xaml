@@ -5,8 +5,42 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RubricNorming"
         mc:Ignorable="d"
-        Title="AboutWindow" Height="450" Width="800">
+        Title="About Window" Height="500" Width="600" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize"
+        xmlns:ui="http://schemas.modernwpf.com/2019"
+    ui:WindowHelper.UseModernWindowStyle="True">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="50"/>
+
+        </Grid.ColumnDefinitions>
+
+        <TextBlock x:Name="txtBoxAboutTitle" Grid.Row="0" Grid.Column="1" Text="About Page" Style="{StaticResource HeaderTextBlockStyle}" VerticalAlignment="Bottom"/>
+        <TextBlock x:Name="txtBoxAuthor" Grid.Row="1" Grid.Column="1" Text="Developer" Style="{StaticResource TitleTextBlockStyle}" VerticalAlignment="Bottom"/>
+        <TextBlock Grid.Row="2" Grid.Column="1" Text="Derrick Nagy" Style="{StaticResource BodyTextBlockStyle}" VerticalAlignment="Top" Margin="10"/>
+        <TextBlock Grid.Row="3" Grid.Column="1" Text="Course" Style="{StaticResource TitleTextBlockStyle}" VerticalAlignment="Bottom"/>
+        <TextBlock Grid.Row="4" Grid.Column="1" Text=".NET Development II 2021FA CRF01" Style="{StaticResource BodyTextBlockStyle}" VerticalAlignment="Top" Margin="10"/>
+        <TextBlock Grid.Row="5" Grid.Column="1" Text="References" Style="{StaticResource TitleTextBlockStyle}" VerticalAlignment="Bottom"/>
+        <TextBlock Grid.Row="8" Grid.Column="1" Text="(n.d.). IELTS Home of the IELTS English Language Test. https://www.ielts.org/-/media/pdfs/writing-band-descriptors-task-2.ashx?la=en" Style="{StaticResource BodyTextBlockStyle}" VerticalAlignment="Top" Margin="10"/>
+        <TextBlock Grid.Row="6" Grid.Column="1" Text="Marzano, R. J., Pickering, D., and Pollock, J. E. (2001). Classroom instruction that works: Research-based strategies for increasing student achievement. ASCD." Style="{StaticResource BodyTextBlockStyle}" VerticalAlignment="Top" Margin="10"/>
+        <TextBlock Grid.Row="7" Grid.Column="1" Text="Wiggins, G. P., and McTighe, J. (2005). Understanding by design. ASCD." Style="{StaticResource BodyTextBlockStyle}" VerticalAlignment="Top" Margin="10"/>
         
+
+
+
+
     </Grid>
 </Window>
