@@ -248,8 +248,11 @@ INSERT INTO [dbo].[Rubric]
 VALUES
 	('General Information and Skills', 'A general rubric for evaluating student knowledge and skill', 'Total Earned / Total Possible', 'joanne@company.com')
 	,('Module A: Narration', 'Rubric for a narration type essay for module A', 'Avg. Facet Score One Dec.', 'joanne@company.com')
-	,('Comapre and Contrast Essay Rubric', 'General rubric for compare and contrast essays', 'Percentage', 'martin@company.com')
-	, ('IELTS Academic Writing', 'The International English Language Testing System writing rubric', 'Avg. Facet Score Round Down', 'martin@company.com')
+	
+-- 	,('Comapre and Contrast Essay Rubric', 'General rubric for compare and contrast essays', 'Percentage', 'martin@company.com')
+	
+-- 	, ('IELTS Academic Writing', 'The International English Language Testing System writing rubric', 'Avg. Facet Score Round Down', 'martin@company.com')
+	
 GO
 
 
@@ -391,22 +394,29 @@ GO
 INSERT INTO [dbo].[Facet]
 	([FacetID],[Description],[RubricID], [FacetTypeID])
 VALUES
-	('Explanation of the topic of the essay', 'How much knowledge of the topic is shown', 100001, 'Explanation')
-	, ('Interpretation of the topic', 'Is the interpretation correct?', 100001, 'Interpretation')
-	, ('Application of a narration esssay', 'Understands and can authenticly write a narration essay', 100001, 'Application')
-	, ('Perspective', 'Does the essay show a unique or interesting perspective?', 100000, 'Perspective')
+
+	('Perspective', 'Does the essay show a unique or interesting perspective?', 100000, 'Perspective')
 	, ('Empathy', 'Does knowledge of the topic show empathic skills?', 100000, 'Empathy')
 	, ('Reveal self knowledge', 'Does the student show that knowledge of the topic reveals knowledge of self', 100000, 'Self-Knowledge')	
 	, ('Explanation', 'Is the students accurate in their knowledge and shows it?', 100000,  'Explanation')
-	, ('Interpretation', 'Is the intrepetation of the knowledge correct or insightful?', 100000, 'Interpretation') --no criteria added to this facet for testing purposes
+	-- , ('Interpretation', 'Is the intrepetation of the knowledge correct or insightful?', 100000, 'Interpretation') --no criteria added to this facet for testing purposes
+	
+	, ('Perspective', 'Does the essay show a unique or interesting perspective?', 100001, 'Perspective')
+	, ('Empathy', 'Does knowledge of the topic show empathic skills?', 100001, 'Empathy')
+	, ('Reveal self knowledge', 'Does the student show that knowledge of the topic reveals knowledge of self', 100001, 'Self-Knowledge')	
+	, ('Explanation', 'Is the students accurate in their knowledge and shows it?', 100001,  'Explanation')
+
+/*	
 	, ('Effective compare and contrast', 'Explains the reasoning and shows knowledge', 100002,  'Explanation')
 	, ('Interpretation of the comparision and contrast', 'Shows an understanding of the comparisons and contrasts', 100002, 'Interpretation')
 	, ('Appropriate application of compare and contrast essay', 'Used the knowledge of writing a compare and contrast essay appropriately', 100002, 'Application')	
+	
+	
 	, ('Task Achievement', 'Meets requirements of the task', 100003, 'Interpretation')
 	, ('Coherence and cohesion', 'Feeling of cohesion, paragraphing is appropriate', 100003, 'Application')
 	, ('Lexical Resourse', 'Appropriate and wide range of vocabulary', 100003,  'Explanation')
 	, ('Grammatical Range and Accuracy', 'Flexible and wide range of grammar', 100003,  'Explanation')
-	
+*/
 GO
 
 /*
@@ -511,7 +521,29 @@ VALUES
 		,('Excellent', 100000, 'Explanation', 'Student gives an execellent explanation about this area of knowledge ', 4)
 		,('Above Average', 100000, 'Explanation', 'Student shows above average knowledge about the subject', 3)
 		,('Average', 100000, 'Explanation', 'Student gives some explanation about this area of knowledge but not more than what is considered typical', 2)
-		,('Below Average', 100000, 'Explanation', 'Student shows little knowledge or has many misunderstandings.', 1)	
+		,('Below Average', 100000, 'Explanation', 'Student shows little knowledge or has many misunderstandings.', 1)
+		
+		,('A', 100001, 'Perspective', 'Student shows execellent perspective about this area of knowledge ', 4)
+		,('B', 100001, 'Perspective', 'Student shows above average perspective about this area of knowledge', 3)
+		,('C', 100001, 'Perspective', 'Student shows some perspective about this area of knowledge but not more than what is considered typical', 2)
+		,('D', 100001, 'Perspective', 'Student shows little perspective about this area of knowledge or has many misunderstandings.', 1)
+		,('F', 100001, 'Perspective', 'Student shows no perspective.', 0)
+		,('A', 100001, 'Empathy', 'Student shows execellent empathy about this area of knowledge ', 4)
+		,('B', 100001, 'Empathy', 'Student shows above average empathy about this area of knowledge', 3)
+		,('C', 100001, 'Empathy', 'Student shows some empathy about this area of knowledge but not more than what is considered typical', 2)
+		,('D', 100001, 'Empathy', 'Student shows little empathy about this area of knowledge or has many misunderstandings.', 1)
+		,('F', 100001, 'Empathy', 'Student shows no empathy.', 0)
+		,('A', 100001, 'Reveal self knowledge', 'Student shows execellent self knowledge about this area of knowledge ', 4)
+		,('B', 100001, 'Reveal self knowledge', 'Student shows above average self knowledge about this area of knowledge', 3)
+		,('C', 100001, 'Reveal self knowledge', 'Student shows some self knowledge about this area of knowledge but not more than what is considered typical', 2)
+		,('D', 100001, 'Reveal self knowledge', 'Student reveals little self knowledge about this area of knowledge or has many misunderstandings.', 1)
+		,('F', 100001, 'Reveal self knowledge', 'Student reveals no self knowledge.', 0)
+		,('A', 100001, 'Explanation', 'Student gives an execellent explanation about this area of knowledge ', 4)
+		,('B', 100001, 'Explanation', 'Student shows above average knowledge about the subject', 3)
+		,('C', 100001, 'Explanation', 'Student gives some explanation about this area of knowledge but not more than what is considered typical', 2)
+		,('D', 100001, 'Explanation', 'Student shows little knowledge or has many misunderstandings.', 1)	
+		,('F', 100001, 'Explanation', 'Student shows no knowledge.', 0)
+		
 GO
 
 
@@ -931,7 +963,8 @@ INSERT INTO [dbo].[RubricSubject] (
 	('English As Second Language', 100000)
 	,('Composition', 100000)
 	,('English As Second Language', 100001)
-	,('English As Second Language', 100002)
+	
+--	,('English As Second Language', 100002)
 	,('Composition', 100001)
 	
 GO
