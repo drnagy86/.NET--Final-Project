@@ -56,6 +56,8 @@
     <Compile Include="RubricManagerTests.cs" />
     <Compile Include="RubricVMManagerTests.cs" />
     <Compile Include="ScoreTypeTests.cs" />
+    <Compile Include="SubjectManagerTests.cs" />
+    <Compile Include="RubricSubjectManagerTests.cs" />
     <Compile Include="UserManagerTests.cs" />
   </ItemGroup>
   <ItemGroup>

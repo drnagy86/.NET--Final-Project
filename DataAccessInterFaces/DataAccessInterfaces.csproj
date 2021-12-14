@@ -45,7 +45,9 @@
     <Compile Include="IFacetAccesor.cs" />
     <Compile Include="IFacetTypeAccessor.cs" />
     <Compile Include="IRubricAccessor.cs" />
+    <Compile Include="IRubricSubjectAccessor.cs" />
     <Compile Include="IScoreTypeAccessor.cs" />
+    <Compile Include="ISubjectAccessor.cs" />
     <Compile Include="IUserAccessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

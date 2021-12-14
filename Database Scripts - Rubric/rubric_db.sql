@@ -881,3 +881,174 @@ AS
 	END	
 GO
 
+
+print '' print '*** creating Subject Table'
+CREATE TABLE [dbo].[Subject] (
+
+	[SubjectID]		[nvarchar](50)		NOT NULL
+	,[Description]	[nvarchar](100)		NOT NULL
+	,[DateCreated]	[DateTime]			NOT NULL DEFAULT CURRENT_TIMESTAMP
+	,[DateUpdated]	[DateTime]			NOT NULL DEFAULT CURRENT_TIMESTAMP
+	,[Active]		[bit]				NOT NULL DEFAULT 1
+
+	CONSTRAINT [pk_SubjectID] PRIMARY KEY([SubjectID])
+)
+
+GO
+
+print '' print '*** creating Subject test records'
+INSERT INTO [dbo].[Subject] (
+	[SubjectID]		
+	,[Description]	
+) VALUES
+	('English As Second Language', 'Rubrics that could be used for ESL')
+	,('Composition', 'Rubrics for Composition')
+GO
+
+print '' print '*** creating Rubric Subject Table'
+CREATE TABLE [dbo].[RubricSubject] (
+
+	[SubjectID]		[nvarchar](50)		NOT NULL
+	,[RubricID]			[int] 			NOT NULL
+	,[DateCreated]	[DateTime]			NOT NULL DEFAULT CURRENT_TIMESTAMP
+	,[Active]		[bit]				NOT NULL DEFAULT 1
+
+	CONSTRAINT [pk_SubjectID_Rubric_ID] PRIMARY KEY([SubjectID],[RubricID])
+	, CONSTRAINT [fk_Rubric_Subect_SubjectID] FOREIGN KEY([SubjectID])
+		REFERENCES [dbo].[Subject]([SubjectID]) ON UPDATE CASCADE
+	, CONSTRAINT [fk_Rubric_Subect_RubricID] FOREIGN KEY([RubricID])
+		REFERENCES [dbo].[Rubric]([RubricID])
+)
+GO
+
+
+print '' print '*** creating RubricSubject test records'
+
+INSERT INTO [dbo].[RubricSubject] (
+	[SubjectID]		
+	,[RubricID]	
+) VALUES
+	('English As Second Language', 100000)
+	,('Composition', 100000)
+	,('English As Second Language', 100001)
+	,('English As Second Language', 100002)
+	,('Composition', 100001)
+	
+GO
+
+
+/*
+sp_select_subjects			ISubjectAccessor
+*/
+print '' print '*** creating sp_select_subjects ***'
+GO
+CREATE PROCEDURE [dbo].[sp_select_subjects]
+AS
+	BEGIN
+		SELECT
+			[SubjectID]		
+			,[Description]	
+			,[DateCreated]	
+			,[DateUpdated]	
+			,[Active]		
+		FROM [Subject]
+		ORDER BY [SubjectID] ASC
+	END	
+GO
+
+/*
+sp_select_rubric_subjects_by_rubric_id	@RubricID	int	IRubricSubjectAccessor
+*/
+print '' print '*** creating sp_select_rubric_subjects_by_rubric_id ***'
+GO
+CREATE PROCEDURE [dbo].[sp_select_rubric_subjects_by_rubric_id]
+(
+	@RubricID			int
+)
+AS
+	BEGIN
+		SELECT
+		[SubjectID]	
+		,[RubricID]	
+		,[DateCreated]
+		,[Active]	
+		FROM [RubricSubject]
+		WHERE [RubricID] = @RubricID
+		ORDER BY [SubjectID] ASC
+	END	
+GO
+
+
+	
+/*
+sp_create_rubric_subject	@SubjectID	nvarchar(50)	IRubricSubjectAccessor
+	@RubricID	int	
+	@Description	nvarchar(100)	
+*/
+print '' print '*** creating sp_create_rubric_subject ***'
+GO
+CREATE PROCEDURE [dbo].[sp_create_rubric_subject]
+(
+	@SubjectID		nvarchar(50)
+	,@RubricID		int
+	,@Description	nvarchar(100)
+)
+AS
+	BEGIN 	
+		BEGIN TRANSACTION [tr_Rubric_Subject]	
+		
+		BEGIN TRY		
+			INSERT INTO [dbo].[Subject]
+			(
+				[SubjectID]	
+				,[Description]
+			)
+			VALUES
+			(@SubjectID, @Description)
+		
+		
+			INSERT INTO [dbo].[RubricSubject]
+			(
+				[SubjectID]	
+				,[RubricID]
+			)
+			VALUES
+			(@SubjectID, @RubricID)
+			
+			COMMIT TRANSACTION [tr_Rubric_Subject]
+		
+		END TRY
+		
+		BEGIN CATCH
+		
+			ROLLBACK TRANSACTION [tr_Rubric_Subject]
+		
+		END CATCH
+		RETURN @@ROWCOUNT		
+		
+	END	
+GO
+
+
+/*
+sp_delete_rubric_subject_by_subject_id_and_rubric_id 	IRubricSubjectAccessor
+	@SubjectID	nvarchar(50)	
+	@RubricID	int	
+*/
+print '' print '*** creating sp_delete_rubric_subject_by_subject_id_and_rubric_id ***'
+GO
+CREATE PROCEDURE [dbo].[sp_delete_rubric_subject_by_subject_id_and_rubric_id]
+(
+	@SubjectID		nvarchar(50)
+	,@RubricID		int
+)
+AS
+	BEGIN
+		DELETE FROM [RubricSubject]
+		WHERE
+			[SubjectID] = @SubjectID
+			AND
+			[RubricID] = @RubricID
+		RETURN @@ROWCOUNT
+	END	
+GO

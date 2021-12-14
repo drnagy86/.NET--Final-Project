@@ -12,8 +12,8 @@
         WindowState="Maximized" 
         xmlns:ui="http://schemas.modernwpf.com/2019"
         ui:WindowHelper.UseModernWindowStyle="True"
-        Height="{Binding SystemParameters.PrimaryScreenHeight}" 
-        Width="{Binding SystemParameters.PrimaryScreenWidth}"        
+        Height="1800" 
+        Width="1200"        
         >
 
     <Grid>
@@ -146,10 +146,10 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="50"/>
                         <RowDefinition/>
-                        <RowDefinition Height="50" />
+
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="50"/>
+
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
@@ -170,16 +170,10 @@
                                 <ColumnDefinition/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-
-
-
                         </Grid>
-
-
-
                     </Grid>
 
-                    <DataGrid x:Name="datViewList" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" IsReadOnly="True" MouseDoubleClick="datViewList_MouseDoubleClick" ItemsSource="{Binding}" AutoGenerateColumns="False" HorizontalAlignment="Left" Margin="10">
+                    <DataGrid x:Name="datViewList" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" IsReadOnly="True" MouseDoubleClick="datViewList_MouseDoubleClick" ItemsSource="{Binding}" AutoGenerateColumns="False" HorizontalAlignment="Stretch" Margin="10">
                         
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Rubric Name" Binding="{Binding Name}"/>
@@ -195,22 +189,7 @@
                         </DataGrid.Columns>
                     </DataGrid>
 
-
-
-                    <ItemsControl Grid.Row="1" Grid.Column="0" x:Name="icScores">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel  Orientation="Vertical" Margin="0,25,0,0"></StackPanel>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Label HorizontalAlignment="Right" Height="150" Content="{Binding}"/>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-
-                    <Grid x:Name="grdActionArea" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" >
+                    <Grid x:Name="grdActionArea" Grid.Row="1" >
                         <ItemsControl x:Name="icFacetCriteria" ItemsSource="{Binding}" Tag="False" xmlns:local="clr-namespace:RubricNorming">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
@@ -218,16 +197,6 @@
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
                             
-                            
-
-                            <!--<ItemsControl.ItemContainerStyle>
-                            <Style>
-                                <Setter Property="Grid.Row" Value="{Binding ElementName=frmMainWindow, Path=DataContext.RowCount}"/>
-                                <Setter Property="Grid.Column" Value="{Binding ElementName=frmMainWindow, Path=DataContext.ColumnCount}"/>
-                                
-                            </Style>
-                        </ItemsControl.ItemContainerStyle>-->
-                            <!--<BitmapImage x:Key="Trash_16x" UriSource="Icons/Trash_16x.png"/>-->
                             <ItemsControl.ItemTemplate>                                
                                 <DataTemplate>
                                     <Grid Margin="10">
@@ -283,16 +252,33 @@
                             <ColumnDefinition/>
                             <ColumnDefinition Width="150" />
                         </Grid.ColumnDefinitions>
-                        <!--<Button x:Name="btnConfirmEdits" Content="Save Changes" Grid.Row="0" Grid.Column="1" Margin="10,5" Visibility="Hidden"/>-->
                     </Grid>
                 </Grid>
 
             </ScrollViewer>
-            <Border x:Name="brdTabSetCreateControlsBorder" BorderBrush="#7DA2A9" BorderThickness="2" CornerRadius="3" Margin="10, 0, 0, 0" />
+            <Border x:Name="brdTabSetCreateControlsBorder" BorderBrush="#7DA2A9" BorderThickness="2" CornerRadius="3" Margin="10, 0, 0, 0" Padding="5" />
             <TabControl x:Name="tabsetCreateControls" Grid.Row="2" Grid.Column="0" Margin="10, 0, 0, 0" Background="#7DA2A9">
+                <TabItem x:Name="tabRubricSubject" Header="Subjects">
+                    <ScrollViewer>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            
+                            <Label x:Name="subjectsAvailable" Content="Subjects Availalbe" Grid.Row="0"/>
+                            <DataGrid x:Name="datSubjects" Grid.Row="1" IsReadOnly="True" ItemsSource="{Binding}" AutoGenerateColumns="False" Margin="10" >
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Subject Name" Binding="{Binding SubjectID}"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+                    </ScrollViewer>
+                </TabItem>                
                 
                 <TabItem x:Name="tabCreate" Header="Create">
-
+                    <ScrollViewer>
                     <Grid Grid.Row="0" x:Name="grdCreateControls" Grid.Column="0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="50"/>
@@ -303,9 +289,9 @@
                             <RowDefinition Height="60"/>
                             <RowDefinition Height="100"/>
                             <RowDefinition Height="60"/>
-                            <RowDefinition Height="60"/>
-                            <RowDefinition Height="60"/>
-                            <RowDefinition Height="60"/>
+                            <!--<RowDefinition Height="60"/>-->
+                            <!--<RowDefinition Height="60"/>
+                            <RowDefinition Height="60"/>-->
                             <RowDefinition/>
                             <RowDefinition Height="45"/>
                         </Grid.RowDefinitions>
@@ -345,23 +331,54 @@
                             <TextBlock Grid.Row="1" x:Name="txtBlkTags" TextWrapping="Wrap" TextAlignment="Left"  Margin="10,0,0,0" VerticalAlignment="Center" >Add short descriptive tags to organize or easily find later. Seperate with comma.</TextBlock>
                         </Grid>
 
-                        <Label Grid.Row="7" Grid.Column="0" x:Name="lblGradeLevel"  HorizontalAlignment="Right" VerticalAlignment="Center">Grade Level(s)</Label>
-                        <TextBox Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" x:Name="txtBoxGradeLevel"  Margin="10px" VerticalContentAlignment="Center" Padding="5,0,0,0"></TextBox>
+                        <Label Grid.Row="7" Grid.Column="0" x:Name="lblRubricSubject"  HorizontalAlignment="Right" VerticalAlignment="Center">Subject(s)</Label>
+                        <TextBox Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" x:Name="txtBoxRubricSubject"  Margin="10px" VerticalContentAlignment="Center" Padding="5,0,0,0" KeyDown="txtBoxRubricSubject_KeyDown" TextChanged="txtBoxRubricSubject_TextChanged"  ></TextBox>
 
-                        <Label Grid.Row="8" Grid.Column="0" x:Name="lblCourse" HorizontalAlignment="Right" VerticalAlignment="Center">Course(s):</Label>
+                            <Grid Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="3" Margin="10">
+                                <ScrollViewer>
+                                    
+                                <ItemsControl x:Name="icRubricSubjects" ItemsSource="{Binding}" Grid.Row="0">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <WrapPanel Orientation="Horizontal"/>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                    
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                
+                                                <Button x:Name="btnRubricSubjectDelete" Margin="2" Style="{StaticResource AccentButtonStyle}" Tag="{Binding SubjectID}" Click="btnRubricSubjectDelete_Click">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding SubjectID}" Margin="2" />
+                                                        <Image Source="/Icons/ChromeClose_16x.png" Stretch="None" Margin="2" />
+                                                    </StackPanel>
+                                                </Button>
+
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>                                  
+                                    
+                                </ItemsControl>
+                                </ScrollViewer>
+
+                            </Grid>
+
+                        <!--<Label Grid.Row="8" Grid.Column="0" x:Name="lblCourse" HorizontalAlignment="Right" VerticalAlignment="Center">Course(s):</Label>
                         <TextBox Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="2" x:Name="txtBoxCourse"  Margin="10px" VerticalContentAlignment="Center" Padding="5,0,0,0"></TextBox>
 
                         <Label Grid.Row="9" Grid.Column="0" x:Name="lblUnit" HorizontalAlignment="Right" VerticalAlignment="Center">Unit(s):</Label>
                         <TextBox Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="2" x:Name="txtBoxUnit"  Margin="10px" VerticalContentAlignment="Center" Padding="5,0,0,0"></TextBox>
 
                         <Label Grid.Row="10" Grid.Column="0" x:Name="lblSubject" HorizontalAlignment="Right" VerticalAlignment="Center">Subject(s):</Label>
-                        <TextBox Grid.Row="10" Grid.Column="1" Grid.ColumnSpan="2" x:Name="txtBoxSubject" Margin="10px" VerticalContentAlignment="Center" Padding="5,0,0,0"></TextBox>
+                        <TextBox Grid.Row="10" Grid.Column="1" Grid.ColumnSpan="2" x:Name="txtBoxSubject" Margin="10px" VerticalContentAlignment="Center" Padding="5,0,0,0"></TextBox>-->
 
 
                         <Button x:Name="btnEdit" Content="Save Edits" Grid.Row="12" Grid.Column="1" Margin="10,5" Visibility="Hidden"/>
                         <Button x:Name="btnCreateRubricNext" Content="Next" Grid.Row="12" Grid.Column="2" Margin="10,5" Click="btnCreateRubric_Click" />
 
                     </Grid>
+                    </ScrollViewer>
                 </TabItem>
 
                 <TabItem x:Name="tabScoreRange" Header="Score Range" IsEnabled="False" Visibility="Collapsed">

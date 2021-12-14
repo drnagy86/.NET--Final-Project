@@ -20,5 +20,11 @@ namespace RubricNorming
             return isValid;
         }
 
+        public static bool HasValidCharactors(this string stringToTest)
+        {
+            //https://stackoverflow.com/questions/4503542/check-for-special-characters-in-a-string
+            return stringToTest.Any(ch => !Char.IsLetterOrDigit(ch));
+        }
+
     }
 }
