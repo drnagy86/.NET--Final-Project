@@ -1868,39 +1868,44 @@ namespace RubricNorming
         private void btnRubricSubjectDelete_Click(object sender, RoutedEventArgs e)
         {
 
-            Button button = (Button)sender;
+            if (_currentUIState == UIState.Edit || _currentUIState == UIState.Create)
+            {
 
-            MessageBoxResult result = MessageBox.Show("Are you sure you would like to remove this subject from the rubiric?", "Delete?", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                Button button = (Button)sender;
 
-            switch (result)
-            {                
-                case MessageBoxResult.Yes:
+                MessageBoxResult result = MessageBox.Show("Are you sure you would like to remove this subject from the rubiric?", "Delete?", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
-                    try
-                    {
-                        _rubricSubjectManager.RemoveRubricSubjectBySubjectIDAndRubricID(button.Tag.ToString(), _rubricVM.RubricID);
+                switch (result)
+                {
+                    case MessageBoxResult.Yes:
 
-                        _rubricSubjects = _rubricSubjectManager.RetrieveRubricSubjectsByRubricID(_rubricVM.RubricID);
-                        icRubricSubjects.ItemsSource = _rubricSubjects;
-                        datSubjects.ItemsSource = _subjectManager.RetrieveSubjects();
+                        try
+                        {
+                            _rubricSubjectManager.RemoveRubricSubjectBySubjectIDAndRubricID(button.Tag.ToString(), _rubricVM.RubricID);
 
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Problem removing the subject from the rubric" + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
+                            _rubricSubjects = _rubricSubjectManager.RetrieveRubricSubjectsByRubricID(_rubricVM.RubricID);
+                            icRubricSubjects.ItemsSource = _rubricSubjects;
+                            datSubjects.ItemsSource = _subjectManager.RetrieveSubjects();
 
-                    break;
-                case MessageBoxResult.No:
-                    break;
-                default:
-                    break;
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Problem removing the subject from the rubric" + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
+
+                        break;
+                    case MessageBoxResult.No:
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 
         private void txtBoxRubricSubject_KeyDown(object sender, KeyEventArgs e)
         {
             TextBox textBox = (TextBox)sender;
+
 
             if (e.Key == Key.Return)
             {
@@ -1918,7 +1923,8 @@ namespace RubricNorming
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("Problem adding subject to the rubric." + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        //MessageBox.Show("Problem adding subject to the rubric." + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        DialogControls.OneButton("Error", "Problem adding subject to the rubric." + ex.Message);
                         staMessage.Content = "Problem adding subject to the rubric." + ex.Message;
                     }
                 }
@@ -1930,8 +1936,6 @@ namespace RubricNorming
                     icRubricSubjects.ItemsSource = _rubricSubjects;
                     textBox.Text = "";
                 }
-
-
             }
         }
 

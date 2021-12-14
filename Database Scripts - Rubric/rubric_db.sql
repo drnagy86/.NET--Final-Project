@@ -949,7 +949,7 @@ CREATE TABLE [dbo].[RubricSubject] (
 	, CONSTRAINT [fk_Rubric_Subect_SubjectID] FOREIGN KEY([SubjectID])
 		REFERENCES [dbo].[Subject]([SubjectID]) ON UPDATE CASCADE
 	, CONSTRAINT [fk_Rubric_Subect_RubricID] FOREIGN KEY([RubricID])
-		REFERENCES [dbo].[Rubric]([RubricID])
+		REFERENCES [dbo].[Rubric]([RubricID]) ON DELETE CASCADE
 )
 GO
 
