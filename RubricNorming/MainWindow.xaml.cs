@@ -1907,8 +1907,6 @@ namespace RubricNorming
             TextBox textBox = (TextBox)sender;
 
 
-
-
             if (e.Key == Key.Return)
             {
 
@@ -1938,10 +1936,6 @@ namespace RubricNorming
                     icRubricSubjects.ItemsSource = _rubricSubjects;
                     textBox.Text = "";
                 }
-
-                
-
-
             }
         }
 
