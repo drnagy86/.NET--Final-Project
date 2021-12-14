@@ -48,12 +48,16 @@
     <Compile Include="IFacetManager.cs" />
     <Compile Include="IFacetTypeManager.cs" />
     <Compile Include="IRubricManager.cs" />
+    <Compile Include="IRubricSubjectManager.cs" />
     <Compile Include="IScoreTypeManager.cs" />
+    <Compile Include="ISubjectManager.cs" />
     <Compile Include="IUserManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RubricManager.cs" />
+    <Compile Include="RubricSubjectManager.cs" />
     <Compile Include="RubricVMManager.cs" />
     <Compile Include="ScoreTypeManager.cs" />
+    <Compile Include="SubjectManager.cs" />
     <Compile Include="UserManager.cs" />
   </ItemGroup>
   <ItemGroup>

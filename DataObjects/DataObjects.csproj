@@ -47,7 +47,9 @@
     <Compile Include="FacetType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rubric.cs" />
+    <Compile Include="RubricSubject.cs" />
     <Compile Include="ScoreType.cs" />
+    <Compile Include="Subject.cs" />
     <Compile Include="User.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
