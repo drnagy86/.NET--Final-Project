@@ -109,7 +109,7 @@ namespace RubricNorming
                             string rolesList = "";
                             foreach (var role in _user.Roles)
                             {
-                                rolesList += " " + role;
+                                rolesList += "\n" + role;
                             }
                             //MessageBox.Show("Welcome back, " + _user.GivenName +
                             //    "\n\n" + "Your roles are:" + rolesList);
@@ -375,7 +375,11 @@ namespace RubricNorming
 
         private void viewAllActiveRubrics()
         {
+
+
             setCurrentUIState(UIState.ViewAll);
+
+            
 
             btnCreateNewRubric.Visibility = Visibility.Visible;
 
@@ -1100,6 +1104,26 @@ namespace RubricNorming
             {
                 try
                 {
+                    foreach (var item in _rubricSubjects)
+                    {
+                        _rubricSubjectManager.CreateRubricSubjectBySubjectIDAndRubricID(item.SubjectID, _rubricVM.RubricID, item.SubjectID);
+                    }
+
+                    _rubricSubjects = _rubricSubjectManager.RetrieveRubricSubjectsByRubricID(_rubricVM.RubricID);
+                    icRubricSubjects.ItemsSource = _rubricSubjects;
+                    datSubjects.ItemsSource = _subjectManager.RetrieveSubjects();
+
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Problem adding subject to the rubric." + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    staMessage.Content = "Problem adding subject to the rubric." + ex.Message;
+                }
+
+
+                try
+                {
                     savedRubric = _rubricManager.CreateRubric(txtBoxTitle.Text, txtBoxDescription.Text, cmbBoxScoreTypes.SelectedItem.ToString(), _user.UserID);
 
                     RubricVM tempRubric = _rubricVMManager.RetrieveRubricByNameDescriptionScoreTypeIDRubricCreator(txtBoxTitle.Text, txtBoxDescription.Text, cmbBoxScoreTypes.SelectedItem.ToString(), _user.UserID);
@@ -1306,7 +1330,7 @@ namespace RubricNorming
                 for (int i = (int)sldCriteriaTopRange.Value; i >= (int)sldCriteriaBottomRange.Value; i--)
                 {
                     //(int rubricID, string facetID, int score)
-                    Criteria criteria = new Criteria(facet.FacetID, i, i + " Points", "Criteria to meet for " + facet.FacetID + " to earn " + i + "points.");
+                    Criteria criteria = new Criteria(facet.FacetID, i, i + " Points", "Criteria to meet for " + facet.FacetID + " to earn " + i + " points.");
                     _criteriaList.Add(criteria);
                 }
 
@@ -1468,6 +1492,9 @@ namespace RubricNorming
                     tabFacets.Visibility = Visibility.Collapsed;
                     tabRubricSubject.Visibility = Visibility.Collapsed;
                     tabRubricSubject.Visibility = Visibility.Visible;
+
+                    tabRubricSubject.Focus();
+
                     tabScoreRange.Visibility = Visibility.Collapsed;
                     tabsetCreateControls.IsEnabled = true;
                     tabsetCreateControls.Visibility = Visibility.Visible;
@@ -1483,6 +1510,10 @@ namespace RubricNorming
                     //txtBoxUnit.IsReadOnly = true;
 
                     txtblkInstructions.Text = "Information about the rubric.";
+
+                    //updateICFacetCriteria();
+
+
 
                     break;
 
@@ -1822,12 +1853,12 @@ namespace RubricNorming
         {
             Button button = (Button)sender;
 
-            if (_currentUIState == UIState.ViewAll)
+            if (_currentUIState == UIState.ViewAll || _currentUIState == UIState.ViewDetail || _currentUIState == UIState.Create)
             {
                 button.IsEnabled = false;
                 button.Visibility = Visibility.Hidden;
             }
-            else
+            else if (_currentUIState == UIState.Edit)
             {
                 button.IsEnabled = true;
                 button.Visibility = Visibility.Visible;
@@ -1873,20 +1904,34 @@ namespace RubricNorming
 
             if (e.Key == Key.Return)
             {
-                try
-                {
-                    _rubricSubjectManager.CreateRubricSubjectBySubjectIDAndRubricID(textBox.Text, _rubricVM.RubricID, textBox.Text);
-                    _rubricSubjects = _rubricSubjectManager.RetrieveRubricSubjectsByRubricID(_rubricVM.RubricID);
-                    icRubricSubjects.ItemsSource = _rubricSubjects;
-                    datSubjects.ItemsSource = _subjectManager.RetrieveSubjects();
-                    textBox.Text = "";
 
-                }
-                catch (Exception ex)
+                if (_currentUIState == UIState.Edit)
                 {
-                    MessageBox.Show("Problem adding subject to the rubric." + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    staMessage.Content = "Problem adding subject to the rubric." + ex.Message;
+                    try
+                    {
+                        _rubricSubjectManager.CreateRubricSubjectBySubjectIDAndRubricID(textBox.Text, _rubricVM.RubricID, textBox.Text);
+                        _rubricSubjects = _rubricSubjectManager.RetrieveRubricSubjectsByRubricID(_rubricVM.RubricID);
+                        icRubricSubjects.ItemsSource = _rubricSubjects;
+                        datSubjects.ItemsSource = _subjectManager.RetrieveSubjects();
+                        textBox.Text = "";
+
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Problem adding subject to the rubric." + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        staMessage.Content = "Problem adding subject to the rubric." + ex.Message;
+                    }
                 }
+                else if (_currentUIState == UIState.Create)
+                {
+                    _rubricSubjects = new List<RubricSubject>();
+
+                    _rubricSubjects.Add(new RubricSubject() { RubricID = 10001, SubjectID = textBox.Text });
+                    icRubricSubjects.ItemsSource = _rubricSubjects;
+                    textBox.Text = "";
+                }
+
+
             }
         }
 

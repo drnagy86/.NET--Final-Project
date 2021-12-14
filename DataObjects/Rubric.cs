@@ -52,6 +52,7 @@ namespace DataObjects
 
         public RubricVM(Rubric rubric, List<Facet> facets, List<Criteria> criteria)
         {
+
             this.RubricID = rubric.RubricID;
             this.Name = rubric.Name;
             this.Description = rubric.Description;
