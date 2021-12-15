@@ -236,6 +236,9 @@ namespace RubricNorming
         {
             this.txtUserID.Focus();
 
+            string errorMessage = "";
+            bool isError = false;
+
             try
             {
                 _scoreTypes = _scoreTypeManager.RetrieveScoreTypes();
@@ -246,7 +249,9 @@ namespace RubricNorming
             catch (Exception ex)
             {
                 //MessageBox.Show("Problem retrieving score types.\n" + ex.Message);
-                DialogControls.OneButton("Error", "Problem retrieving score types.\n" + ex.Message);
+                isError = true;
+                errorMessage += "Problem retrieving score types.\n" + ex.Message + "\n";
+                //DialogControls.OneButton("Error", "Problem retrieving score types.\n" + ex.Message);
 
 
             }
@@ -261,8 +266,10 @@ namespace RubricNorming
             }
             catch (Exception ex)
             {
+                isError = true;
                 //MessageBox.Show("Problem retrieving facet types.\n" + ex.Message);
-                DialogControls.OneButton("Error", "Problem retrieving facet types.\n" + ex.Message);
+                //DialogControls.OneButton("Error`", "Problem retrieving facet types.\n" + ex.Message);
+                errorMessage += "Problem retrieving facet types.\n" + ex.Message + "\n";
             }
 
             try
@@ -271,8 +278,17 @@ namespace RubricNorming
             }
             catch (Exception ex)
             {
-                DialogControls.OneButton("Error", "Problem retrieving subjects.\n" + ex.Message);
+                isError = true;
+                //DialogControls.OneButton("Error", "Problem retrieving subjects.\n" + ex.Message);
+                errorMessage += "Problem retrieving subjects.\n" + ex.Message + "\n";
             }
+
+            if (isError)
+            {
+                DialogControls.OneButton("Error", errorMessage);
+                staMessage.Content = errorMessage.Replace('\n', ' ');
+            }
+            
 
 
             hideAllControls();
@@ -1034,6 +1050,9 @@ namespace RubricNorming
 
         private bool isValidFacetCriteriaDictionary()
         {
+            string errorMessage = "";
+            bool isError = false;
+
             bool isValid = true;
             foreach (var entry in _rubricVM.FacetCriteria)
             {
@@ -1042,22 +1061,37 @@ namespace RubricNorming
                     if (!criteria.CriteriaID.IsValidLength(50))
                     {
                         //MessageBox.Show("The criteria name of:\n" + criteria.CriteriaID + "\nis too long. Please shorten.", "Criteria Name Too Long");
-                        DialogControls.OneButton("Criteria Name Too Long", "The criteria name of:\n" + criteria.CriteriaID + "\nis too long. Please shorten.");
+                        isError = true;
+                        errorMessage += "The criteria name of:\n" + criteria.CriteriaID + "\nis too long or is empty. \n";
+                        //DialogControls.OneButton("Criteria Name Too Long", "The criteria name of:\n" + criteria.CriteriaID + "\nis too long. Please shorten.");
 
-                        staMessage.Content = "The criteria name of: " + criteria.CriteriaID + " is too long. Please shorten.";
+                        //staMessage.Content = "The criteria name of: " + criteria.CriteriaID + " is too long. Please shorten.";
                         isValid = false;
-                        break;
+                        //break;
+                        
                     }
                     if (!criteria.Content.IsValidLength(255))
                     {
                         //MessageBox.Show("The criteria content of:\n" + criteria.Content + "\nis too long. Please shorten.", "Criteria Content Too Long");
-                        DialogControls.OneButton("Criteria Content Too Long", "The criteria content of:\n" + criteria.Content + "\nis too long. Please shorten.");
-                        staMessage.Content = "The criteria content of: " + criteria.Content + " is too long. Please shorten.";
+                        isError = true;
+                        errorMessage += "The criteria content of:\n" + criteria.Content + "\nis too long or is empty.\n";
+
+
+                        //DialogControls.OneButton("Criteria Content Too Long", "The criteria content of:\n" + criteria.Content + "\nis too long. Please shorten.");
+                        //staMessage.Content = "The criteria content of: " + criteria.Content + " is too long. Please shorten.";
                         isValid = false;
-                        break;
+                        //break;
                     }
                 }
             }
+
+            if (isError)
+            {
+                DialogControls.OneButton("Error", errorMessage);
+            }
+
+
+
 
             return isValid;
         }
@@ -1099,6 +1133,9 @@ namespace RubricNorming
             pwdPassword.Focus();
             bool savedRubric = false;
 
+            string errorMessage = "";
+            bool isMessage = false;
+
             // run validation again 
             if (validateRubricTitleAndDescription())
             {
@@ -1117,8 +1154,11 @@ namespace RubricNorming
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Problem adding subject to the rubric." + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    staMessage.Content = "Problem adding subject to the rubric." + ex.Message;
+                    //MessageBox.Show("Problem adding subject to the rubric." + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    //staMessage.Content = "Problem adding subject to the rubric." + ex.Message;
+                    isMessage = true;
+                    errorMessage = "Problem adding subject to the rubric." + ex.Message + "\n";
+
                 }
 
 
@@ -1147,20 +1187,19 @@ namespace RubricNorming
                         {
                             item.RubricID = tempRubric.RubricID;
                         }
-
                     }
 
                     tabFacets.IsEnabled = true;
                     tabFacets.Focus();
-                    
 
                 }
                 catch (Exception ex)
                 {
                     //MessageBox.Show("There was a problem creating the rubric.\n" + ex.Message, "Problem Creating Rubric");
-                    DialogControls.OneButton("Problem Creating Rubric", "There was a problem creating the rubric.\n" + ex.Message);
-                    staMessage.Content = "There was a problem creating the rubric. " + ex.Message;
-                    
+                    //DialogControls.OneButton("Problem Creating Rubric", "There was a problem creating the rubric.\n" + ex.Message);
+                    //staMessage.Content = "There was a problem creating the rubric. " + ex.Message;
+                    isMessage = true;
+                    errorMessage += "There was a problem creating the rubric.\n" + ex.Message + "\n";
                 }
 
                 if (savedRubric && isValidFacetCriteriaDictionary())
@@ -1178,15 +1217,23 @@ namespace RubricNorming
                     catch (Exception ex)
                     {
                         //MessageBox.Show("Problem saving facets and criteria.\n" + ex.Message);
-                        DialogControls.OneButton("Error", "Problem saving facets and criteria.\n" + ex.Message);
-                        staMessage.Content = "Problem saving facets and criteria. " + ex.Message;
+                        //DialogControls.OneButton("Error", "Problem saving facets and criteria.\n" + ex.Message);
+                        //staMessage.Content = "Problem saving facets and criteria. " + ex.Message;
+                        isMessage = true;
+                        errorMessage += "Problem saving facets and criteria.\n" + ex.Message + "\n";
                     }
 
                     if (isAdded)
                     {
-                        MessageBox.Show("Successfully saved the rubric.");
-                        DialogControls.OneButton("Success", "Successfully saved the rubric.");
-                        staMessage.Content = "Successfully saved the rubric.";
+                        isMessage = true;
+                        //MessageBox.Show("Successfully saved the rubric.");
+
+                        //DialogControls.OneButton("Success", "Successfully saved the rubric.");
+                        //staMessage.Content = "Successfully saved the rubric.";
+
+                        errorMessage += "Successfully saved the rubric." + "\n";
+                        isMessage = true;
+
                         _unsavedWorkFlag = false;
                         
                         viewAllActiveRubrics();
@@ -1196,9 +1243,15 @@ namespace RubricNorming
                         //icScores.Visibility = Visibility.Visible;
                         icFacetCriteria.Visibility = Visibility.Visible;
                     }
+
+
                 }
             }
-
+            if (isMessage)
+            {
+                DialogControls.OneButton("Message", errorMessage);
+                staMessage.Content = errorMessage.Replace('\n', ' ');
+            }
         }
 
         private void btnScoreRangeAdd_Click(object sender, RoutedEventArgs e)
