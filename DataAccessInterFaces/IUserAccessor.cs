@@ -15,6 +15,16 @@ namespace DataAccessInterFaces
         List<string> SelectRolesByUserID(string userID);
         int UpdatePasswordHash(string userID, string oldPassword, string newPassword);
 
+        List<string> SelectAllRoles();
+        List<string> SelectRolesByEmployeeID(int employeeID);
 
+        User GetUserByEmail(string email);
+        User AuthenticateUser(string username, string passwordHash);
+
+        bool InsertUser(User user);
+
+        int InsertOrDeleteEmployeeRole(string userID, string role, bool delete = false);
+
+        //int UpdatePassword(string userID, string oldPassword, string newPassword);
     }
 }

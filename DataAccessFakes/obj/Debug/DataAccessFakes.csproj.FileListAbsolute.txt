@@ -20,3 +20,14 @@ C:\Users\drnag\Documents\NET2\Rubric Project\NET2-RubricNormingSolution\DataAcce
 C:\Users\drnag\Documents\NET2\Rubric Project\NET2-RubricNormingSolution\DataAccessFakes\obj\Debug\DataAccessFakes.csproj.CopyComplete
 C:\Users\drnag\Documents\NET2\Rubric Project\NET2-RubricNormingSolution\DataAccessFakes\obj\Debug\DataAccessFakes.dll
 C:\Users\drnag\Documents\NET2\Rubric Project\NET2-RubricNormingSolution\DataAccessFakes\obj\Debug\DataAccessFakes.pdb
+C:\Users\drnag\Documents\NET3\Rubric Project\NET2-RubricNormingSolution\DataAccessFakes\bin\Debug\DataAccessFakes.dll
+C:\Users\drnag\Documents\NET3\Rubric Project\NET2-RubricNormingSolution\DataAccessFakes\bin\Debug\DataAccessFakes.pdb
+C:\Users\drnag\Documents\NET3\Rubric Project\NET2-RubricNormingSolution\DataAccessFakes\bin\Debug\DataAccessInterFaces.dll
+C:\Users\drnag\Documents\NET3\Rubric Project\NET2-RubricNormingSolution\DataAccessFakes\bin\Debug\DataObjects.dll
+C:\Users\drnag\Documents\NET3\Rubric Project\NET2-RubricNormingSolution\DataAccessFakes\bin\Debug\DataAccessInterFaces.pdb
+C:\Users\drnag\Documents\NET3\Rubric Project\NET2-RubricNormingSolution\DataAccessFakes\bin\Debug\DataObjects.pdb
+C:\Users\drnag\Documents\NET3\Rubric Project\NET2-RubricNormingSolution\DataAccessFakes\obj\Debug\DataAccessFakes.csproj.AssemblyReference.cache
+C:\Users\drnag\Documents\NET3\Rubric Project\NET2-RubricNormingSolution\DataAccessFakes\obj\Debug\DataAccessFakes.csproj.CoreCompileInputs.cache
+C:\Users\drnag\Documents\NET3\Rubric Project\NET2-RubricNormingSolution\DataAccessFakes\obj\Debug\DataAccessFakes.csproj.CopyComplete
+C:\Users\drnag\Documents\NET3\Rubric Project\NET2-RubricNormingSolution\DataAccessFakes\obj\Debug\DataAccessFakes.dll
+C:\Users\drnag\Documents\NET3\Rubric Project\NET2-RubricNormingSolution\DataAccessFakes\obj\Debug\DataAccessFakes.pdb

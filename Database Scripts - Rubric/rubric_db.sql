@@ -77,7 +77,7 @@ INSERT INTO [dbo].[Role] (
 	,[Description]	
 ) VALUES
 ('Creator', 'Can create new rubrics and add examples')
-,('Admin', 'Manages users, rubrics, tests, examples')
+,('Administrator', 'Manages users, rubrics, tests, examples')
 ,('Assessor','Can view rubrics')
 ,('Norming Trainee', 'Can train and take tests for rubrics')
 
@@ -103,7 +103,7 @@ INSERT INTO [dbo].[UserRole](
 	[UserID]		
 	,[RoleID]	
 )VALUES
-	('joanne@company.com', 'Admin')
+	('joanne@company.com', 'Administrator')
 	,('joanne@company.com', 'Creator')
 	,('martin@company.com', 'Creator')
 	,('martin@company.com', 'Assessor')
@@ -133,6 +133,8 @@ AS
 			AND [Active] = 1	
 	END
 GO
+
+
 
 
 print '' print '*** Creating sp_select_user_by_userID'
@@ -1084,4 +1086,82 @@ AS
 			[RubricID] = @RubricID
 		RETURN @@ROWCOUNT
 	END	
+GO
+
+
+print '' print '*** Creating sp_select_all_roles'
+GO
+CREATE PROCEDURE [sp_select_all_roles]
+AS
+BEGIN
+	SELECT [RoleID]
+	FROM [dbo].[Role]
+	ORDER BY [RoleID]
+END
+GO
+
+print '' print '*** Creating sp_select_roles_by_userID'
+GO
+CREATE PROCEDURE [sp_select_roles_by_userID]
+(
+	@UserID 	nvarchar(50)
+)
+AS
+BEGIN
+	SELECT 	[RoleID]
+	FROM 	[dbo].[UserRole]
+	WHERE 	[UserID] = @UserID
+END
+GO
+
+-- sp_create_user
+print '' print '*** Creating sp_create_user'
+GO
+CREATE PROCEDURE [sp_create_user]
+(
+	@UserID 	nvarchar(50),
+	@GivenName	nvarchar(50),
+	@FamilyName nvarchar(50)
+)
+AS
+	BEGIN
+		INSERT INTO [dbo].[User] (
+			[UserID]		
+			, [GivenName]		
+			, [FamilyName]	
+		)VALUES 
+			(@UserID, @GivenName, @FamilyName)
+	END
+GO
+
+
+print '' print '*** Creating sp_delete_employee_role'
+GO
+CREATE PROCEDURE [sp_delete_employee_role]
+(
+	@UserID			[nvarchar](50),
+	@RoleID			[nvarchar](50)
+)
+AS
+BEGIN
+	DELETE FROM [dbo].[UserRole]
+	WHERE [UserID] =	@UserID
+	  AND [RoleID] = 	@RoleID
+END
+GO
+
+print '' print '*** Creating sp_insert_employee_role'
+GO
+CREATE PROCEDURE [sp_insert_employee_role]
+(
+	@UserID			[nvarchar](50),
+	@RoleID				[nvarchar](50)
+)
+AS
+BEGIN
+INSERT INTO [dbo].[UserRole]
+	([UserID], [RoleID])
+	VALUES
+	(@UserID, @RoleID)
+END
 GO

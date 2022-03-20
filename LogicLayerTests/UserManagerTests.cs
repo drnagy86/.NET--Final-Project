@@ -47,7 +47,7 @@ namespace LogicLayerTests
             bool actualResult;
 
             // act
-            actualResult = userManager.AuthenticateUser(userID, passwordHash);
+            actualResult = userManager.AuthenticateUserReturnsTrueOnSuccess(userID, passwordHash);
 
             // assert
             Assert.AreEqual(expectedResult, actualResult);
@@ -63,7 +63,7 @@ namespace LogicLayerTests
             bool actualResult;
 
             // act
-            actualResult = userManager.AuthenticateUser(userID, passwordHash);
+            actualResult = userManager.AuthenticateUserReturnsTrueOnSuccess(userID, passwordHash);
 
             // assert
             Assert.AreEqual(expectedResult, actualResult);
@@ -80,7 +80,7 @@ namespace LogicLayerTests
             bool actualResult;
 
             // act
-            actualResult = userManager.AuthenticateUser(userID, passwordHash);
+            actualResult = userManager.AuthenticateUserReturnsTrueOnSuccess(userID, passwordHash);
 
             // assert
             Assert.AreEqual(expectedResult, actualResult);
@@ -96,7 +96,7 @@ namespace LogicLayerTests
             bool actualResult;
 
             // act
-            actualResult = userManager.AuthenticateUser(userID, passwordHash);
+            actualResult = userManager.AuthenticateUserReturnsTrueOnSuccess(userID, passwordHash);
 
             // assert
             Assert.AreEqual(expectedResult, actualResult);
@@ -239,6 +239,91 @@ namespace LogicLayerTests
             // assert
             // exception checking
         }
+
+        [TestMethod]
+        public void TestAddUserPasses()
+        {
+            // arrange
+            User user = new User()
+                {
+                    GivenName = "Test Name",
+                    FamilyName = "Test Name",
+                    UserID = "test@company.com",
+                    Roles = new List<string>(),
+                    Active = true
+                };
+
+            bool expectedResult = true;
+            bool actualResult;
+
+            //act
+            actualResult = userManager.AddUser(user);
+
+            // assert
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ApplicationException))]
+        public void TestAddUserFailsIfNoUserID()
+        {
+            // arrange
+            User user = new User()
+            {
+                GivenName = "Test Name",
+                FamilyName = "Test Name",
+                UserID = "",
+                Roles = new List<string>(),
+                Active = true
+            };
+            //act
+            userManager.AddUser(user);
+
+            // assert
+            // expecting exception
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ApplicationException))]
+        public void TestAddUserFailsIfNoGivenName()
+        {
+            // arrange
+            User user = new User()
+            {
+                GivenName = "",
+                FamilyName = "Test Name",
+                UserID = "test@company.com",
+                Roles = new List<string>(),
+                Active = true
+            };
+            //act
+            userManager.AddUser(user);
+
+            // assert
+            // expecting exception
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ApplicationException))]
+        public void TestAddUserFailsIfNoFamilyName()
+        {
+            // arrange
+            User user = new User()
+            {
+                GivenName = "Test Name",
+                FamilyName = "",
+                UserID = "test@company.com",
+                Roles = new List<string>(),
+                Active = true
+            };
+            //act
+            userManager.AddUser(user);
+
+            // assert
+            // expecting exception
+        }
+
+
 
     }
 }

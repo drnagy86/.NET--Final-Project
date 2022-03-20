@@ -55,6 +55,11 @@ namespace DataAccessFakes
             fakeUsers[0].Roles.Add("Creator");
         }
 
+        public User AuthenticateUser(string username, string passwordHash)
+        {
+            throw new NotImplementedException();
+        }
+
         public int AuthenticateUserWithUserIDAndPasswordHash(string userID, string passwordHash)
         {
             int numAuthenticated = 0;
@@ -76,6 +81,44 @@ namespace DataAccessFakes
 
 
             return numAuthenticated;
+        }
+
+        public User GetUserByEmail(string email)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int InsertOrDeleteEmployeeRole(string userID, string role, bool delete = false)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool InsertUser(User user)
+        {
+            bool result = false;
+
+            int countOfUsersBeforeAdding = fakeUsers.Count;
+
+            fakeUsers.Add(user);
+
+            int countOfUsersAfterAdding = fakeUsers.Count;
+
+            if (countOfUsersBeforeAdding + 1 == countOfUsersAfterAdding)
+            {
+                result = true;
+            }
+
+            return result;
+        }
+
+        public List<string> SelectAllRoles()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<string> SelectRolesByEmployeeID(int employeeID)
+        {
+            throw new NotImplementedException();
         }
 
         public List<string> SelectRolesByUserID(string userID)

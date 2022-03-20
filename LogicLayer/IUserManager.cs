@@ -11,14 +11,24 @@ namespace LogicLayer
     {
         User LoginUser(string userID, string password);
 
-        bool AuthenticateUser(string userID, string passwordHash);
+        bool AuthenticateUserReturnsTrueOnSuccess(string userID, string passwordHash);
         string HashSha256(string source);
         User GetUserByUserID(string userID);
         List<string> GetRolesForUser(string userID);
 
         bool ResetPassword(string userID, string oldPassword, string newPassword);
 
+        List<string> RetrieveEmployeeRoles(int employeeID);
+        List<string> RetrieveEmployeeRoles();
 
+        bool FindUser(string email);
+        User AuthenticateUser(string email, string password);
+
+        bool AddUser(User user);
+        bool DeleteUserRole(string userID, string role);
+        bool AddUserRole(string userID, string role);
+
+        //bool UpdatePassword(string userID, string oldPassword, string newPassword);
 
     }
 }

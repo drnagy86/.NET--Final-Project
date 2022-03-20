@@ -13,8 +13,15 @@ namespace DataAccessFakes
 
         private List<Rubric> _fakeRubrics = new List<Rubric>();
 
+
+
         public RubricAccessorFake()
         {
+
+
+
+
+
             _fakeRubrics.Add(new Rubric()
             {
                 RubricID = 100000,
@@ -136,8 +143,15 @@ namespace DataAccessFakes
             return rowsAffected;
         }
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="rubricID"></param>
+        /// <returns></returns>
         public int DeleteRubricByRubricID(int rubricID)
         {
+
             int rowsAffected = 0;
 
             foreach (Rubric rubric in _fakeRubrics)

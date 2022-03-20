@@ -22,6 +22,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitignore = .gitignore
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RubricMVC", "RubricMVC\RubricMVC.csproj", "{7EA36DFE-6D8A-4C9D-A941-07140B468E33}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AA74B107-2C55-4C1C-90E7-16BC42388D10} = {AA74B107-2C55-4C1C-90E7-16BC42388D10}
+		{F338ACA4-07B9-4EF6-AC0B-B58537E3156A} = {F338ACA4-07B9-4EF6-AC0B-B58537E3156A}
+		{4C84D3BF-7BFF-48B4-8A4E-E19A003A722A} = {4C84D3BF-7BFF-48B4-8A4E-E19A003A722A}
+		{5663AACF-9E4F-4062-BE48-1EFC0737D01D} = {5663AACF-9E4F-4062-BE48-1EFC0737D01D}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -56,6 +64,10 @@ Global
 		{5663AACF-9E4F-4062-BE48-1EFC0737D01D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5663AACF-9E4F-4062-BE48-1EFC0737D01D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5663AACF-9E4F-4062-BE48-1EFC0737D01D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7EA36DFE-6D8A-4C9D-A941-07140B468E33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EA36DFE-6D8A-4C9D-A941-07140B468E33}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EA36DFE-6D8A-4C9D-A941-07140B468E33}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EA36DFE-6D8A-4C9D-A941-07140B468E33}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
