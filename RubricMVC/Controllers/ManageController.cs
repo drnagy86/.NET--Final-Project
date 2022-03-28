@@ -232,6 +232,9 @@ namespace RubricMVC.Controllers
             }
             var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
             bool usrMgrResult = false;
+            
+            
+            
 
             try
             {
