@@ -3,52 +3,116 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
-    @Styles.Render("~/Content/css")
+    <title>@ViewBag.Title</title>
+
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+
     @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/css")
 
 </head>
-<body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+<body class="d-flex flex-column min-vh-100 mt-auto">    
+    <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a href="" class="navbar-brand">
+                <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+                     width="50pt" height="50pt"
+                     viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid slice">
 
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        <li>@Html.ActionLink("About", "About", "Home")</li>
-                    }
-
-                    @if (User.IsInRole("Administrator"))
-                    {
-                        <li>@Html.ActionLink("User Administration", "Index", "Admin")</li>
-                    }
-
+                    <g transform="translate(0,1000) scale(0.100000,-0.100000)"
+                       fill="#FFFFFF" stroke="none">
+                        <path d="M1445 9306 c-325 -63 -516 -150 -788 -360 -207 -161 -436 -483 -537
+-756 -36 -98 -85 -295 -104 -420 -22 -148 -23 -4031 -1 -4182 20 -131 68 -327
+105 -428 69 -188 216 -427 363 -591 122 -138 336 -299 500 -379 89 -43 227
+-93 227 -82 0 3 -50 200 -110 437 -61 236 -171 666 -244 955 -74 289 -167 651
+-205 805 -39 154 -111 438 -161 630 -49 193 -90 354 -90 358 0 4 48 6 107 5
+l107 -3 128 -505 c70 -278 189 -743 263 -1035 74 -291 195 -768 270 -1060 74
+-291 138 -543 143 -560 l8 -30 235 -3 235 -2 53 202 c30 112 76 280 102 374
+51 182 170 615 239 874 23 85 61 225 85 310 48 170 94 337 220 805 46 171 100
+369 121 440 20 72 39 140 41 153 5 21 10 22 110 22 95 0 104 -2 99 -17 -3 -10
+-37 -135 -75 -278 -70 -264 -120 -446 -186 -680 -20 -71 -74 -269 -120 -440
+-124 -460 -171 -633 -220 -805 -24 -85 -53 -189 -64 -230 -11 -41 -58 -217
+-105 -391 -47 -174 -86 -321 -86 -327 0 -21 93 -13 170 13 104 35 227 97 318
+158 232 159 365 290 505 502 135 205 201 352 256 576 64 263 61 134 61 2314 0
+2180 3 2051 -61 2314 -17 67 -43 158 -59 201 -101 273 -330 595 -537 756 -252
+195 -395 265 -693 340 -95 24 -126 27 -330 30 -160 2 -245 -1 -295 -10z m351
+-1631 c72 -35 109 -85 123 -168 17 -102 -10 -181 -85 -247 -20 -17 -47 -35
+-60 -40 l-24 -10 52 -82 c28 -46 87 -139 130 -208 l79 -125 -62 -3 c-34 -2
+-67 -1 -73 1 -6 3 -64 90 -129 195 l-119 190 -45 6 c-25 3 -56 6 -69 6 l-24 0
+0 -200 0 -200 -60 0 -60 0 2 458 3 457 105 5 c156 7 251 -3 316 -35z m-517
+-1273 c5 -10 48 -115 96 -233 47 -118 90 -223 94 -234 5 -11 16 -36 24 -55 9
+-19 27 -65 41 -103 14 -37 33 -84 42 -105 9 -20 20 -46 24 -57 63 -156 80
+-189 80 -150 0 8 4 23 9 33 6 9 22 51 36 92 15 41 31 85 36 98 5 12 13 32 18
+45 5 12 22 56 36 97 28 75 37 101 54 143 5 12 26 67 46 122 82 222 118 310
+129 317 17 11 84 9 91 -2 7 -11 118 -445 169 -660 9 -36 21 -83 27 -105 12
+-48 25 -96 38 -150 40 -166 61 -250 81 -320 4 -16 11 -47 15 -67 l6 -38 -105
+0 c-58 0 -107 4 -110 9 -3 5 -18 62 -32 127 -15 66 -30 135 -35 154 -4 19 -13
+58 -19 85 -7 28 -16 68 -22 90 -5 22 -16 72 -24 110 -8 39 -19 88 -24 110 -5
+22 -13 59 -18 83 -14 64 -28 72 -46 27 -9 -21 -16 -40 -16 -42 0 -5 -14 -37
+-52 -123 -28 -61 -34 -76 -58 -140 -12 -30 -32 -77 -44 -105 -13 -27 -31 -72
+-41 -100 -10 -27 -21 -54 -25 -60 -4 -5 -26 -58 -50 -117 l-42 -108 -38 0 -37
+0 -63 148 c-34 81 -70 165 -80 187 -10 22 -30 69 -45 105 -37 89 -49 116 -79
+183 -14 32 -26 60 -26 62 0 3 -10 27 -21 53 -12 26 -27 60 -35 77 -10 24 -14
+26 -18 12 -3 -9 -9 -25 -12 -34 -3 -10 -12 -49 -19 -88 -8 -38 -19 -90 -25
+-115 -6 -25 -15 -63 -20 -85 -5 -22 -13 -58 -19 -80 -5 -22 -17 -76 -26 -120
+-27 -128 -31 -146 -50 -222 l-18 -73 -110 0 c-100 0 -109 1 -102 18 3 9 11 40
+17 67 9 47 18 85 37 165 5 19 17 69 26 110 22 96 34 146 44 190 5 19 14 58 21
+85 6 28 15 66 19 85 8 33 34 144 51 220 15 68 31 135 39 170 5 19 16 67 24
+105 27 120 30 125 81 125 34 0 48 -5 55 -18z" />
+                        <path d="M1503 7594 c-10 -4 -13 -44 -13 -150 l0 -144 26 -6 c14 -4 58 -4 99
+-2 119 8 174 53 176 145 3 111 -48 152 -194 159 -45 2 -88 1 -94 -2z" />
+                        <path d="M1325 1690 c-246 -18 -407 -46 -463 -80 l-33 -20 3 -128 3 -127 45
+-22 c105 -52 373 -78 805 -78 432 0 700 26 805 78 l45 22 0 130 0 130 -45 22
+c-48 24 -160 46 -325 63 -133 14 -689 21 -840 10z" />
+                        <path d="M1315 1090 c-246 -18 -407 -46 -463 -80 l-33 -20 3 -128 3 -127 45
+-22 c105 -52 373 -78 805 -78 432 0 700 26 805 78 l45 22 0 130 0 130 -45 22
+c-48 24 -160 46 -325 63 -133 14 -689 21 -840 10z" />
+                        <path d="M1295 510 c-246 -18 -407 -46 -463 -80 l-33 -20 3 -128 3 -127 45
+-22 c105 -52 373 -78 805 -78 432 0 700 26 805 78 l45 22 0 130 0 130 -45 22
+c-48 24 -160 46 -325 63 -133 14 -689 21 -840 10z" />
+                    </g>
+                </svg>
+                Rubric Maker
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">                    
+                        @Html.ActionLink("Home", "Index", "Home", routeValues: null, htmlAttributes: new { @class = "nav-link" })
+                    </li>                   
                 </ul>
-                @Html.Partial("_LoginPartial")
+
+                <ul class="navbar-nav ms-auto">
+                    @Html.Partial("_LoginPartial")
+                </ul>
+
             </div>
         </div>
-    </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
-    </div>
+    </nav>
+    <main flex-shrink-0>
+        <div class="container">
+            @RenderBody()
+
+        </div>
+    </main>
+    <footer class="footer mt-auto py-3 bg-light">
+        <div class="container">
+            <span class="text-dark">Created by Derrick Nagy for .NET3 at Kirkwood Community College, 2022</span>
+        </div>
+    </footer>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
     @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
+
+    @Scripts.Render("~/bundles/scripts")
+
     @RenderSection("scripts", required: false)
 </body>
 </html>
