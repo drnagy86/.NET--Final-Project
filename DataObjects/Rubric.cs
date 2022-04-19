@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,11 +11,29 @@ namespace DataObjects
     public class Rubric
     {
         public int RubricID { get; set; }
+
+
+        [Required(ErrorMessage = "Please enter a name for the rubric")]
+        [StringLength(100, ErrorMessage = "The name can not be longer than 100 characters")]
         public string Name { get; set; }
+
+
+        [Required(ErrorMessage = "Please enter a description for the rubric")]
+        [StringLength(255, ErrorMessage = "The name can not be longer than 255 characters")]
         public string Description { get; set; }
+
+        [Display(Name = "Date Created")]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]
+
         public DateTime DateCreated { get; set; }
+
+        [Display(Name = "Date Updated")]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime DateUpdated { get; set; }
+
+        [Display(Name = "Score Type")]
         public String ScoreTypeID { get; set; }
+
         public User RubricCreator { get; set; }
         public bool Active { get; set; }
 

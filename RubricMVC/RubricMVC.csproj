@@ -184,6 +184,9 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\RubricDetailController.cs" />
+    <Compile Include="Controllers\RubricEditController.cs" />
+    <Compile Include="Controllers\RubricListController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -262,6 +265,9 @@
     <Content Include="Views\Admin\Details.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Account\RegisterEmployeeUser.cshtml" />
+    <Content Include="Views\RubricList\RubricList.cshtml" />
+    <Content Include="Views\RubricDetail\RubricDetail.cshtml" />
+    <Content Include="Views\RubricEdit\RubricEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

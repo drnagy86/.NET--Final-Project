@@ -35,6 +35,8 @@ namespace RubricMVC.Models
             return new ApplicationDbContext();
         }
 
+        public System.Data.Entity.DbSet<DataObjects.Rubric> Rubrics { get; set; }
+
         //public System.Data.Entity.DbSet<RubricMVC.Models.ApplicationUser> ApplicationUsers { get; set; }
     }
 }

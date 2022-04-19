@@ -1,0 +1,66 @@
+﻿@model DataObjects.Rubric
+
+@{
+    ViewBag.Title = "RubricDetail";
+}
+
+<h2>RubricDetail</h2>
+
+<div>
+    <h4>Rubric</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateCreated)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateCreated)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateUpdated)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateUpdated)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ScoreTypeID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ScoreTypeID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Active)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Active)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "RubricEdit", "RubricEdit", new { rubricID = Model.RubricID }, new { @class = "" }) |
+    @Html.ActionLink("Rubric", "RubricList", "RubricList", routeValues: null, htmlAttributes: new { @class = "" })
+</p>

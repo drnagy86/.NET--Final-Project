@@ -81,9 +81,12 @@ c-48 24 -160 46 -325 63 -133 14 -689 21 -840 10z" />
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav me-auto">
-                    <li class="nav-item">                    
+                    <li class="nav-item">
                         @Html.ActionLink("Home", "Index", "Home", routeValues: null, htmlAttributes: new { @class = "nav-link" })
-                    </li>                   
+                    </li>
+                    <li class="nav-item">
+                        @Html.ActionLink("Rubric", "RubricList", "RubricList", routeValues: null, htmlAttributes: new { @class = "nav-link" })
+                    </li>
                 </ul>
 
                 <ul class="navbar-nav ms-auto">
@@ -95,6 +98,14 @@ c-48 24 -160 46 -325 63 -133 14 -689 21 -840 10z" />
     </nav>
     <main flex-shrink-0>
         <div class="container">
+            @if (TempData["errorMessage"] != null)
+            {
+                <div class="alert alert-dismissible alert-danger">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    <strong class="text-white">Oh, no! There was an error.</strong>
+                    <p class="text-white">@TempData["message"]</p>
+                </div>
+            }
             @RenderBody()
 
         </div>
