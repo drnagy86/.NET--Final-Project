@@ -207,6 +207,10 @@
     <Compile Include="Migrations\202203150429192_UserID to string.Designer.cs">
       <DependentUpon>202203150429192_UserID to string.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202204252142332_add migration.cs" />
+    <Compile Include="Migrations\202204252142332_add migration.Designer.cs">
+      <DependentUpon>202204252142332_add migration.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -289,6 +293,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202203150429192_UserID to string.resx">
       <DependentUpon>202203150429192_UserID to string.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202204252142332_add migration.resx">
+      <DependentUpon>202204252142332_add migration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
