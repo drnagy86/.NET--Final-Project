@@ -13,9 +13,9 @@ namespace RubricMVC.Controllers
 
         IUserManager _userManager = null;
         private Rubric rubric = null;
-        IRubricManager<Rubric> _rubricManager = null;
+        IRubricManager<RubricVM> _rubricManager = null;
 
-        public RubricDetailController(IRubricManager<Rubric> rubricManager, IUserManager userManager)
+        public RubricDetailController(IRubricManager<RubricVM> rubricManager, IUserManager userManager)
         {
             _rubricManager = rubricManager;
             _userManager = userManager;
@@ -24,7 +24,6 @@ namespace RubricMVC.Controllers
         // GET: RubricDetail
         public ActionResult RubricDetail(int rubricID)
         {
-
             try
             {
                 rubric = _rubricManager.RetrieveRubricByRubricID(rubricID);

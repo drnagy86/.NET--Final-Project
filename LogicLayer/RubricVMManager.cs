@@ -16,21 +16,24 @@ namespace LogicLayer
         private IUserManager _userManager = null;
         private IFacetManager _facetManager = null;
         private ICriteriaManager _criteriaManager = null;
+        private IRubricAccessor _rubricAccessor = null;
 
         public RubricVMManager()
         {
             _rubricManager = new RubricManager();
             _userManager = new UserManager();
             _facetManager = new FacetManager();
-            _criteriaManager = new CriteriaManager();            
+            _criteriaManager = new CriteriaManager();
+            _rubricAccessor = new RubricAccessor();
         }
 
-        public RubricVMManager(IRubricManager<Rubric> rubricManager, IUserManager userManager, IFacetManager facetManager, ICriteriaManager criteriaManager)
+        public RubricVMManager(IRubricManager<Rubric> rubricManager, IUserManager userManager, IFacetManager facetManager, ICriteriaManager criteriaManager, IRubricAccessor rubricAccessor)
         {
             _rubricManager = rubricManager;
             _userManager = userManager;
             _facetManager = facetManager;
             _criteriaManager = criteriaManager;
+            _rubricAccessor = rubricAccessor;
         }
 
         public bool CreateRubric(string name, string description, string scoreTypeID, string rubricCreator)
@@ -53,7 +56,21 @@ namespace LogicLayer
 
         public List<RubricVM> RetrieveActiveRubrics()
         {
-            throw new NotImplementedException();
+            List<RubricVM> rubrics = new List<RubricVM>();
+
+            try
+            {
+                rubrics = _rubricAccessor.RetrieveActiveRubricsVMs();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+            return rubrics;
+
+
         }
 
         public RubricVM RetrieveRubricByNameDescriptionScoreTypeIDRubricCreator(string name, string description, string scoreTypeID, string rubricCreator)

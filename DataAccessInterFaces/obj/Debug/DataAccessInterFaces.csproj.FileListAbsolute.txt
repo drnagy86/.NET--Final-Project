@@ -34,3 +34,12 @@ C:\Users\drnag\Documents\NET3\Rubric Project\NET2-RubricNormingSolution- Added N
 C:\Users\drnag\Documents\NET3\Rubric Project\NET2-RubricNormingSolution- Added Ninject\NET2-RubricNormingSolution\DataAccessInterFaces\obj\Debug\DataAccessInterfaces.csproj.CopyComplete
 C:\Users\drnag\Documents\NET3\Rubric Project\NET2-RubricNormingSolution- Added Ninject\NET2-RubricNormingSolution\DataAccessInterFaces\obj\Debug\DataAccessInterFaces.dll
 C:\Users\drnag\Documents\NET3\Rubric Project\NET2-RubricNormingSolution- Added Ninject\NET2-RubricNormingSolution\DataAccessInterFaces\obj\Debug\DataAccessInterFaces.pdb
+C:\Users\drnag\Documents\NET3\Rubric Project\NET 3 Project\NET2-RubricNormingSolution\DataAccessInterFaces\bin\Debug\DataAccessInterFaces.dll
+C:\Users\drnag\Documents\NET3\Rubric Project\NET 3 Project\NET2-RubricNormingSolution\DataAccessInterFaces\bin\Debug\DataAccessInterFaces.pdb
+C:\Users\drnag\Documents\NET3\Rubric Project\NET 3 Project\NET2-RubricNormingSolution\DataAccessInterFaces\bin\Debug\DataObjects.dll
+C:\Users\drnag\Documents\NET3\Rubric Project\NET 3 Project\NET2-RubricNormingSolution\DataAccessInterFaces\bin\Debug\DataObjects.pdb
+C:\Users\drnag\Documents\NET3\Rubric Project\NET 3 Project\NET2-RubricNormingSolution\DataAccessInterFaces\obj\Debug\DataAccessInterfaces.csproj.AssemblyReference.cache
+C:\Users\drnag\Documents\NET3\Rubric Project\NET 3 Project\NET2-RubricNormingSolution\DataAccessInterFaces\obj\Debug\DataAccessInterfaces.csproj.CoreCompileInputs.cache
+C:\Users\drnag\Documents\NET3\Rubric Project\NET 3 Project\NET2-RubricNormingSolution\DataAccessInterFaces\obj\Debug\DataAccessInterfaces.csproj.CopyComplete
+C:\Users\drnag\Documents\NET3\Rubric Project\NET 3 Project\NET2-RubricNormingSolution\DataAccessInterFaces\obj\Debug\DataAccessInterFaces.dll
+C:\Users\drnag\Documents\NET3\Rubric Project\NET 3 Project\NET2-RubricNormingSolution\DataAccessInterFaces\obj\Debug\DataAccessInterFaces.pdb

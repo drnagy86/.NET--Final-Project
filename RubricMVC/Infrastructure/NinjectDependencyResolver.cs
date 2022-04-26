@@ -23,14 +23,14 @@ namespace RubricMVC.Infrastructure
 
         private void AddBindings()
         {
-            //kernel.Bind<ICriteriaManager>().To<CriteriaManager>();
-            //kernel.Bind<IFacetManager>().To<FacetManager>();
-            //kernel.Bind<IFacetTypeManager>().To<FacetTypeManager>();
-            kernel.Bind<IRubricManager<Rubric>>().To<RubricManager>();
-            //kernel.Bind<IRubricManager<RubricVM>>().To<RubricVMManager>();
-            //kernel.Bind<IRubricSubjectManager>().To<RubricSubjectManager>();
-            //kernel.Bind<IScoreTypeManager>().To<ScoreTypeManager>();
-            //kernel.Bind<ISubjectManager>().To<SubjectManager>();
+            kernel.Bind<ICriteriaManager>().To<CriteriaManager>();
+            kernel.Bind<IFacetManager>().To<FacetManager>();
+            kernel.Bind<IFacetTypeManager>().To<FacetTypeManager>();
+            //kernel.Bind<IRubricManager<Rubric>>().To<RubricManager>();
+            kernel.Bind<IRubricManager<RubricVM>>().To<RubricVMManager>();
+            kernel.Bind<IRubricSubjectManager>().To<RubricSubjectManager>();
+            kernel.Bind<IScoreTypeManager>().To<ScoreTypeManager>();
+            kernel.Bind<ISubjectManager>().To<SubjectManager>();
             kernel.Bind<IUserManager>().To<UserManager>();
 
             //kernel.Bind<ICriteriaAccessor>().To<CriteriaAccessorFake>();

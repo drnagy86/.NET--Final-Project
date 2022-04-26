@@ -10,15 +10,15 @@ namespace RubricMVC.Controllers
 {
     public class RubricListController : Controller
     {
-        //IRubricManager<RubricVM> _rubricManager = null;
+        
         IUserManager _userManager = null;
-        private List<Rubric> rubrics = null;
-        IRubricManager<Rubric> _rubricManager = null;
+        private List<RubricVM> rubrics = null;
+        IRubricManager<RubricVM> _rubricVMManager = null;
 
-        public RubricListController(IRubricManager<Rubric> rubricManager, IUserManager userManager)
+        public RubricListController(IRubricManager<RubricVM> rubricManager, IUserManager userManager)
         {
 
-            _rubricManager = rubricManager;
+            _rubricVMManager = rubricManager;
             _userManager = userManager;
 
         }
@@ -28,8 +28,8 @@ namespace RubricMVC.Controllers
         {
 
             try
-            {
-                rubrics = _rubricManager.RetrieveActiveRubrics();
+            {                
+                rubrics = _rubricVMManager.RetrieveActiveRubrics();
             }
             catch (Exception ex)
             {
@@ -39,6 +39,7 @@ namespace RubricMVC.Controllers
 
             return View(rubrics);
         }
+
 
     }
 }

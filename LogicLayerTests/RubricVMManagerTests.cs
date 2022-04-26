@@ -3,7 +3,7 @@ using System;
 using LogicLayer;
 using DataObjects;
 using DataAccessFakes;
-
+using System.Collections.Generic;
 
 namespace LogicLayerTests
 {
@@ -21,8 +21,9 @@ namespace LogicLayerTests
             UserManager userManager = new UserManager(userAccessorFake);
             FacetManager facetManager = new FacetManager(new FacetAccessorFake());
             CriteriaManager criteriaManager = new CriteriaManager(new CriteriaAccessorFake());
+            
 
-            _rubricManager = new RubricVMManager(rubricManager, userManager, facetManager, criteriaManager);
+            _rubricManager = new RubricVMManager(rubricManager, userManager, facetManager, criteriaManager, new RubricAccessorFake());
         }
 
 
@@ -53,6 +54,24 @@ namespace LogicLayerTests
             // act
             _rubricManager.RetrieveRubricByRubricID(expectedRubricID);
             // no need to assert, expecting exception
+        }
+
+        [TestMethod]
+        public void TestRetrieveRubrics()
+        {
+            // arrange
+
+            const int expectedCount = 3;
+            int actualCount = 0;
+
+
+            // act
+            List<RubricVM> rubrics = _rubricManager.RetrieveActiveRubrics();
+            actualCount = rubrics.Count;
+            
+
+            //assert
+            Assert.AreEqual(expectedCount, actualCount);
         }
     }
 }

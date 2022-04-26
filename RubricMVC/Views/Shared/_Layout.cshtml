@@ -14,7 +14,7 @@
 
 </head>
 
-<body class="d-flex flex-column min-vh-100">
+<body class="d-flex flex-column min-vh-100 mt-auto">
     <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
         <div class="container-fluid">
             <a href="" class="navbar-brand ms-3">
@@ -82,7 +82,7 @@ c-48 24 -160 46 -325 63 -133 14 -689 21 -840 10z" />
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        @Html.ActionLink("Home", "Index", "Home", routeValues: null, htmlAttributes: new { @class = "nav-link" })
+                        @Html.ActionLink("Home", "RubricList", "RubricList", routeValues: null, htmlAttributes: new { @class = "nav-link" })
                     </li>
                 </ul>
 
@@ -93,7 +93,7 @@ c-48 24 -160 46 -325 63 -133 14 -689 21 -840 10z" />
             </div>
         </div>
     </nav>
-    <main flex-shrink-0>
+    <main class="flex-shrink-0 mt-5">
         <div class="container">
 
             @if (TempData["errorMessage"] != null)

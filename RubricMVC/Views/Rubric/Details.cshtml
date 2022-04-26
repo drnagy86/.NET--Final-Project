@@ -1,7 +1,7 @@
 ﻿@model DataObjects.RubricVM
 
 @{
-    ViewBag.Title = "RubricDetail";
+    ViewBag.Title = "Rubric Detail";
 }
 
 <h2>RubricDetail</h2>
@@ -61,6 +61,6 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "RubricEdit", "RubricEdit", new { rubricID = Model.RubricID }, new { @class = "" }) |
-    @Html.ActionLink("Rubric", "RubricList", "RubricList", routeValues: null, htmlAttributes: new { @class = "" })
+    @Html.ActionLink("Edit", "Edit", "Rubric", new { rubricID = Model.RubricID }, new { @class = "" }) |
+    @Html.ActionLink("Rubric List", "RubricList", "Rubric", routeValues: null, htmlAttributes: new { @class = "" })
 </p>

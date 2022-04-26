@@ -114,6 +114,79 @@ namespace DataAccessLayer
             return rowsAffected;
         }
 
+        public List<RubricVM> RetrieveActiveRubricsVMs()
+        {
+            List<RubricVM> rubrics = new List<RubricVM>();
+
+
+            // connection
+            var conn = DBConnection.GetConnection();
+
+            // command text
+            var cmdTxt = "sp_select_active_rubrics";
+
+            // command
+            var cmd = new SqlCommand(cmdTxt, conn);
+
+            // command type
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            try
+            {
+                conn.Open();
+                var reader = cmd.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        RubricVM rubric = new RubricVM()
+                        {
+                            RubricID = reader.GetInt32(0),
+                            Name = reader.GetString(1),
+                            Description = reader.GetString(2),
+                            DateCreated = reader.GetDateTime(3),
+                            DateUpdated = reader.GetDateTime(4),
+                            ScoreTypeID = reader.GetString(5),
+                            RubricCreator = new User()
+                            {
+                                UserID = reader.GetString(6),
+                                GivenName = reader.GetString(7),
+                                FamilyName = reader.GetString(8)
+                            }
+                        };
+
+                        rubrics.Add(rubric);
+                    }
+                }
+                else
+                {
+                    throw new ApplicationException("Rubric not found");
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return rubrics;
+
+            // list of facets
+
+            // list of criteria
+
+
+
+            return rubrics;
+         
+        }
+
         public Rubric SelectRubricByRubricDetials(string name, string description, string scoreType, string rubricCreator)
         {
             Rubric rubric = null;

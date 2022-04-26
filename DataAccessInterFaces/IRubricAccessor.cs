@@ -20,5 +20,7 @@ namespace DataAccessInterFaces
 
         int DeleteRubricByRubricID(int rubricID);
 
+        List<RubricVM> RetrieveActiveRubricsVMs();
+
     }
 }

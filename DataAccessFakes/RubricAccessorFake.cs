@@ -13,15 +13,8 @@ namespace DataAccessFakes
 
         private List<Rubric> _fakeRubrics = new List<Rubric>();
 
-
-
         public RubricAccessorFake()
         {
-
-
-
-
-
             _fakeRubrics.Add(new Rubric()
             {
                 RubricID = 100000,
@@ -192,6 +185,31 @@ namespace DataAccessFakes
             rowsAffected++;
 
             return rowsAffected;
+        }
+
+        public List<RubricVM> RetrieveActiveRubricsVMs()
+        {
+            List<RubricVM> rubrics = new List<RubricVM>();
+
+
+            foreach (var rubric in _fakeRubrics)
+            {
+                if (rubric.Active == true)
+                {
+                    rubrics.Add(new RubricVM()
+                    {
+                        Name = rubric.Name,
+                        Description = rubric.Description,
+                        DateCreated = rubric.DateCreated,
+                        DateUpdated = rubric.DateUpdated,
+                        ScoreTypeID = rubric.ScoreTypeID,
+                        RubricCreator = rubric.RubricCreator,
+                        Active = rubric.Active
+                    });
+                }
+            }
+
+            return rubrics;
         }
 
         public Rubric SelectRubricByRubricDetials(string name, string description, string scoreType, string rubricCreator)

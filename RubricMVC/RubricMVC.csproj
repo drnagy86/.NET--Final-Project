@@ -184,6 +184,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\RubricController.cs" />
     <Compile Include="Controllers\RubricDetailController.cs" />
     <Compile Include="Controllers\RubricEditController.cs" />
     <Compile Include="Controllers\RubricListController.cs" />
@@ -272,6 +273,9 @@
     <Content Include="Views\RubricList\RubricList.cshtml" />
     <Content Include="Views\RubricDetail\RubricDetail.cshtml" />
     <Content Include="Views\RubricEdit\RubricEdit.cshtml" />
+    <Content Include="Views\Rubric\RubricList.cshtml" />
+    <Content Include="Views\Rubric\Details.cshtml" />
+    <Content Include="Views\Rubric\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
