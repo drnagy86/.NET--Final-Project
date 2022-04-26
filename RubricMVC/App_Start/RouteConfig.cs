@@ -16,7 +16,7 @@ namespace RubricMVC
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "RubricList", action = "RubricList", id = UrlParameter.Optional }
+                defaults: new { controller = "Rubric", action = "RubricList", id = UrlParameter.Optional }
             );
         }
     }
