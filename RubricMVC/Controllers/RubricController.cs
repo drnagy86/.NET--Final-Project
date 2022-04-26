@@ -1,10 +1,12 @@
 ﻿using DataObjects;
 using LogicLayer;
+using RubricMVC.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 
 namespace RubricMVC.Controllers
 {
@@ -12,16 +14,18 @@ namespace RubricMVC.Controllers
     {
         IRubricManager<RubricVM> _rubricVMManager = null;
         IUserManager _userManager = null;
+        IScoreTypeManager _scoreTypeManager = null;
 
         private List<RubricVM> rubrics = null;
-        private Rubric rubric = null;
+        private RubricVM rubric = null;
         
 
-        public RubricController(IRubricManager<RubricVM> rubricManager, IUserManager userManager)
+        public RubricController(IRubricManager<RubricVM> rubricManager, IUserManager userManager, IScoreTypeManager scoreTypeManager)
         {
 
             _rubricVMManager = rubricManager;
             _userManager = userManager;
+            _scoreTypeManager = scoreTypeManager;
 
         }
 
@@ -80,35 +84,104 @@ namespace RubricMVC.Controllers
         }
 
         // GET: Rubric/Edit/5
+        [Authorize(Roles = "Administrator, Creator")]
         public ActionResult Edit(int rubricID)
-        {
+        {            
+            RubricModelView rubricModel = null;
+
             try
             {
                 rubric = _rubricVMManager.RetrieveRubricByRubricID(rubricID);
+                List<ScoreType> scoreTypes = _scoreTypeManager.RetrieveScoreTypes();
+
+                rubricModel = new RubricModelView(rubric, scoreTypes);
+
             }
             catch (Exception ex)
             {
-
                 TempData["errorMessage"] = ex.Message;
             }
 
-            return View(rubric);
+            if (getCurrentUserID() == rubric.RubricCreator.UserID ||
+                User.IsInRole("Administrator"))
+            {
+                return View(rubricModel);
+            }
+            else
+            {
+                TempData["errorMessage"] = "Sorry, you are not authorized to edit this rubric";
+                return RedirectToAction("Details", new { rubricID = rubricID });
+            }
+            
         }
 
         // POST: Rubric/Edit/5
+        [Authorize(Roles = "Administrator, Creator")]
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int rubricID, RubricModelView newRubric)
         {
-            try
-            {
-                // TODO: Add update logic here
+            bool result = false;
+            RubricVM oldRubric = null;
+            
 
-                return RedirectToAction("Index");
-            }
-            catch
+            if (ModelState.IsValid)
             {
-                return View();
+                try
+                {
+                    oldRubric = _rubricVMManager.RetrieveRubricByRubricID(rubricID);
+                }
+                catch (Exception ex)
+                {
+                    TempData["errorMessage"] = ex.Message + "<br>";
+                }
+
+                if (getCurrentUserID() == oldRubric.RubricCreator.UserID ||
+                    User.IsInRole("Administrator"))
+                {
+                    try
+                    {
+                        result = _rubricVMManager.UpdateRubricByRubricID
+                            (
+                            rubricID,
+                            oldRubric.Name,
+                            newRubric.Name,
+                            oldRubric.Description,
+                            newRubric.Description,
+                            oldRubric.ScoreTypeID,
+                            newRubric.ScoreTypeID
+                            );
+                    }
+                    catch (Exception ex)
+                    {
+                        TempData["errorMessage"] = ex.Message + "<br>";
+
+                    }
+                    if (!result)
+                    {
+                        TempData["errorMessage"] = "Update was not successful. Please try again.<br>";
+
+                        return View(new RubricModelView(oldRubric, newRubric.ScoreTypes));
+                    }
+                    else
+                    {
+                        return RedirectToAction("Details", new { rubricID = rubricID });
+                    }
+                }
+                else
+                {
+                    TempData["errorMessage"] = "Sorry, you are not authorized to edit this rubric.<br>";
+                    return RedirectToAction("Details", new { rubricID = rubricID });
+                }
+
             }
+            else
+            {
+                TempData["errorMessage"] = "There is a problem with the information being added.<br>";
+
+                return View(new RubricModelView(oldRubric, newRubric.ScoreTypes));
+            }
+            
+            
         }
 
         // GET: Rubric/Delete/5
@@ -131,6 +204,17 @@ namespace RubricMVC.Controllers
             {
                 return View();
             }
+        }
+
+
+        private string getCurrentUserID()
+        {
+            return User.Identity.GetUserId();
+        }
+
+        private bool isAdmin()
+        {
+            return User.IsInRole("Administrator");
         }
     }
 }

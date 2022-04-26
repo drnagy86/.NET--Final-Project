@@ -12,7 +12,6 @@ namespace DataObjects
     {
         public int RubricID { get; set; }
 
-
         [Required(ErrorMessage = "Please enter a name for the rubric")]
         [StringLength(100, ErrorMessage = "The name can not be longer than 100 characters")]
         public string Name { get; set; }

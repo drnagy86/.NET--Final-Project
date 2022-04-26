@@ -1,51 +1,60 @@
-﻿@model DataObjects.RubricVM
+﻿@*@model DataObjects.RubricVM*@
+@model RubricMVC.Models.RubricModelView
 
 @{
     ViewBag.Title = "RubricEdit";
 }
 
-<h2>RubricEdit</h2>
+<div class="row-height-50"></div>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">@Html.ActionLink("Rubric List", "RubricList", "Rubric", routeValues: null, htmlAttributes: new { @class = "breadcrumb-item" })</li>
+        <li class="breadcrumb-item">@Html.ActionLink(Model.Name, "Details", "Rubric", new { rubricID = Model.RubricID }, new { @class = "breadcrumb-item" })</li>
+        <li class="breadcrumb-item active" aria-current="page">Edit</li>
+    </ol>
+</nav>
 
-@using (Html.BeginForm())
+<h2>Edit @Model.Name</h2>
+
+@using (Html.BeginForm("Edit", "Rubric"))
 {
     @Html.AntiForgeryToken()
 
     <div class="">
-        <h4>Rubric</h4>
-        <hr />
 
         @Html.HiddenFor(model => model.RubricID)
 
         <div class="form-group">
             @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="col-md-4">
                 @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                <div class="row-height-30">
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                @Html.TextAreaFor(model => model.Description, new { @class = "form-control", rows = 3 })
+
+                <div class="row-height-30">
+                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                </div>
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.ScoreTypeID, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ScoreTypeID, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ScoreTypeID, "", new { @class = "text-danger" })
-            </div>
-        </div>
+            <div class="col-md-4">
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Active, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.Active)
-                    @Html.ValidationMessageFor(model => model.Active, "", new { @class = "text-danger" })
+                @Html.DropDownListFor(
+                        model => model.ScoreTypeID,
+                        new SelectList(Model.ScoreTypes.Select(st => st.ScoreTypeID)),
+                        new { @class = "form-select" }
+                        )
+
+                <div class="row-height-30">
+                    @Html.ValidationMessageFor(model => model.ScoreTypeID, "", new { @class = "text-danger" })
                 </div>
             </div>
         </div>
@@ -53,11 +62,30 @@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Save" class="btn btn-primary" />
+                <button type="button" data-bs-toggle="modal" data-bs-target="#cancelModal" class="btn btn-danger">Cancel</button>
             </div>
         </div>
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to details", "Details", "Rubric", new { rubricID = Model.RubricID }, new { @class = "" })
+<div class="modal fade" id="cancelModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Cancel?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you would like to cancel? Your changes will not be saved.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Continue Editing</button>
+                @Html.ActionLink("Cancel Editing", "Details", "Rubric", new { rubricID = Model.RubricID }, new { @class = "btn btn-danger" })
+
+            </div>
+        </div>
+    </div>
 </div>
+

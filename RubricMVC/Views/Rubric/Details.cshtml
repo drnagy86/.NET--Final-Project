@@ -3,16 +3,20 @@
 @{
     ViewBag.Title = "Rubric Detail";
 }
+<div class="row-height-50"></div>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">@Html.ActionLink("Rubric List", "RubricList", "Rubric", routeValues: null, htmlAttributes: new { @class = "breadcrumb-item" })</li>
+        <li class="breadcrumb-item active" aria-current="page">@Html.DisplayFor(model => model.Name)</li>
+    </ol>
+</nav>
 
-<p>
-    @Html.ActionLink("Edit", "Edit", "Rubric", new { rubricID = Model.RubricID }, new { @class = "" }) |
-    @Html.ActionLink("Rubric List", "RubricList", "Rubric", routeValues: null, htmlAttributes: new { @class = "" })
-</p>
 
 <div class="row">
+    <h2 class="card-header">@Html.DisplayFor(model => model.Name)</h2>
     <div class="card">
+
         <div class="card-body">
-            <h2 class="card-header">@Html.DisplayFor(model => model.Name)</h2>
             <div class="d-inline-flex card-subtitle mt-2">
                 <p class="me-2 text-black-50">Created:</p>
                 <p class="me-2 text-black-50">@Html.DisplayFor(model => model.DateCreated)</p>
@@ -26,12 +30,12 @@
                 <h6 class="card-text">Score Type:</h6>
                 <p class="card-text">@Html.DisplayFor(model => model.ScoreTypeID)</p>
             </div>
-            <div class="row card-footer">
-                <span class="col-2">
-                    @Html.ActionLink("Edit", "Edit", "Rubric", new { rubricID = Model.RubricID }, new { @class = "card-link" })
-                </span>
-            </div>
 
+        </div>
+        <div class="row card-footer">
+            <span class="col-2">
+                @Html.ActionLink("Edit", "Edit", "Rubric", new { rubricID = Model.RubricID }, new { @class = "card-link" })
+            </span>
         </div>
     </div>
 </div>

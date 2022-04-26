@@ -11619,10 +11619,10 @@ label,
 }
 
 .breadcrumb {
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  /*border: 1px solid rgba(0, 0, 0, 0.1);*/
   font-size: 0.875rem;
   font-weight: 300;
-  text-transform: uppercase;
+  /*text-transform: uppercase;*/
 }
 
 .pagination {
