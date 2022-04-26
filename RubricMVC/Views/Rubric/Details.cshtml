@@ -4,63 +4,61 @@
     ViewBag.Title = "Rubric Detail";
 }
 
-<h2>RubricDetail</h2>
-
-<div>
-    <h4>Rubric</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.DateCreated)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.DateCreated)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.DateUpdated)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.DateUpdated)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ScoreTypeID)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ScoreTypeID)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Active)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Active)
-        </dd>
-
-    </dl>
-</div>
 <p>
     @Html.ActionLink("Edit", "Edit", "Rubric", new { rubricID = Model.RubricID }, new { @class = "" }) |
     @Html.ActionLink("Rubric List", "RubricList", "Rubric", routeValues: null, htmlAttributes: new { @class = "" })
 </p>
+
+<div class="row">
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-header">@Html.DisplayFor(model => model.Name)</h2>
+            <div class="d-inline-flex card-subtitle mt-2">
+                <p class="me-2 text-black-50">Created:</p>
+                <p class="me-2 text-black-50">@Html.DisplayFor(model => model.DateCreated)</p>
+                <p class="me-2 text-black-50">|</p>
+                <p class="me-2 text-black-50">Updated:</p>
+                <p class="me-2 text-black-50">@Html.DisplayFor(model => model.DateUpdated)</p>
+            </div>
+            <h6 class="card-text">Description:</h6>
+            <p class="card-text">@Html.DisplayFor(model => model.Description)</p>
+            <div class="d-inline-block">
+                <h6 class="card-text">Score Type:</h6>
+                <p class="card-text">@Html.DisplayFor(model => model.ScoreTypeID)</p>
+            </div>
+            <div class="row card-footer">
+                <span class="col-2">
+                    @Html.ActionLink("Edit", "Edit", "Rubric", new { rubricID = Model.RubricID }, new { @class = "card-link" })
+                </span>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Facet Name</th>
+                @foreach (var value in Model.FacetCriteria.ElementAt(0).Value)
+                {
+                    <th>@value.Score Points</th>
+                }
+            </tr>
+        </thead>
+        @foreach (var facet in Model.FacetCriteria)
+        {
+            <tr>
+                <td class="text-primary">@facet.Key.FacetID</td>
+                @foreach (var criteria in facet.Value)
+                {
+                    <td>
+                        <span class="text-info text-sm-start me-1 d-block d-sm-none"> @criteria.Score</span>
+                        @criteria.Content
+                    </td>
+                }
+            </tr>
+        }
+    </table>
+</div>
