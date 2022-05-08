@@ -12,10 +12,128 @@ namespace LogicLayerTests
     {
         private IFacetManager _facetManager = null;
 
+        private FacetVM newFacetVM = null;
+        private FacetVM oldFacetVM = null;
+
         [TestInitialize]
         public void TestSetup()
         {
-            _facetManager = new FacetManager(new FacetAccessorFake());            
+            _facetManager = new FacetManager(new FacetAccessorFake());
+            oldFacetVM = new FacetVM()
+            {
+                FacetID = "Fake Facet 1",
+                Description = "A longer description",
+                Active = true,
+                RubricID = 100000,
+                FacetType = "Type1",
+                Criteria = new List<Criteria>()
+            };
+
+            oldFacetVM.Criteria.Add(new Criteria()
+            {
+                CriteriaID = "Excellent",
+                RubricID = 100000,
+                FacetID = "Explaination",
+                DateCreated = DateTime.Now,
+                DateUpdated = DateTime.Now,
+                Content = "Shows an excellent explaination",
+                Score = 4,
+                Active = true,
+            });
+
+            oldFacetVM.Criteria.Add(new Criteria()
+            {
+                CriteriaID = "Above Average",
+                RubricID = 100000,
+                FacetID = "Explaination",
+                DateCreated = DateTime.Now,
+                DateUpdated = DateTime.Now,
+                Content = "Shows an good explaination",
+                Score = 3,
+                Active = true,
+            });
+
+            oldFacetVM.Criteria.Add(new Criteria()
+            {
+                CriteriaID = "Average",
+                RubricID = 100000,
+                FacetID = "Explaination",
+                DateCreated = DateTime.Now,
+                DateUpdated = DateTime.Now,
+                Content = "Shows an average explaination",
+                Score = 2,
+                Active = true,
+            });
+
+            oldFacetVM.Criteria.Add(new Criteria()
+            {
+                CriteriaID = "Poor",
+                RubricID = 100000,
+                FacetID = "Explaination",
+                DateCreated = DateTime.Now,
+                DateUpdated = DateTime.Now,
+                Content = "Shows a poor explaination",
+                Score = 1,
+                Active = true,
+            });
+
+            newFacetVM = new FacetVM()
+            {
+                FacetID = "Fake Facet 1 edit",
+                Description = "A longer description edit",
+                Active = true,
+                RubricID = 100000,
+                FacetType = "Type1",
+                Criteria = new List<Criteria>()
+            };
+
+            newFacetVM.Criteria.Add(new Criteria()
+            {
+                CriteriaID = "Excellent edit",
+                RubricID = 100000,
+                FacetID = "Explaination edit",
+                DateCreated = DateTime.Now,
+                DateUpdated = DateTime.Now,
+                Content = "Shows an excellent explaination edit",
+                Score = 4,
+                Active = true,
+            });
+
+            newFacetVM.Criteria.Add(new Criteria()
+            {
+                CriteriaID = "Above Average edit",
+                RubricID = 100000,
+                FacetID = "Explaination edit",
+                DateCreated = DateTime.Now,
+                DateUpdated = DateTime.Now,
+                Content = "Shows an good explaination edit",
+                Score = 3,
+                Active = true,
+            });
+
+            newFacetVM.Criteria.Add(new Criteria()
+            {
+                CriteriaID = "Average edit",
+                RubricID = 100000,
+                FacetID = "Explaination edit",
+                DateCreated = DateTime.Now,
+                DateUpdated = DateTime.Now,
+                Content = "Shows an average explaination edit",
+                Score = 2,
+                Active = true,
+            });
+
+            newFacetVM.Criteria.Add(new Criteria()
+            {
+                CriteriaID = "Poor edit",
+                RubricID = 100000,
+                FacetID = "Explaination edit",
+                DateCreated = DateTime.Now,
+                DateUpdated = DateTime.Now,
+                Content = "Shows a poor explaination edit",
+                Score = 1,
+                Active = true,
+            });
         }
 
         [TestMethod]
@@ -279,6 +397,67 @@ namespace LogicLayerTests
             // assert
             Assert.AreEqual(expected, actual);
         }
+
+
+        [TestMethod]
+        public void TestRetrieveFacetVMReturnsCorrectFacet()
+        {
+            // arrange
+            const int rubricID = 100000;
+            const string facetID = "Fake Facet 1";
+            const string expectedDescription = "A longer description";
+            const string expectedFacetType = "Type1";
+            const int expectedCriteriaCount = 4;
+
+            int actualRubricID = 0;
+            string actualFacetID = "";
+            string actualDescription = "";
+            string actualFacetType = "";
+            int actualCriteriaCount = 0;
+
+            // act
+            FacetVM returnedFacet = _facetManager.RetrieveFacetVM(rubricID, facetID);
+
+            // assert
+            Assert.AreEqual(rubricID, returnedFacet.RubricID);
+            Assert.AreEqual(facetID, returnedFacet.FacetID);
+            Assert.AreEqual(expectedDescription, returnedFacet.Description);
+            Assert.AreEqual(expectedFacetType, returnedFacet.FacetType);
+            Assert.AreEqual(expectedCriteriaCount, returnedFacet.Criteria.Count);
+        }
+
+
+        [TestMethod]
+        public void TestUpdateFacetVMReturnsTrueIfSuccessful()
+        {
+            // arrange
+            // old and new facet set up in initializer
+            const bool expected = true;
+            bool actual = false;
+
+            // act
+            actual = _facetManager.UpdateFacetAndCriteria(oldFacetVM, newFacetVM);
+
+            // assert
+            Assert.AreEqual(expected, actual);
+        }
+
+
+        [TestMethod]
+        [ExpectedException(typeof(ApplicationException))]
+        public void TestUpdateFacetVMThrowsExceptionIfNotFound()
+        {
+            // arrange
+            // old and new facet set up in initializer
+            oldFacetVM.FacetID = "x";
+
+            // act
+            _facetManager.UpdateFacetAndCriteria(oldFacetVM, newFacetVM);
+
+            // assert
+            // nothing to assert, expecting exception
+        }
+
 
     }
 }

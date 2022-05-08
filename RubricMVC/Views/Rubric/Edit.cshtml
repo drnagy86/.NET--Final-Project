@@ -10,7 +10,7 @@
     <ol class="breadcrumb">
         <li class="breadcrumb-item">@Html.ActionLink("Rubric List", "RubricList", "Rubric", routeValues: null, htmlAttributes: new { @class = "breadcrumb-item" })</li>
         <li class="breadcrumb-item">@Html.ActionLink(Model.Name, "Details", "Rubric", new { rubricID = Model.RubricID }, new { @class = "breadcrumb-item" })</li>
-        <li class="breadcrumb-item active" aria-current="page">Edit</li>
+        <li class="breadcrumb-item active" aria-current="page">Edit @Model.Name</li>
     </ol>
 </nav>
 

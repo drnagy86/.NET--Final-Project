@@ -15,5 +15,9 @@ namespace DataAccessInterFaces
         int UpdateFacetDescriptionByRubricIDAndFacetID(int rubricID, string facetID, string oldDescription, string newDescription);
         int DeleteFacetByRubricIDAndFacetID(int rubricID, string facetID);
 
+        int UpdateFacetAndCriteraWithFacetVM(FacetVM oldFacet, FacetVM newFacet);
+
+        FacetVM SelectFacetVM(int rubricID, string facetID);
+
     }
 }

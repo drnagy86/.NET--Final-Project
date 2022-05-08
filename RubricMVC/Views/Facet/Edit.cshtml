@@ -1,0 +1,161 @@
+﻿@model RubricMVC.Models.FacetModelView
+@{
+    ViewBag.Title = "Edit Facet";
+}
+
+<div class="row-height-50"></div>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            @Html.ActionLink(
+                            "Rubric List",
+                            "RubricList",
+                            "Rubric",
+                            null,
+                            htmlAttributes: new { @class = "breadcrumb-item" })
+        </li>
+        <li class="breadcrumb-item">
+            @Html.ActionLink(
+                            "Back to " + Model.Rubric.Name,
+                            "Details",
+                            "Rubric",
+                            new { rubricID = Model.RubricID },
+                            htmlAttributes: new { @class = "breadcrumb-item" })
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">Edit @Html.DisplayFor(model => model.FacetID)</li>
+    </ol>
+</nav>
+
+<h2>Editing @Model.Rubric.Name : @Model.FacetID</h2>
+
+@using (Html.BeginForm("Edit", "Facet"))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="">
+        @Html.HiddenFor(model => model.RubricID)
+        @Html.HiddenFor(model => model.DateCreated)
+        @Html.HiddenFor(model => model.DateUpdated)
+        @Html.HiddenFor(model => model.Active)
+        @Html.HiddenFor(model => model.OldFacetID)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.FacetID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.FacetID, new { htmlAttributes = new { @class = "form-control" } })
+                <div class="row-height-30">
+                    @Html.ValidationMessageFor(model => model.FacetID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                <div class="row-height-30">
+                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        @*<div class="form-group">
+            @Html.LabelFor(model => model.FacetType, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.DropDownListFor(model => model.FacetTypeList, new SelectList(Model.FacetTypeList.Select(ft => ft.FacetTypeID), Model.FacetType), new { @class = "form-select" })
+                <div class="row-height-30">
+                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>*@
+        @Html.HiddenFor(model => model.FacetType)
+
+        <div class="d-md-flex">
+
+
+            @for (int i = 0; i < Model.Criteria.Count; i++)
+            {
+                @Html.HiddenFor(model => model.Criteria[i].RubricID)
+                @Html.HiddenFor(model => model.Criteria[i].FacetID)
+                @Html.HiddenFor(model => model.Criteria[i].DateCreated)
+                @Html.HiddenFor(model => model.Criteria[i].DateUpdated)
+                @Html.HiddenFor(model => model.Criteria[i].Active)
+
+                <div class="flex-md-column col-md">
+                    <div class="card m-2">
+                        <div class="card-header">
+                            Edit the Criteria For: @Html.DisplayFor(model => model.Criteria[i].CriteriaID)
+                        </div>
+                        <div class="card-body">
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Criteria[i].CriteriaID, htmlAttributes: new { @class = "control-label" })
+                                <div class="">
+                                    @Html.EditorFor(model => model.Criteria[i].CriteriaID, new { htmlAttributes = new { @class = "form-control" } })
+                                    <div class="row-height-30">
+                                        @Html.ValidationMessageFor(model => model.Criteria[i].CriteriaID, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Criteria[i].Content, htmlAttributes: new { @class = "control-label" })
+                                <div class="">
+                                    @Html.TextAreaFor(model => model.Criteria[i].Content, new { @class = "form-control", rows = 3 })
+                                    <div class="row-height-30">
+                                        @Html.ValidationMessageFor(model => model.Criteria[i].Content, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Criteria[i].Score, htmlAttributes: new { @class = "control-label" })
+                                <div class="">
+                                    @Html.EditorFor(model => model.Criteria[i].Score, new { htmlAttributes = new { @class = "form-control" } })
+                                    <div class="row-height-30">
+                                        @Html.ValidationMessageFor(model => model.Criteria[i].Score, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+            }
+
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save" class="btn btn-primary" />
+            <button type="button" data-bs-toggle="modal" data-bs-target="#cancelModal" class="btn btn-danger">Cancel</button>
+        </div>
+    </div>
+}
+
+
+
+
+<div class="modal fade" id="cancelModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Cancel?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you would like to cancel? Your changes will not be saved.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Continue Editing</button>
+                @Html.ActionLink("Cancel Editing", "Details", "Rubric", new { rubricID = Model.RubricID }, new { @class = "btn btn-danger" })
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -23,18 +23,20 @@ namespace RubricMVC.Infrastructure
 
         private void AddBindings()
         {
+            //default
             kernel.Bind<ICriteriaManager>().To<CriteriaManager>();
             kernel.Bind<IFacetManager>().To<FacetManager>();
             kernel.Bind<IFacetTypeManager>().To<FacetTypeManager>();
-            //kernel.Bind<IRubricManager<Rubric>>().To<RubricManager>();
+            kernel.Bind<IRubricManager<Rubric>>().To<RubricManager>();
             kernel.Bind<IRubricManager<RubricVM>>().To<RubricVMManager>();
             kernel.Bind<IRubricSubjectManager>().To<RubricSubjectManager>();
             kernel.Bind<IScoreTypeManager>().To<ScoreTypeManager>();
             kernel.Bind<ISubjectManager>().To<SubjectManager>();
             kernel.Bind<IUserManager>().To<UserManager>();
 
+            //fakes
             //kernel.Bind<ICriteriaAccessor>().To<CriteriaAccessorFake>();
-            //kernel.Bind<IFacetAccesor>().To<FacetAccessorFake>();
+            //kernel.Bind<IFacetManager>().To<FacetManager>().WithConstructorArgument("facetAccessor", new FacetAccessorFake());
             //kernel.Bind<IFacetTypeAccessor>().To<FacetTypeFakes>();
             //kernel.Bind<IRubricAccessor>().To<RubricAccessorFake>();
             //kernel.Bind<IRubricSubjectAccessor>().To<RubricSubjectAccessorFake>();

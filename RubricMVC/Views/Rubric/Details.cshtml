@@ -62,6 +62,10 @@
                         @criteria.Content
                     </td>
                 }
+            <td>
+                @*<button type="button" class="btn btn-outline-dark"><i class="bi bi-pencil"></i></button>*@
+                @Html.ActionLink("Edit", "Edit", "Facet", new { rubricID = Model.RubricID, facetID =facet.Key.FacetID }, new { @class = "btn btn-outline-dark" })
+            </td>
             </tr>
         }
     </table>

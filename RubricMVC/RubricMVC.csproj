@@ -182,6 +182,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\FacetController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\RubricController.cs" />
@@ -213,8 +214,29 @@
     <Compile Include="Migrations\202204261635146_name.Designer.cs">
       <DependentUpon>202204261635146_name.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202205042158209_migration.cs" />
+    <Compile Include="Migrations\202205042158209_migration.Designer.cs">
+      <DependentUpon>202205042158209_migration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202205052019177_facet model.cs" />
+    <Compile Include="Migrations\202205052019177_facet model.Designer.cs">
+      <DependentUpon>202205052019177_facet model.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202205052101138_add rubric to facetModelView.cs" />
+    <Compile Include="Migrations\202205052101138_add rubric to facetModelView.Designer.cs">
+      <DependentUpon>202205052101138_add rubric to facetModelView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202205060146014_add rubric to facet model.cs" />
+    <Compile Include="Migrations\202205060146014_add rubric to facet model.Designer.cs">
+      <DependentUpon>202205060146014_add rubric to facet model.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202205070304351_Add old facet id.cs" />
+    <Compile Include="Migrations\202205070304351_Add old facet id.Designer.cs">
+      <DependentUpon>202205070304351_Add old facet id.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\FacetModelView.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\RubricModelView.cs" />
@@ -276,6 +298,7 @@
     <Content Include="Views\Rubric\RubricList.cshtml" />
     <Content Include="Views\Rubric\Details.cshtml" />
     <Content Include="Views\Rubric\Edit.cshtml" />
+    <Content Include="Views\Facet\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -303,6 +326,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202204261635146_name.resx">
       <DependentUpon>202204261635146_name.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202205042158209_migration.resx">
+      <DependentUpon>202205042158209_migration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202205052019177_facet model.resx">
+      <DependentUpon>202205052019177_facet model.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202205052101138_add rubric to facetModelView.resx">
+      <DependentUpon>202205052101138_add rubric to facetModelView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202205060146014_add rubric to facet model.resx">
+      <DependentUpon>202205060146014_add rubric to facet model.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202205070304351_Add old facet id.resx">
+      <DependentUpon>202205070304351_Add old facet id.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

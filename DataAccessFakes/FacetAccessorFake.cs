@@ -11,6 +11,8 @@ namespace DataAccessFakes
     public class FacetAccessorFake : IFacetAccesor
     {
         private List<Facet> _fakeFacetList = new List<Facet>();
+        private List<FacetVM> _fakeFacetVMList = new List<FacetVM>();
+        private List<Criteria> _criteriaList = new List<Criteria>();
 
         public FacetAccessorFake()
         {
@@ -68,6 +70,12 @@ namespace DataAccessFakes
                 RubricID = 100001,
                 FacetType = "Type2"
             });
+
+            setupFakeCriteria();
+
+            setupFakeFacetVMList();
+
+
         }
 
         public int DeleteFacetByRubricIDAndFacetID(int rubricID, string facetID)
@@ -123,6 +131,11 @@ namespace DataAccessFakes
 
         }
 
+        public FacetVM SelectFacetVM(int rubricID, string facetID)
+        {
+            return _fakeFacetVMList.Find(f => f.RubricID == rubricID && f.FacetID == facetID);         
+        }
+
         public int UpdateFacetDescriptionByRubricIDAndFacetID(int rubricID, string facetID, string oldDescription, string newDescription)
         {
             int rowsAffected = 0;
@@ -141,6 +154,197 @@ namespace DataAccessFakes
 
             return rowsAffected;
 
+        }
+
+        private void setupFakeFacetVMList()
+        {
+            foreach (Facet facet in _fakeFacetList)
+            {
+                _fakeFacetVMList.Add(new FacetVM(facet, new List<Criteria>()));
+            }
+
+            foreach (Criteria criteria in _criteriaList)
+            {
+                foreach (FacetVM facet in _fakeFacetVMList)
+                {
+                    if (criteria.RubricID == facet.RubricID)
+                    {
+                        facet.Criteria.Add(criteria);
+                    }
+                }
+            }
+
+        }
+
+        private void setupFakeCriteria()
+        {
+            _criteriaList.Add(new Criteria()
+            {
+                CriteriaID = "Excellent",
+                RubricID = 100000,
+                FacetID = "Explaination",
+                DateCreated = DateTime.Now,
+                DateUpdated = DateTime.Now,
+                Content = "Shows an excellent explaination",
+                Score = 4,
+                Active = true,
+            });
+
+            _criteriaList.Add(new Criteria()
+            {
+                CriteriaID = "Above Average",
+                RubricID = 100000,
+                FacetID = "Explaination",
+                DateCreated = DateTime.Now,
+                DateUpdated = DateTime.Now,
+                Content = "Shows an good explaination",
+                Score = 3,
+                Active = true,
+            });
+
+            _criteriaList.Add(new Criteria()
+            {
+                CriteriaID = "Average",
+                RubricID = 100000,
+                FacetID = "Explaination",
+                DateCreated = DateTime.Now,
+                DateUpdated = DateTime.Now,
+                Content = "Shows an average explaination",
+                Score = 2,
+                Active = true,
+            });
+
+            _criteriaList.Add(new Criteria()
+            {
+                CriteriaID = "Poor",
+                RubricID = 100000,
+                FacetID = "Explaination",
+                DateCreated = DateTime.Now,
+                DateUpdated = DateTime.Now,
+                Content = "Shows a poor explaination",
+                Score = 1,
+                Active = true,
+            });
+
+            _criteriaList.Add(new Criteria()
+            {
+                CriteriaID = "Excellent",
+                RubricID = 100001,
+                FacetID = "Explaination",
+                DateCreated = DateTime.Now,
+                DateUpdated = DateTime.Now,
+                Content = "Shows an excellent explaination",
+                Score = 4,
+                Active = true,
+            });
+
+            _criteriaList.Add(new Criteria()
+            {
+                CriteriaID = "Above Average",
+                RubricID = 100001,
+                FacetID = "Explaination",
+                DateCreated = DateTime.Now,
+                DateUpdated = DateTime.Now,
+                Content = "Shows an good explaination",
+                Score = 3,
+                Active = true,
+            });
+
+            _criteriaList.Add(new Criteria()
+            {
+                CriteriaID = "Average",
+                RubricID = 100001,
+                FacetID = "Explaination",
+                DateCreated = DateTime.Now,
+                DateUpdated = DateTime.Now,
+                Content = "Shows an average explaination",
+                Score = 2,
+                Active = true,
+            });
+
+            _criteriaList.Add(new Criteria()
+            {
+                CriteriaID = "Poor",
+                RubricID = 100001,
+                FacetID = "Explaination",
+                DateCreated = DateTime.Now,
+                DateUpdated = DateTime.Now,
+                Content = "Shows a poor explaination",
+                Score = 1,
+                Active = true,
+            });
+
+            _criteriaList.Add(new Criteria()
+            {
+                CriteriaID = "Excellent",
+                RubricID = 100001,
+                FacetID = "Explaination",
+                DateCreated = DateTime.Now,
+                DateUpdated = DateTime.Now,
+                Content = "Shows an excellent explaination",
+                Score = 4,
+                Active = true,
+            });
+
+            _criteriaList.Add(new Criteria()
+            {
+                CriteriaID = "Above Average",
+                RubricID = 100001,
+                FacetID = "Explaination",
+                DateCreated = DateTime.Now,
+                DateUpdated = DateTime.Now,
+                Content = "Shows an good explaination",
+                Score = 3,
+                Active = true,
+            });
+
+            _criteriaList.Add(new Criteria()
+            {
+                CriteriaID = "Average",
+                RubricID = 100001,
+                FacetID = "Explaination",
+                DateCreated = DateTime.Now,
+                DateUpdated = DateTime.Now,
+                Content = "Shows an average explaination",
+                Score = 2,
+                Active = true,
+            });
+
+            _criteriaList.Add(new Criteria()
+            {
+                CriteriaID = "Poor",
+                RubricID = 100001,
+                FacetID = "Explaination",
+                DateCreated = DateTime.Now,
+                DateUpdated = DateTime.Now,
+                Content = "Shows a poor explaination",
+                Score = 1,
+                Active = true,
+            });
+        }
+
+        public int UpdateFacetAndCriteraWithFacetVM(FacetVM oldFacet, FacetVM newFacet)
+        {
+            int rowsAffected = 0;
+
+            int facetIndex = _fakeFacetVMList.FindIndex(f => f.RubricID == oldFacet.RubricID && f.FacetID == oldFacet.FacetID && f.Description == oldFacet.Description && f.FacetType == oldFacet.FacetType);
+
+            if (facetIndex != -1)
+            {
+                _fakeFacetVMList[facetIndex].FacetID = newFacet.FacetID;
+                _fakeFacetVMList[facetIndex].Description = newFacet.Description;
+                _fakeFacetVMList[facetIndex].FacetType = newFacet.FacetType;
+
+                // simulates adding to facet table
+                rowsAffected++;
+
+                _fakeFacetVMList[facetIndex].Criteria = newFacet.Criteria;
+
+                // simulates adding to criteria table
+                rowsAffected++;
+            }
+
+            return rowsAffected;
         }
     }
 }

@@ -113,6 +113,60 @@ namespace LogicLayer
 
         }
 
+        public FacetVM RetrieveFacetVM(int rubricID, string facetID)
+        {
+            FacetVM facet = null;
+
+            // green
+            //facet = new FacetVM()
+            //{
+            //    FacetID = "Fake Facet 1",
+            //    Description = "A longer description",
+            //    DateCreated = DateTime.Now,
+            //    DateUpdated = DateTime.Now,
+            //    Active = true,
+            //    RubricID = 100000,
+            //    FacetType = "Type1",
+            //    Criteria = new List<Criteria>()
+            //};
+            //facet.Criteria.Add(new Criteria());
+            //facet.Criteria.Add(new Criteria());
+            //facet.Criteria.Add(new Criteria());
+
+            try
+            {
+                facet = _facetAccesor.SelectFacetVM(rubricID, facetID);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+            return facet;
+        }
+
+        public bool UpdateFacetAndCriteria(FacetVM oldFacet, FacetVM newFacet)
+        {
+            bool result = false;
+
+            try
+            {
+                result = _facetAccesor.UpdateFacetAndCriteraWithFacetVM(oldFacet, newFacet) > 0;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            if (!result)
+            {
+                throw new ApplicationException("Could not find the facet");
+            }
+
+            return result;
+        }
+
         public bool UpdateFacetDescriptionByRubricIDAndFacetID(int rubricID, string facetID, string oldDescription, string newDescription)
         {
             bool result = false;

@@ -1165,3 +1165,105 @@ INSERT INTO [dbo].[UserRole]
 	(@UserID, @RoleID)
 END
 GO
+
+
+
+
+/*
+sp_select_facet_by_rubric_id_and_facet_id	@FacetID	nvarchar(50)	IFacetAccessor
+*/
+print '' print '*** creating sp_select_facet_by_rubric_id_and_facet_id ***'
+GO
+CREATE PROCEDURE [dbo].[sp_select_facet_by_rubric_id_and_facet_id]
+(
+	@RubricID	[int],
+	@FacetID	[nvarchar](50)
+)
+AS
+	BEGIN
+	SELECT
+	[FacetID]		
+	,[Description]	
+	,[DateCreated]	
+	,[DateUpdated]	
+	,[Active]		
+	,[RubricID]
+	,[FacetTypeID]
+	FROM [Facet]		
+	WHERE [Facet].[FacetID] = @FacetID
+		AND [Facet].[RubricID] = @RubricID
+	END
+GO	
+
+
+
+
+
+/*
+sp_select_criteria_by_rubric_id_and_facet_id	@FacetID	nvarchar(50)	IFacetAccessor
+*/
+print '' print '*** creating sp_select_criteria_by_rubric_id_and_facet_id ***'
+GO
+CREATE PROCEDURE [dbo].[sp_select_criteria_by_rubric_id_and_facet_id]
+(
+	@RubricID	[int],
+	@FacetID	[nvarchar](50)
+)
+AS
+	BEGIN
+	SELECT
+		[CriteriaID]
+		,[RubricID]
+		,[FacetID]	
+		,[Active]	
+		,[DateCreated]
+		,[DateUpdated]
+		,[Content]	
+		,[Score]	
+	FROM [Criteria]
+	WHERE @RubricID = [RubricID]
+		AND @FacetID = [FacetID]
+	END
+	
+GO
+
+
+
+
+
+
+/*
+sp_update_facets_by_rubric_id	@RubricID	int	IFacetAccessor
+*/
+print '' print '*** creating sp_update_facets_by_rubric_id ***'
+GO
+CREATE PROCEDURE [dbo].[sp_update_facets_by_rubric_id]
+(
+	@RubricID	int
+	,@OldFacetID	nvarchar(50)
+	,@NewFacetID	nvarchar(50)
+	,@OldDescription	nvarchar(100)
+	,@NewDescription	nvarchar(100)
+	,@OldFacetType	nvarchar(50)
+	,@NewFacetType	nvarchar(50)
+)
+AS
+	BEGIN
+		UPDATE [Facet]
+		SET
+			[FacetID] = @NewFacetID
+			,[Description] = @NewDescription
+			,[FacetTypeID] = @NewFacetType
+			,[DateUpdated] = CURRENT_TIMESTAMP
+			
+		WHERE
+			[Description] = @OldDescription	
+			AND
+			[FacetID] = @OldFacetID
+			AND
+			[FacetTypeID] = @OldFacetType
+			
+		RETURN @@ROWCOUNT
+	END	
+GO
+
