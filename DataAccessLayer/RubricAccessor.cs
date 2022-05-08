@@ -114,6 +114,95 @@ namespace DataAccessLayer
             return rowsAffected;
         }
 
+        public int InsertRubric(RubricVM rubric)
+        {
+            int rowsAffected = 0;
+            int newRubricID = 0;
+            // connection
+            var conn = DBConnection.GetConnection();
+
+            string cmdTxt = "sp_create_rubric_with_one_facet";
+            var cmd = new SqlCommand(cmdTxt, conn);
+
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.Add("@RubricName", SqlDbType.NVarChar, 50);
+            cmd.Parameters.Add("@RubricDescription", SqlDbType.NVarChar, 100);
+            cmd.Parameters.Add("@ScoreTypeID", SqlDbType.NVarChar, 50);
+            cmd.Parameters.Add("@RubricCreator", SqlDbType.NVarChar, 50);
+            cmd.Parameters.Add("@NumberOfCriteria", SqlDbType.Int);
+
+            cmd.Parameters["@RubricName"].Value = rubric.Name;
+            cmd.Parameters["@RubricDescription"].Value = rubric.Description;
+            cmd.Parameters["@ScoreTypeID"].Value = rubric.ScoreTypeID;
+            cmd.Parameters["@RubricCreator"].Value = rubric.RubricCreator.UserID;
+            cmd.Parameters["@NumberOfCriteria"].Value = rubric.NumberOfCriteria;
+
+            cmd.Parameters.Add("@FacetID", SqlDbType.NVarChar, 100);
+            cmd.Parameters.Add("@FacetDescription", SqlDbType.NVarChar, 255);
+            cmd.Parameters.Add("@FacetType", SqlDbType.NVarChar, 50);
+
+            cmd.Parameters["@FacetID"].Value = rubric.FacetVMs[0].FacetID;
+            cmd.Parameters["@FacetDescription"].Value = rubric.FacetVMs[0].Description;
+            cmd.Parameters["@FacetType"].Value = rubric.FacetVMs[0].FacetType;
+
+            try
+            {
+                conn.Open();
+                Object result = cmd.ExecuteScalar();
+                newRubricID = (int)result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            //// add each criteria
+            //foreach (Criteria criteria in rubric.FacetVMs[0].Criteria)
+            //{
+            //    var conn2 = DBConnection.GetConnection();
+
+            //    string cmdTxt2 = "sp_create_criteria_by_rubric_id_and_facet_id";
+            //    var cmd2 = new SqlCommand(cmdTxt2, conn2);
+
+            //    cmd2.CommandType = CommandType.StoredProcedure;
+
+
+            //    cmd2.Parameters.Add("@CriteriaID", SqlDbType.NVarChar, 50);
+            //    cmd2.Parameters.Add("@RubricID", SqlDbType.Int);
+            //    cmd2.Parameters.Add("@FacetID", SqlDbType.NVarChar, 100);
+            //    cmd2.Parameters.Add("@Content", SqlDbType.NVarChar, 255);
+            //    cmd2.Parameters.Add("@Score", SqlDbType.Int);
+
+            //    cmd2.Parameters["@CriteriaID"].Value = criteria.CriteriaID;
+            //    cmd2.Parameters["@RubricID"].Value = newRubricID;
+            //    cmd2.Parameters["@FacetID"].Value = rubric.FacetVMs[0].FacetID;
+            //    cmd2.Parameters["@Content"].Value = criteria.Content;
+            //    cmd2.Parameters["@Score"].Value = criteria.Score;
+
+            //    try
+            //    {
+            //        conn2.Open();
+            //        rowsAffected = cmd2.ExecuteNonQuery();
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        throw ex;
+            //    }
+            //    finally
+            //    {
+            //        conn2.Close();
+            //    }
+            //}
+
+
+            return newRubricID;
+        }
+
         public List<RubricVM> RetrieveActiveRubricsVMs()
         {
             List<RubricVM> rubrics = new List<RubricVM>();

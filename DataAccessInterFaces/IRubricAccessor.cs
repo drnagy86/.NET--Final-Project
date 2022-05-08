@@ -22,5 +22,7 @@ namespace DataAccessInterFaces
 
         List<RubricVM> RetrieveActiveRubricsVMs();
 
+        int InsertRubric(RubricVM rubric);
+
     }
 }

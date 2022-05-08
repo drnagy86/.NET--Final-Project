@@ -18,15 +18,14 @@ namespace RubricMVC.Controllers
 
         private List<RubricVM> rubrics = null;
         private RubricVM rubric = null;
-        
+        private RubricModelView rubricModelView = null;
+
 
         public RubricController(IRubricManager<RubricVM> rubricManager, IUserManager userManager, IScoreTypeManager scoreTypeManager)
         {
-
             _rubricVMManager = rubricManager;
             _userManager = userManager;
             _scoreTypeManager = scoreTypeManager;
-
         }
 
         // GET: Rubric
@@ -54,7 +53,6 @@ namespace RubricMVC.Controllers
             }
             catch (Exception ex)
             {
-
                 TempData["errorMessage"] = ex.Message;
             }
 
@@ -64,55 +62,66 @@ namespace RubricMVC.Controllers
         // GET: Rubric/Create
         public ActionResult Create()
         {
-            return View();
+
+            return RedirectToAction("Edit", new { rubricID = 0 });
         }
 
-        // POST: Rubric/Create
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
 
         // GET: Rubric/Edit/5
         [Authorize(Roles = "Administrator, Creator")]
         public ActionResult Edit(int rubricID)
-        {            
-            RubricModelView rubricModel = null;
+        {
 
-            try
+            if (rubricID != 0)
             {
-                rubric = _rubricVMManager.RetrieveRubricByRubricID(rubricID);
-                List<ScoreType> scoreTypes = _scoreTypeManager.RetrieveScoreTypes();
+                RubricModelView rubricModel = null;
 
-                rubricModel = new RubricModelView(rubric, scoreTypes);
+                try
+                {
+                    rubric = _rubricVMManager.RetrieveRubricByRubricID(rubricID);
+                    List<ScoreType> scoreTypes = _scoreTypeManager.RetrieveScoreTypes();
 
-            }
-            catch (Exception ex)
-            {
-                TempData["errorMessage"] = ex.Message;
-            }
+                    rubricModel = new RubricModelView(rubric, scoreTypes);
 
-            if (getCurrentUserID() == rubric.RubricCreator.UserID ||
-                User.IsInRole("Administrator"))
-            {
-                return View(rubricModel);
+                }
+                catch (Exception ex)
+                {
+                    TempData["errorMessage"] = ex.Message;
+                }
+
+                if (getCurrentUserID() == rubric.RubricCreator.UserID ||
+                    User.IsInRole("Administrator"))
+                {
+                    return View(rubricModel);
+                }
+                else
+                {
+                    TempData["errorMessage"] = "Sorry, you are not authorized to edit this rubric";
+                    return RedirectToAction("Details", new { rubricID = rubricID });
+                }
+
             }
             else
             {
-                TempData["errorMessage"] = "Sorry, you are not authorized to edit this rubric";
-                return RedirectToAction("Details", new { rubricID = rubricID });
+                // actually creating
+                try
+                {
+                    
+                    
+
+                    RubricVM temp = new RubricVM(getCurrentUserAsObject());
+                    List<ScoreType> scoreTypes = _scoreTypeManager.RetrieveScoreTypes();
+
+                    rubricModelView = new RubricModelView(temp, scoreTypes);
+
+                }
+                catch (Exception ex)
+                {
+                    TempData["errorMessage"] = ex.Message;
+                }
+
+                return View(rubricModelView);
             }
-            
         }
 
         // POST: Rubric/Edit/5
@@ -122,9 +131,8 @@ namespace RubricMVC.Controllers
         {
             bool result = false;
             RubricVM oldRubric = null;
-            
 
-            if (ModelState.IsValid)
+            if (rubricID != 0)
             {
                 try
                 {
@@ -132,7 +140,9 @@ namespace RubricMVC.Controllers
                 }
                 catch (Exception ex)
                 {
+
                     TempData["errorMessage"] = ex.Message + "<br>";
+                    RedirectToAction("RubricList");
                 }
 
                 if (getCurrentUserID() == oldRubric.RubricCreator.UserID ||
@@ -154,7 +164,7 @@ namespace RubricMVC.Controllers
                     catch (Exception ex)
                     {
                         TempData["errorMessage"] = ex.Message + "<br>";
-
+                        RedirectToAction("RubricList");
                     }
                     if (!result)
                     {
@@ -172,16 +182,29 @@ namespace RubricMVC.Controllers
                     TempData["errorMessage"] = "Sorry, you are not authorized to edit this rubric.<br>";
                     return RedirectToAction("Details", new { rubricID = rubricID });
                 }
-
             }
             else
             {
-                TempData["errorMessage"] = "There is a problem with the information being added.<br>";
+                // create
+                try
+                {
+                    // given the number of criteria, create at least one facet with that many criteria
+                    newRubric.AddBlankFacetWithCritria();
 
-                return View(new RubricModelView(oldRubric, newRubric.ScoreTypes));
+                    newRubric.RubricCreator = getCurrentUserAsObject();
+                    
+                    int newID = _rubricVMManager.CreateRubric(newRubric);
+
+                    return RedirectToAction("RubricList", "Rubric");
+
+                    //return RedirectToAction("Edit", "Facet", new { rubricID = newID, facetID = newRubric.FacetVMs[0].FacetID });
+                }
+                catch (Exception ex)
+                {
+                    TempData["errorMessage"] = "There is a problem with the information being added.<br> " + ex.Message;
+                    return View(newRubric);
+                }
             }
-            
-            
         }
 
         // GET: Rubric/Delete/5
@@ -215,6 +238,14 @@ namespace RubricMVC.Controllers
         private bool isAdmin()
         {
             return User.IsInRole("Administrator");
+        }
+
+        private DataObjects.User getCurrentUserAsObject()
+        {
+            string userID = User.Identity.GetUserName();
+            DataObjects.User currentUser = _userManager.GetUserByUserID(userID);
+
+            return currentUser;
         }
     }
 }

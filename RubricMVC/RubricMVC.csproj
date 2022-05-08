@@ -234,6 +234,10 @@
     <Compile Include="Migrations\202205070304351_Add old facet id.Designer.cs">
       <DependentUpon>202205070304351_Add old facet id.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202205081859089_add numberOfCriteria field to rubric table.cs" />
+    <Compile Include="Migrations\202205081859089_add numberOfCriteria field to rubric table.Designer.cs">
+      <DependentUpon>202205081859089_add numberOfCriteria field to rubric table.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\FacetModelView.cs" />
@@ -341,6 +345,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202205070304351_Add old facet id.resx">
       <DependentUpon>202205070304351_Add old facet id.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202205081859089_add numberOfCriteria field to rubric table.resx">
+      <DependentUpon>202205081859089_add numberOfCriteria field to rubric table.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

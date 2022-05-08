@@ -36,6 +36,11 @@ namespace DataObjects
         public User RubricCreator { get; set; }
         public bool Active { get; set; }
 
+        [Display(Name = "Number of Criteria")]
+        [Required(ErrorMessage = "Please enter a value for a number of criteria that each facet will have")]
+        [Range(0, 9)]
+        public int NumberOfCriteria { get; set; }
+
         public Rubric()
         {
 
@@ -48,6 +53,8 @@ namespace DataObjects
             this.ScoreTypeID = scoreTypeID;
             this.RubricCreator = rubricCreator;
             this.Active = active;
+            this.NumberOfCriteria = 3;
+
         }
 
     }
@@ -61,10 +68,29 @@ namespace DataObjects
         public int RowCount { get; private set; }
         public int ColumnCount { get; private set; }
 
-
+        public List<FacetVM> FacetVMs { get; set; }
 
         public RubricVM()
         {
+
+        }
+
+        public RubricVM(User creator)
+        {
+            this.RubricID = 0;
+            this.Name = "";
+            this.Description = "";
+            this.ScoreTypeID = "";
+            this.RubricCreator = creator;
+            this.Active = true;
+            this.DateCreated = DateTime.Now;
+            this.DateUpdated= DateTime.Now;
+            this.NumberOfCriteria = 3;
+
+            this.FacetVMs = new List<FacetVM>();
+
+            
+
 
         }
 
@@ -82,7 +108,7 @@ namespace DataObjects
             this.Facets = facets;
             this.Criteria = criteria;
             this.FacetCriteria = createFacetCriteriaDictionary(facets, criteria);
-
+            this.NumberOfCriteria = 3;
             this.ColumnCount = FacetCriteria.Count;
 
 
@@ -104,6 +130,41 @@ namespace DataObjects
             }
             
             return rubricScores;
+        }
+
+        public void AddBlankFacetWithCritria()
+        {
+            this.FacetVMs = new List<FacetVM>();
+
+            this.FacetVMs.Add(new FacetVM()
+            {
+                FacetID = "Name the facet",
+                Description = "Describe what this facet is attempting to evaluate.",
+                DateCreated = DateTime.Now,
+                DateUpdated = DateTime.Now,
+                Active = true,
+                RubricID = 0,
+                Criteria = new List<Criteria>()
+            });
+
+            for (int i = 0; i < this.NumberOfCriteria; i++)
+            {
+                this.FacetVMs[0].Criteria.Add(new Criteria()
+                {
+                    CriteriaID = "Criteria " + i,
+                    RubricID = 0,
+                    FacetID = "Name the facet",
+                    DateCreated = DateTime.Now,
+                    DateUpdated = DateTime.Now,
+                    Content = "Describe the criteria that earns the score",
+                    Score = i,
+                    Active = true
+                });
+            }
+
+
+
+            
         }
 
         private Dictionary<Facet, List<Criteria>> createFacetCriteriaDictionary(List<Facet> facets, List<Criteria> criteriaList)

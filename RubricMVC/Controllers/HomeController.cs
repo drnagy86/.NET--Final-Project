@@ -10,7 +10,7 @@ namespace RubricMVC.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            return RedirectToAction("RubricList","Rubric");
         }
 
         [Authorize]

@@ -12,7 +12,6 @@ namespace RubricMVC.Infrastructure
 {
     public class NinjectDependencyResolver : System.Web.Mvc.IDependencyResolver
     {
-
         private IKernel kernel;
 
         public NinjectDependencyResolver(IKernel kernelParam)
@@ -35,16 +34,14 @@ namespace RubricMVC.Infrastructure
             kernel.Bind<IUserManager>().To<UserManager>();
 
             //fakes
-            //kernel.Bind<ICriteriaAccessor>().To<CriteriaAccessorFake>();
+            //kernel.Bind<ICriteriaAccessor>().To<CriteriaAccessorFake>().WithConstructorArgument("criteriatAccessor", new CriteriaAccessorFake());
             //kernel.Bind<IFacetManager>().To<FacetManager>().WithConstructorArgument("facetAccessor", new FacetAccessorFake());
-            //kernel.Bind<IFacetTypeAccessor>().To<FacetTypeFakes>();
-            //kernel.Bind<IRubricAccessor>().To<RubricAccessorFake>();
-            //kernel.Bind<IRubricSubjectAccessor>().To<RubricSubjectAccessorFake>();
-            //kernel.Bind<IScoreTypeAccessor>().To<ScoreTypeFake>();
-            //kernel.Bind<ISubjectAccessor>().To<SubjectAccessorFake>();
-            //kernel.Bind<IUserAccessor>().To<UserAccessorFake>();
-
-            
+            //kernel.Bind<IFacetTypeAccessor>().To<FacetTypeFakes>().WithConstructorArgument("facetTypeAccessor", new FacetTypeAccessorFake());
+            //kernel.Bind<IRubricAccessor>().To<RubricAccessorFake>().WithConstructorArgument("rubricAccessor", new RubricAccessorFake());
+            //kernel.Bind<IRubricSubjectAccessor>().To<RubricSubjectAccessorFake>().WithConstructorArgument("rubricSubjectAccessor", new RubricSubjectAccessorFake());
+            //kernel.Bind<IScoreTypeAccessor>().To<ScoreTypeFake>().WithConstructorArgument("scoreTypeFake", new ScoreTypeFake());
+            //kernel.Bind<ISubjectAccessor>().To<SubjectAccessorFake>().WithConstructorArgument("subjectAccessor", new SubjectAccessorFake());
+            //kernel.Bind<IUserAccessor>().To<UserAccessorFake>().WithConstructorArgument("userAccessor", new UserAccessorFake());
 
         }
 

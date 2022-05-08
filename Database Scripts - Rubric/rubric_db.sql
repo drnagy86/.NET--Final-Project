@@ -231,6 +231,7 @@ CREATE TABLE [dbo].[Rubric] (
 	,[ScoreTypeID]		[nvarchar](50)				NOT NULL
 	,[RubricCreator]	[nvarchar](50)				NOT NULL
 	,[Active]			[bit]						NOT NULL DEFAULT 1
+	,[NumberOfCriteria]	[int]						NOT NULL DEFAULT 3
 
 	CONSTRAINT [pk_RubricID] PRIMARY KEY([RubricID]),
 	CONSTRAINT [fk_ScoreTypeID] FOREIGN KEY([ScoreTypeID])
@@ -282,6 +283,7 @@ AS
 		,[User].[FamilyName]
 		,[User].[Active]
 		,[Rubric].[Active]
+		,[Rubric].[NumberOfCriteria]
 
 	FROM [Rubric] INNER JOIN [User] 
 		ON [Rubric].[RubricCreator] = [User].[UserID]
@@ -325,7 +327,8 @@ AS
 		,[Rubric].[ScoreTypeID]	
 		,[Rubric].[RubricCreator]
 		,[User].[GivenName]		
-		,[User].[FamilyName]	
+		,[User].[FamilyName]
+		,[Rubric].[NumberOfCriteria]
 	FROM [Rubric] INNER JOIN [User] 
 		ON [Rubric].[RubricCreator] = [User].[UserID]
 	WHERE [Rubric].[Active] = 1
@@ -751,6 +754,7 @@ AS
 			,[User].[FamilyName]
 			,[User].[Active]
 			,[Rubric].[Active]	
+			,[Rubric].[NumberOfCriteria]
 		
 		FROM [Rubric] INNER JOIN [User] 
 			ON [Rubric].[RubricCreator] = [User].[UserID]
@@ -1267,3 +1271,77 @@ AS
 	END	
 GO
 
+
+
+/*
+sp_create_rubric_with_one_facet		IRubricAccessor
+*/
+print '' print '*** creating sp_create_rubric_with_one_facet ***'
+GO
+CREATE PROCEDURE [dbo].[sp_create_rubric_with_one_facet]
+(
+	@RubricName				nvarchar(50)
+	,@RubricDescription		nvarchar(100)	
+	,@ScoreTypeID			nvarchar(50)	
+	,@RubricCreator			nvarchar(50)	
+	,@NumberOfCriteria		int	
+	,@FacetID				nvarchar(100)	
+	,@FacetDescription		nvarchar(255)	
+	,@FacetType				nvarchar(50)	
+)
+AS
+	BEGIN -- SP
+		BEGIN TRAN
+			BEGIN TRY
+				
+				DECLARE @RubricID INT
+		
+				-- insert into rubric
+				INSERT INTO [dbo].[Rubric]
+				(
+					[Name]				
+					,[Description]
+					,[ScoreTypeID]
+					,[RubricCreator]
+					,[NumberOfCriteria]
+				)
+				OUTPUT Inserted.RubricID
+				VALUES
+				(
+					@RubricName
+					, @RubricDescription
+					, @ScoreTypeID
+					, @RubricCreator
+					, @NumberOfCriteria
+				)
+				
+				SET @RubricID = SCOPE_IDENTITY()
+				
+				-- insert into facet
+				
+				INSERT INTO [dbo].[Facet]
+				(
+					[RubricID]
+					,[FacetID]
+					,[Description]
+					,[FacetTypeID]
+				)
+				VALUES
+				(
+					@RubricID
+					, @FacetID
+					, @FacetDescription
+					, @FacetType
+				)			
+				
+				COMMIT TRANSACTION
+			
+			END TRY
+			BEGIN CATCH
+				ROLLBACK TRANSACTION
+			END CATCH
+		
+		
+		
+	END -- SP
+GO

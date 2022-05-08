@@ -170,5 +170,71 @@ namespace LogicLayer
         {
             return _rubricManager.DeleteRubricByRubricID(rubricID);
         }
+
+        public int CreateRubric(RubricVM rubricVM)
+        {
+            int rubricIDToReturn = 0;
+
+            if (rubricVM.Name == null || rubricVM.Name == "")
+            {
+                throw new ApplicationException("Rubric name can not be empty");
+            }
+
+            if (rubricVM.Name.Length >= 100)
+            {
+                throw new ApplicationException("Rubric name can not be over 100 characters");
+            }
+
+            if (rubricVM.Description == null || rubricVM.Description == "")
+            {
+                throw new ApplicationException("Rubric description can not be empty");
+            }
+
+            if (rubricVM.Description.Length >= 255)
+            {
+                throw new ApplicationException("Rubric description can not be over 255 characters");
+            }
+
+            if (rubricVM.ScoreTypeID == null || rubricVM.ScoreTypeID == "")
+            {
+                throw new ApplicationException("Rubric scoretype can not be empty");
+            }
+
+            if (rubricVM.ScoreTypeID.Length >= 50)
+            {
+                throw new ApplicationException("Rubric scoretype can not be over 255 characters");
+            }
+
+            if (rubricVM.RubricCreator.UserID == null || rubricVM.RubricCreator.UserID == "")
+            {
+                throw new ApplicationException("Rubric needs a creator");
+            }
+
+            if (rubricVM.FacetVMs.Count == 0)
+            {
+                throw new ApplicationException("Rubric needs a creator");
+            }
+
+            foreach (FacetVM facet in rubricVM.FacetVMs)
+            {
+                if (facet.Criteria.Count == 0)
+                {
+                    throw new ApplicationException("Each facet needs at least one criteria");
+                }
+            }
+
+            try
+            {
+                rubricIDToReturn = _rubricAccessor.InsertRubric(rubricVM);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+
+
+            return rubricIDToReturn;
+        }
     }
 }

@@ -63,6 +63,11 @@ namespace LogicLayer
             return isCreated;
         }
 
+        public int CreateRubric(RubricVM rubricVM)
+        {
+            throw new NotImplementedException();
+        }
+
         public bool DeactivateRubricByRubricID(int rubricID)
         {
             bool result = false;

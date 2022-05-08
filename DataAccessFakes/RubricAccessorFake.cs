@@ -12,12 +12,14 @@ namespace DataAccessFakes
     {
 
         private List<Rubric> _fakeRubrics = new List<Rubric>();
+        List<RubricVM> fakeRubricVMList = null;
+        private int nextAvailableID = 100000;
 
         public RubricAccessorFake()
         {
             _fakeRubrics.Add(new Rubric()
             {
-                RubricID = 100000,
+                RubricID = nextAvailableID++,
                 Name = "Test Rubric",
                 Description = "A long description of the rubric.",
                 DateCreated = DateTime.Now,
@@ -37,7 +39,7 @@ namespace DataAccessFakes
 
             _fakeRubrics.Add(new Rubric()
             {
-                RubricID = 100001,
+                RubricID = nextAvailableID++,
                 Name = "Test Rubric2",
                 Description = "A long description of the rubric asfgsdfsdh.",
                 DateCreated = DateTime.Now,
@@ -58,7 +60,7 @@ namespace DataAccessFakes
 
             _fakeRubrics.Add(new Rubric()
             {
-                RubricID = 100002,
+                RubricID = nextAvailableID++,
                 Name = "Test Rubric3",
                 Description = "A long description of the rubric asfgsdfsdh.",
                 DateCreated = DateTime.Now,
@@ -79,7 +81,7 @@ namespace DataAccessFakes
 
             _fakeRubrics.Add(new Rubric()
             {
-                RubricID = 100003,
+                RubricID = nextAvailableID++,
                 Name = "Test Duplicate",
                 Description = "A long description of the rubric asfgsdfsdh.",
                 DateCreated = DateTime.Now,
@@ -117,6 +119,8 @@ namespace DataAccessFakes
                 Active = false
             });
 
+            setupRubricVMList();
+
         }
 
         public int DeactivateRubricByRubricID(int rubricID)
@@ -136,12 +140,6 @@ namespace DataAccessFakes
             return rowsAffected;
         }
 
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="rubricID"></param>
-        /// <returns></returns>
         public int DeleteRubricByRubricID(int rubricID)
         {
 
@@ -187,29 +185,18 @@ namespace DataAccessFakes
             return rowsAffected;
         }
 
+        public int InsertRubric(RubricVM rubric)
+        {
+            rubric.RubricID = nextAvailableID++;
+            fakeRubricVMList.Add(rubric);
+
+            return rubric.RubricID;
+        }
+
         public List<RubricVM> RetrieveActiveRubricsVMs()
         {
-            List<RubricVM> rubrics = new List<RubricVM>();
 
-
-            foreach (var rubric in _fakeRubrics)
-            {
-                if (rubric.Active == true)
-                {
-                    rubrics.Add(new RubricVM()
-                    {
-                        Name = rubric.Name,
-                        Description = rubric.Description,
-                        DateCreated = rubric.DateCreated,
-                        DateUpdated = rubric.DateUpdated,
-                        ScoreTypeID = rubric.ScoreTypeID,
-                        RubricCreator = rubric.RubricCreator,
-                        Active = rubric.Active
-                    });
-                }
-            }
-
-            return rubrics;
+            return fakeRubricVMList;
         }
 
         public Rubric SelectRubricByRubricDetials(string name, string description, string scoreType, string rubricCreator)
@@ -284,6 +271,30 @@ namespace DataAccessFakes
             }
 
             return rowsAffected;
+        }
+
+
+        private void setupRubricVMList()
+        {
+            fakeRubricVMList = new List<RubricVM>();
+
+            foreach (var rubric in _fakeRubrics)
+            {
+                if (rubric.Active == true)
+                {
+                    fakeRubricVMList.Add(new RubricVM()
+                    {
+                        RubricID = rubric.RubricID,
+                        Name = rubric.Name,
+                        Description = rubric.Description,
+                        DateCreated = rubric.DateCreated,
+                        DateUpdated = rubric.DateUpdated,
+                        ScoreTypeID = rubric.ScoreTypeID,
+                        RubricCreator = rubric.RubricCreator,
+                        Active = rubric.Active
+                    });
+                }
+            }
         }
     }
 }

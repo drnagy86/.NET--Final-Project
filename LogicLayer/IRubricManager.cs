@@ -23,5 +23,7 @@ namespace LogicLayer
 
         bool DeleteRubricByRubricID(int rubricID);
 
+        int CreateRubric(RubricVM rubricVM);
+
     }
 }
