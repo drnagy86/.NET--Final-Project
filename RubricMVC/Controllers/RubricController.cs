@@ -195,9 +195,9 @@ namespace RubricMVC.Controllers
                     
                     int newID = _rubricVMManager.CreateRubric(newRubric);
 
-                    return RedirectToAction("RubricList", "Rubric");
+                    //return RedirectToAction("RubricList", "Rubric");
 
-                    //return RedirectToAction("Edit", "Facet", new { rubricID = newID, facetID = newRubric.FacetVMs[0].FacetID });
+                    return RedirectToAction("Edit", "Facet", new { rubricID = newID, facetID = newRubric.FacetVMs[0].FacetID });
                 }
                 catch (Exception ex)
                 {

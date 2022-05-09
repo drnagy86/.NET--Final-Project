@@ -118,6 +118,7 @@ namespace DataAccessLayer
         {
             int rowsAffected = 0;
             int newRubricID = 0;
+            
             // connection
             var conn = DBConnection.GetConnection();
 
@@ -142,6 +143,7 @@ namespace DataAccessLayer
             cmd.Parameters.Add("@FacetDescription", SqlDbType.NVarChar, 255);
             cmd.Parameters.Add("@FacetType", SqlDbType.NVarChar, 50);
 
+
             cmd.Parameters["@FacetID"].Value = rubric.FacetVMs[0].FacetID;
             cmd.Parameters["@FacetDescription"].Value = rubric.FacetVMs[0].Description;
             cmd.Parameters["@FacetType"].Value = rubric.FacetVMs[0].FacetType;
@@ -150,6 +152,7 @@ namespace DataAccessLayer
             {
                 conn.Open();
                 Object result = cmd.ExecuteScalar();
+                //Object result = cmd.ExecuteNonQuery();
                 newRubricID = (int)result;
             }
             catch (Exception ex)
@@ -161,43 +164,42 @@ namespace DataAccessLayer
                 conn.Close();
             }
 
-            //// add each criteria
-            //foreach (Criteria criteria in rubric.FacetVMs[0].Criteria)
-            //{
-            //    var conn2 = DBConnection.GetConnection();
+            //add each criteria
+            foreach (Criteria criteria in rubric.FacetVMs[0].Criteria)
+            {
 
-            //    string cmdTxt2 = "sp_create_criteria_by_rubric_id_and_facet_id";
-            //    var cmd2 = new SqlCommand(cmdTxt2, conn2);
+                string cmdTxt2 = "sp_create_criteria_by_rubric_id_and_facet_id";
+                var cmd2 = new SqlCommand(cmdTxt2, conn);
 
-            //    cmd2.CommandType = CommandType.StoredProcedure;
+                cmd2.CommandType = CommandType.StoredProcedure;
 
 
-            //    cmd2.Parameters.Add("@CriteriaID", SqlDbType.NVarChar, 50);
-            //    cmd2.Parameters.Add("@RubricID", SqlDbType.Int);
-            //    cmd2.Parameters.Add("@FacetID", SqlDbType.NVarChar, 100);
-            //    cmd2.Parameters.Add("@Content", SqlDbType.NVarChar, 255);
-            //    cmd2.Parameters.Add("@Score", SqlDbType.Int);
+                cmd2.Parameters.Add("@CriteriaID", SqlDbType.NVarChar, 50);
+                cmd2.Parameters.Add("@RubricID", SqlDbType.Int);
+                cmd2.Parameters.Add("@FacetID", SqlDbType.NVarChar, 100);
+                cmd2.Parameters.Add("@Content", SqlDbType.NVarChar, 255);
+                cmd2.Parameters.Add("@Score", SqlDbType.Int);
 
-            //    cmd2.Parameters["@CriteriaID"].Value = criteria.CriteriaID;
-            //    cmd2.Parameters["@RubricID"].Value = newRubricID;
-            //    cmd2.Parameters["@FacetID"].Value = rubric.FacetVMs[0].FacetID;
-            //    cmd2.Parameters["@Content"].Value = criteria.Content;
-            //    cmd2.Parameters["@Score"].Value = criteria.Score;
+                cmd2.Parameters["@CriteriaID"].Value = criteria.CriteriaID;
+                cmd2.Parameters["@RubricID"].Value = newRubricID;
+                cmd2.Parameters["@FacetID"].Value = rubric.FacetVMs[0].FacetID;
+                cmd2.Parameters["@Content"].Value = criteria.Content;
+                cmd2.Parameters["@Score"].Value = criteria.Score;
 
-            //    try
-            //    {
-            //        conn2.Open();
-            //        rowsAffected = cmd2.ExecuteNonQuery();
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        throw ex;
-            //    }
-            //    finally
-            //    {
-            //        conn2.Close();
-            //    }
-            //}
+                try
+                {
+                    conn.Open();
+                    rowsAffected = cmd2.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
 
 
             return newRubricID;

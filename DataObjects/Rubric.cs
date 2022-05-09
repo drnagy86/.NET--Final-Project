@@ -144,7 +144,8 @@ namespace DataObjects
                 DateUpdated = DateTime.Now,
                 Active = true,
                 RubricID = 0,
-                Criteria = new List<Criteria>()
+                Criteria = new List<Criteria>(),
+                FacetType = "Explanation"
             });
 
             for (int i = 0; i < this.NumberOfCriteria; i++)

@@ -1274,8 +1274,44 @@ GO
 
 
 /*
-sp_create_rubric_with_one_facet		IRubricAccessor
+sp_create_rubric_returns_ID		IRubricAccessor
 */
+print '' print '*** creating sp_create_rubric_returns_ID ***'
+GO
+CREATE PROCEDURE [dbo].[sp_create_rubric_returns_ID]
+(
+	@RubricName				nvarchar(50)
+	,@RubricDescription		nvarchar(100)	
+	,@ScoreTypeID			nvarchar(50)	
+	,@RubricCreator			nvarchar(50)	
+	,@NumberOfCriteria		int	
+)
+AS
+	BEGIN -- SP	
+		-- insert into rubric
+		INSERT INTO [dbo].[Rubric]
+		(
+			[Name]				
+			,[Description]
+			,[ScoreTypeID]
+			,[RubricCreator]
+			,[NumberOfCriteria]
+		)
+		OUTPUT Inserted.RubricID
+		VALUES
+		(
+			@RubricName
+			, @RubricDescription
+			, @ScoreTypeID
+			, @RubricCreator
+			, @NumberOfCriteria
+		)
+
+	END -- SP
+GO
+
+
+
 print '' print '*** creating sp_create_rubric_with_one_facet ***'
 GO
 CREATE PROCEDURE [dbo].[sp_create_rubric_with_one_facet]
@@ -1290,7 +1326,7 @@ CREATE PROCEDURE [dbo].[sp_create_rubric_with_one_facet]
 	,@FacetType				nvarchar(50)	
 )
 AS
-	BEGIN -- SP
+	BEGIN -- SP	
 		BEGIN TRAN
 			BEGIN TRY
 				
@@ -1339,9 +1375,46 @@ AS
 			END TRY
 			BEGIN CATCH
 				ROLLBACK TRANSACTION
-			END CATCH
-		
-		
+			END CATCH		
 		
 	END -- SP
 GO
+
+
+
+/*
+sp_create_facet_returns_ID		IRubricAccessor
+*/
+print '' print '*** creating sp_create_facet_returns_ID ***'
+GO
+CREATE PROCEDURE [dbo].[sp_create_facet_returns_ID]
+(
+	@RubricID				nvarchar(50)
+	,@FacetID				nvarchar(100)	
+	,@FacetDescription		nvarchar(255)	
+	,@FacetType				nvarchar(50)	
+)
+AS
+	BEGIN -- SP			
+		-- insert into facet
+		
+		INSERT INTO [dbo].[Facet]
+		(
+			[RubricID]
+			,[FacetID]
+			,[Description]
+			,[FacetTypeID]
+		)
+		OUTPUT Inserted.FacetID
+		VALUES
+		(
+			@RubricID
+			, @FacetID
+			, @FacetDescription
+			, @FacetType
+		)
+
+	END -- SP
+GO
+
+
