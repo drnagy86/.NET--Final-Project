@@ -10,8 +10,8 @@ namespace DataObjects
     public class Criteria
     {
         [Display(Name = "Criteria Name")]
-        [Required(ErrorMessage = "Please enter a name for the Crtieria")]
-        [StringLength(50, ErrorMessage = "The name can not be longer than 50 characters")]
+        [Required(ErrorMessage = "Enter a name")]
+        [StringLength(50, ErrorMessage = "100 charactors max")]
         public string CriteriaID { get; set; }
 
         public int RubricID { get; set; }
@@ -21,11 +21,11 @@ namespace DataObjects
         public DateTime DateCreated { get; set; }
         public DateTime DateUpdated { get; set; }
 
-        [Required(ErrorMessage = "Please describe what the criteria is evaluating")]
-        [StringLength(255, ErrorMessage = "The name can not be longer than 100 characters")]
+        [Required(ErrorMessage = "Required")]
+        [StringLength(255, ErrorMessage = "100 charactors max")]
         public string Content { get; set; }
 
-        [Required(ErrorMessage = "Please enter a value that represents points possible")]
+        [Required(ErrorMessage = "Required")]
         [Range(0,Int32.MaxValue)]
         public int Score { get; set; }
 

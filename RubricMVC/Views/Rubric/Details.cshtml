@@ -71,7 +71,7 @@
                 @foreach (var criteria in facet.Value)
                 {
                     <td>
-                        <span class="text-info text-sm-start me-1 d-block"> @criteria.Score pts</span>
+                        <span class="text-dark text-sm-start me-1 d-block"> @criteria.Score pts</span>
                         @criteria.Content
                     </td>
                 }
@@ -81,9 +81,9 @@
 
                     @if (Model.CanEdit)
                     {
-
-                        @Html.ActionLink("Edit", "Edit", "Facet", new { rubricID = Model.RubricID, facetID = facet.Key.FacetID }, new { @class = "btn btn-outline-dark" })
-                        @Html.ActionLink("Delete", "Delete", "Facet", new { rubricID = Model.RubricID, facetID = facet.Key.FacetID }, new { @class = "btn btn-outline-danger", onclick = "return confirm('Are sure want to delete?');" })
+                        
+                        @Html.ActionLink("Edit", "Edit", "Facet", new { rubricID = Model.RubricID, facetID = facet.Key.FacetID }, new { @class = "text-dark mx-1" })
+                        @Html.ActionLink("Delete", "Delete", "Facet", new { rubricID = Model.RubricID, facetID = facet.Key.FacetID }, new { @class = "text-danger mx-1", onclick = "return confirm('Are sure want to delete?');" })
                     }
 
 

@@ -83,7 +83,7 @@ else
             <div class="col-md-10">
                 @Html.EditorFor(model => model.NumberOfCriteria, new { @class = "form-control"})
                 <div class="row-height-30">
-                    @Html.ValidationMessageFor(model => model.NumberOfCriteria, "", new { @class = "text-danger" })
+                    <span >@Html.ValidationMessageFor(model => model.NumberOfCriteria, "", new { @class = "text-danger" })</span>
                 </div>
             </div>
         </div>
@@ -112,8 +112,8 @@ else
                 <p>Are you sure you would like to cancel? Your changes will not be saved.</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Continue Editing</button>
-                @Html.ActionLink("Cancel Editing", "Details", "Rubric", new { rubricID = Model.RubricID }, new { @class = "btn btn-danger" })
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Continue</button>
+                @Html.ActionLink("Cancel", "RubricList", "Rubric", null , new { @class = "btn btn-danger" })
 
             </div>
         </div>
