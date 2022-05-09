@@ -20,7 +20,7 @@ namespace RubricMVC.Controllers
         private RubricVM rubric = null;
         private RubricModelView rubricModelView = null;
 
-        public int _pageSize = 10;
+        public int _pageSize = 6;
 
         public RubricController(IRubricManager<RubricVM> rubricManager, IUserManager userManager, IScoreTypeManager scoreTypeManager)
         {

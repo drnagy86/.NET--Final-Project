@@ -16,7 +16,6 @@ namespace LogicLayer
         bool DeleteFacetByRubricIDAndFacetID(int rubricID, string facetID);
 
         bool UpdateFacetAndCriteria(FacetVM oldFacet, FacetVM newFacet);
-
         FacetVM RetrieveFacetVM(int rubricID, string facetID);
 
     }

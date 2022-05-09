@@ -11,6 +11,7 @@ namespace LogicLayer
     {
         User LoginUser(string userID, string password);
 
+
         bool AuthenticateUserReturnsTrueOnSuccess(string userID, string passwordHash);
         string HashSha256(string source);
         User GetUserByUserID(string userID);
