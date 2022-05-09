@@ -39,6 +39,7 @@ namespace RubricMVC.Controllers
             {
 
                 TempData["errorMessage"] = ex.Message;
+                rubrics = new List<RubricVM>();
             }
 
             return View(rubrics);
@@ -47,22 +48,34 @@ namespace RubricMVC.Controllers
         // GET: Rubric/Details/5
         public ActionResult Details(int rubricID)
         {
+            RubricModelView rubricModel = null;
             try
             {
                 rubric = _rubricVMManager.RetrieveRubricByRubricID(rubricID);
+
+                rubricModel = new RubricModelView(rubric, _scoreTypeManager.RetrieveScoreTypes());
+
+                User currentUser = getCurrentUserAsObject();
+
+                if (currentUser != null && currentUser.UserID.Equals(rubric.RubricCreator.UserID))
+                {
+                    rubricModel.CanEdit = true;
+                }
+
             }
             catch (Exception ex)
             {
                 TempData["errorMessage"] = ex.Message;
+                return RedirectToAction("RubricList");
             }
 
-            return View(rubric);
+            return View(rubricModel);
         }
 
         // GET: Rubric/Create
+        [Authorize]
         public ActionResult Create()
         {
-
             return RedirectToAction("Edit", new { rubricID = 0 });
         }
 
@@ -80,6 +93,8 @@ namespace RubricMVC.Controllers
                 {
                     rubric = _rubricVMManager.RetrieveRubricByRubricID(rubricID);
                     List<ScoreType> scoreTypes = _scoreTypeManager.RetrieveScoreTypes();
+
+
 
                     rubricModel = new RubricModelView(rubric, scoreTypes);
 
@@ -195,8 +210,6 @@ namespace RubricMVC.Controllers
                     
                     int newID = _rubricVMManager.CreateRubric(newRubric);
 
-                    //return RedirectToAction("RubricList", "Rubric");
-
                     return RedirectToAction("Edit", "Facet", new { rubricID = newID, facetID = newRubric.FacetVMs[0].FacetID });
                 }
                 catch (Exception ex)
@@ -208,30 +221,32 @@ namespace RubricMVC.Controllers
         }
 
         // GET: Rubric/Delete/5
+        [Authorize(Roles = "Administrator, Creator")]
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: Rubric/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        // GET: Rubric/Deactivate/5
+        [Authorize(Roles = "Administrator, Creator")]
+        public ActionResult Deactivate(int rubricID)
         {
             try
             {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
+                _rubricVMManager.DeactivateRubricByRubricID(rubricID);
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                TempData["errorMessage"] = ex.Message;
             }
+
+            return RedirectToAction("RubricList", "Rubric");
         }
 
 
         private string getCurrentUserID()
         {
+
             return User.Identity.GetUserId();
         }
 
@@ -243,7 +258,16 @@ namespace RubricMVC.Controllers
         private DataObjects.User getCurrentUserAsObject()
         {
             string userID = User.Identity.GetUserName();
-            DataObjects.User currentUser = _userManager.GetUserByUserID(userID);
+            DataObjects.User currentUser = null;
+
+            if (userID == "" || userID == null)
+            {
+                currentUser = new User();
+            }
+            else
+            {
+                currentUser = _userManager.GetUserByUserID(userID);
+            }
 
             return currentUser;
         }

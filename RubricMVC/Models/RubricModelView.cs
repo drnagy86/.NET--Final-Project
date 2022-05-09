@@ -9,6 +9,7 @@ namespace RubricMVC.Models
     public class RubricModelView : RubricVM
     {
         public List<ScoreType> ScoreTypes { get; set; }
+        public bool CanEdit { get; set; } = false;
 
         public RubricModelView() { }
 

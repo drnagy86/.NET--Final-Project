@@ -14,5 +14,13 @@ namespace DataObjects
         public bool Active { get; set; }
         public List<string> Roles { get; set; }
 
+        public User()
+        {
+            this.UserID = "";
+            this.GivenName = "";
+            this.FamilyName = "";
+            this.Active = false;
+            this.Roles = new List<string>();
+        }
     }
 }

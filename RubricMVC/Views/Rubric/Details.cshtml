@@ -1,4 +1,5 @@
-﻿@model DataObjects.RubricVM
+﻿@*@model DataObjects.RubricVM*@
+@model RubricMVC.Models.RubricModelView
 
 @{
     ViewBag.Title = "Rubric Detail";
@@ -34,7 +35,12 @@
         </div>
         <div class="row card-footer">
             <span class="col-2">
-                @Html.ActionLink("Edit", "Edit", "Rubric", new { rubricID = Model.RubricID }, new { @class = "card-link" })
+                @if (Model.CanEdit)
+                {
+                    @Html.ActionLink("Edit", "Edit", "Rubric", new { rubricID = Model.RubricID }, new { @class = "btn btn-dark" })
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#deleteModal" class="btn btn-danger">Delete</button>
+                }
+
             </span>
         </div>
     </div>
@@ -45,28 +51,73 @@
         <thead>
             <tr>
                 <th>Facet Name</th>
-                @foreach (var value in Model.FacetCriteria.ElementAt(0).Value)
+
+                @*@foreach (var value in Model.FacetCriteria.ElementAt(0).Value)
+                    {
+                        <th>@value.Score Points</th>
+                    }*@
+
+                @for (int i = 1; i < Model.NumberOfCriteria + 1; i++)
                 {
-                    <th>@value.Score Points</th>
+                    <th>Criteria @i</th>
                 }
             </tr>
         </thead>
         @foreach (var facet in Model.FacetCriteria)
         {
             <tr>
+
                 <td class="text-primary">@facet.Key.FacetID</td>
                 @foreach (var criteria in facet.Value)
                 {
                     <td>
-                        <span class="text-info text-sm-start me-1 d-block d-sm-none"> @criteria.Score</span>
+                        <span class="text-info text-sm-start me-1 d-block"> @criteria.Score pts</span>
                         @criteria.Content
                     </td>
                 }
+
             <td>
                 @*<button type="button" class="btn btn-outline-dark"><i class="bi bi-pencil"></i></button>*@
-                @Html.ActionLink("Edit", "Edit", "Facet", new { rubricID = Model.RubricID, facetID =facet.Key.FacetID }, new { @class = "btn btn-outline-dark" })
+
+                @if (Model.CanEdit)
+                {
+
+                    @Html.ActionLink("Edit", "Edit", "Facet", new { rubricID = Model.RubricID, facetID = facet.Key.FacetID }, new { @class = "btn btn-outline-dark" })
+                    @Html.ActionLink("Delete", "Delete", "Facet", new { rubricID = Model.RubricID, facetID = facet.Key.FacetID }, new { @class = "btn btn-outline-danger", onclick = "return confirm('Are sure want to delete?');" })
+                }
+
             </td>
             </tr>
         }
+        <tr>
+            <td>
+                @Html.ActionLink("Add", "Edit", "Facet", new { rubricID = Model.RubricID, facetID = "new" }, new { @class = "btn btn-primary" })
+            </td>
+        </tr>
     </table>
+</div>
+
+
+
+
+<div class="modal fade" id="deleteModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you would like to delete this rubric? You will have to contact administration to restore.</p>
+            </div>
+            <div class="modal-footer">
+
+                @Html.ActionLink("Confrim", "Deactivate", "Rubric", new { rubricID = Model.RubricID }, new { @class = "btn btn-danger" })
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+
+            </div>
+        </div>
+    </div>
 </div>

@@ -26,7 +26,15 @@
     </ol>
 </nav>
 
-<h2>Editing @Model.Rubric.Name : @Model.FacetID</h2>
+@if (Model.IsCreating)
+{
+    <h2>@Model.Rubric.Name : New Facet</h2>
+}
+else
+{
+    <h2>Editing @Model.Rubric.Name : @Model.FacetID</h2>
+}
+
 
 @using (Html.BeginForm("Edit", "Facet"))
 {
@@ -60,14 +68,14 @@
         </div>
 
         @*<div class="form-group">
-            @Html.LabelFor(model => model.FacetType, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-4">
-                @Html.DropDownListFor(model => model.FacetTypeList, new SelectList(Model.FacetTypeList.Select(ft => ft.FacetTypeID), Model.FacetType), new { @class = "form-select" })
-                <div class="row-height-30">
-                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                @Html.LabelFor(model => model.FacetType, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.DropDownListFor(model => model.FacetTypeList, new SelectList(Model.FacetTypeList.Select(ft => ft.FacetTypeID), Model.FacetType), new { @class = "form-select" })
+                    <div class="row-height-30">
+                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                    </div>
                 </div>
-            </div>
-        </div>*@
+            </div>*@
         @Html.HiddenFor(model => model.FacetType)
 
         <div class="d-md-flex">
@@ -80,6 +88,7 @@
                 @Html.HiddenFor(model => model.Criteria[i].DateCreated)
                 @Html.HiddenFor(model => model.Criteria[i].DateUpdated)
                 @Html.HiddenFor(model => model.Criteria[i].Active)
+                @Html.HiddenFor(model => model.IsCreating)
 
                 <div class="flex-md-column col-md">
                     <div class="card m-2">

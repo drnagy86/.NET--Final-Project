@@ -33,21 +33,39 @@ namespace RubricMVC.Controllers
         // GET: Facet/Edit/5
         public ActionResult Edit(int rubricID, string facetID)
         {
-            facetMV = new FacetModelView();
+            facetMV = null;
 
-            try
+
+            if (facetID != "new")
             {
-                facetMV = new FacetModelView(_facetManager.RetrieveFacetVM(rubricID, facetID));
-                facetMV.FacetTypeList = _facetTypeManager.RetrieveFacetTypes();
-                facetMV.Rubric = _rubricManager.RetrieveRubricByRubricID(facetMV.RubricID);
-                
+                try
+                {
+                    facetMV = new FacetModelView(_facetManager.RetrieveFacetVM(rubricID, facetID));
+                    facetMV.FacetTypeList = _facetTypeManager.RetrieveFacetTypes();
+                    facetMV.Rubric = _rubricManager.RetrieveRubricByRubricID(facetMV.RubricID);
+
+                }
+                catch (Exception ex)
+                {
+                    TempData["errorMessage"] = ex.Message;
+                }
             }
-            catch (Exception ex)
+            else
             {
-                TempData["errorMessage"] = ex.Message;
+                // new
+                try
+                {
+                    Rubric rubric = _rubricManager.RetrieveRubricByRubricID(rubricID);
+                    
+                    facetMV = new FacetModelView(rubric, _facetTypeManager.RetrieveFacetTypes());
+                    facetMV.IsCreating = true;
+                }
+                catch (Exception ex)
+                {
+                    TempData["errorMessage"] = ex.Message;
+                }
             }
-
-
+           
             return View(facetMV);
         }
 
@@ -55,43 +73,69 @@ namespace RubricMVC.Controllers
         [HttpPost]
         public ActionResult Edit(FacetModelView newFacet)
         {
-            try
+            if (ModelState.IsValid)
             {
-                FacetVM oldFacet = _facetManager.RetrieveFacetVM(newFacet.RubricID, newFacet.OldFacetID);
+                if (!newFacet.IsCreating)
+                {
+                    try
+                    {
+                        FacetVM oldFacet = _facetManager.RetrieveFacetVM(newFacet.RubricID, newFacet.OldFacetID);
+                        _facetManager.UpdateFacetAndCriteria(oldFacet, newFacet);
 
-                _facetManager.UpdateFacetAndCriteria(oldFacet, newFacet);
 
+                        return RedirectToAction("Details", "Rubric", new { rubricID = newFacet.RubricID });
+                    }
+                    catch (Exception ex)
+                    {
+                        TempData["errorMessage"] = ex.Message;
+                        return View(newFacet);
+                    }
+                }
+                else
+                {
+                    try
+                    {
+                        _facetManager.CreateFacet(newFacet.RubricID, newFacet.FacetID , newFacet.Description, newFacet.FacetType);
 
-                return RedirectToAction("Details", "Rubric", new { rubricID = newFacet.RubricID });
+                        foreach (Criteria criteria in newFacet.Criteria)
+                        {
+                            _criteriaManager.CreateCriteria(criteria.CriteriaID, newFacet.RubricID, newFacet.FacetID, criteria.Content, criteria.Score);
+                        }
+
+                        return RedirectToAction("Details", "Rubric", new { rubricID = newFacet.RubricID });
+
+                    }
+                    catch (Exception ex)
+                    {
+                        TempData["errorMessage"] = ex.Message;
+                        return View(newFacet);
+                    }
+                }
+                
             }
-            catch (Exception ex)
+            else
             {
-                TempData["errorMessage"] = ex.Message;
+                TempData["errorMessage"] = "The form is not yet complete. Please make sure you fill out each box correctly.";
                 return View(newFacet);
             }
 
         }
 
         // GET: Facet/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int rubricID, string facetID)
         {
-            return View();
-        }
 
-        // POST: Facet/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
             try
             {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
+                _facetManager.DeleteFacetByRubricIDAndFacetID(rubricID, facetID);
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                TempData["errorMessage"] = ex.Message;
             }
+
+            return RedirectToAction("Details", "Rubric", new { rubricID = rubricID });
         }
+
     }
 }

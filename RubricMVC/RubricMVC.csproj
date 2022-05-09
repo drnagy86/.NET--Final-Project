@@ -238,6 +238,14 @@
     <Compile Include="Migrations\202205081859089_add numberOfCriteria field to rubric table.Designer.cs">
       <DependentUpon>202205081859089_add numberOfCriteria field to rubric table.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202205090121056_add IsCreating field to facet model view.cs" />
+    <Compile Include="Migrations\202205090121056_add IsCreating field to facet model view.Designer.cs">
+      <DependentUpon>202205090121056_add IsCreating field to facet model view.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202205090249213_add CanEdit property to RubricModelView.cs" />
+    <Compile Include="Migrations\202205090249213_add CanEdit property to RubricModelView.Designer.cs">
+      <DependentUpon>202205090249213_add CanEdit property to RubricModelView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\FacetModelView.cs" />
@@ -348,6 +356,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202205081859089_add numberOfCriteria field to rubric table.resx">
       <DependentUpon>202205081859089_add numberOfCriteria field to rubric table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202205090121056_add IsCreating field to facet model view.resx">
+      <DependentUpon>202205090121056_add IsCreating field to facet model view.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202205090249213_add CanEdit property to RubricModelView.resx">
+      <DependentUpon>202205090249213_add CanEdit property to RubricModelView.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

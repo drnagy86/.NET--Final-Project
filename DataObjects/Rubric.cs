@@ -88,10 +88,6 @@ namespace DataObjects
             this.NumberOfCriteria = 3;
 
             this.FacetVMs = new List<FacetVM>();
-
-            
-
-
         }
 
         public RubricVM(Rubric rubric, List<Facet> facets, List<Criteria> criteria)
@@ -148,7 +144,7 @@ namespace DataObjects
                 FacetType = "Explanation"
             });
 
-            for (int i = 0; i < this.NumberOfCriteria; i++)
+            for (int i = 1; i < this.NumberOfCriteria + 1; i++)
             {
                 this.FacetVMs[0].Criteria.Add(new Criteria()
                 {
@@ -162,9 +158,6 @@ namespace DataObjects
                     Active = true
                 });
             }
-
-
-
             
         }
 

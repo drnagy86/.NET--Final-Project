@@ -394,7 +394,8 @@ namespace DataAccessLayer
                                 Active = reader.GetBoolean(9),
                                 Roles = new List<string>()
                             },
-                            Active = reader.GetBoolean(10)
+                            Active = reader.GetBoolean(10),
+                            NumberOfCriteria = reader.GetInt32(11)
                         };
                     }
                 }

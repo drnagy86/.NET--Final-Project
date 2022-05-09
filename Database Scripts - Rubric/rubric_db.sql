@@ -247,10 +247,10 @@ Sample Rubric records
 print '' print '*** Adding sample rubric records ***'
 GO
 INSERT INTO [dbo].[Rubric]
-	([Name], [Description], [ScoreTypeID], [RubricCreator])
+	([Name], [Description], [ScoreTypeID], [RubricCreator], [NumberOfCriteria])
 VALUES
-	('General Information and Skills', 'A general rubric for evaluating student knowledge and skill', 'Total Earned / Total Possible', 'joanne@company.com')
-	,('Module A: Narration', 'Rubric for a narration type essay for module A', 'Avg. Facet Score One Dec.', 'joanne@company.com')
+	('General Information and Skills', 'A general rubric for evaluating student knowledge and skill', 'Total Earned / Total Possible', 'joanne@company.com', 4)
+	,('Module A: Narration', 'Rubric for a narration type essay for module A', 'Avg. Facet Score One Dec.', 'joanne@company.com', 5)
 	
 -- 	,('Comapre and Contrast Essay Rubric', 'General rubric for compare and contrast essays', 'Percentage', 'martin@company.com')
 	
@@ -1128,14 +1128,32 @@ CREATE PROCEDURE [sp_create_user]
 	@FamilyName nvarchar(50)
 )
 AS
-	BEGIN
-		INSERT INTO [dbo].[User] (
-			[UserID]		
-			, [GivenName]		
-			, [FamilyName]	
-		)VALUES 
-			(@UserID, @GivenName, @FamilyName)
-	END
+	BEGIN 
+		BEGIN TRAN
+		BEGIN TRY			
+		
+			INSERT INTO [dbo].[User] (
+				[UserID]		
+				, [GivenName]		
+				, [FamilyName]	
+			)VALUES 
+				(@UserID, @GivenName, @FamilyName)
+
+			
+			
+			INSERT INTO [dbo].[UserRole]
+				([UserID], [RoleID])
+			VALUES
+				(@UserID, "Creator")
+			
+			COMMIT TRANSACTION
+		
+		END TRY
+		BEGIN CATCH
+			ROLLBACK TRANSACTION
+		END CATCH
+
+	END -- sp
 GO
 
 
