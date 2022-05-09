@@ -189,6 +189,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="HtmlHelpers\PagingHelper.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Migrations\202203150254400_InitialCreate.cs" />
     <Compile Include="Migrations\202203150254400_InitialCreate.Designer.cs">
@@ -246,11 +247,17 @@
     <Compile Include="Migrations\202205090249213_add CanEdit property to RubricModelView.Designer.cs">
       <DependentUpon>202205090249213_add CanEdit property to RubricModelView.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202205090446472_Add paging.cs" />
+    <Compile Include="Migrations\202205090446472_Add paging.Designer.cs">
+      <DependentUpon>202205090446472_Add paging.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\FacetModelView.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\PagingInfo.cs" />
+    <Compile Include="Models\RubricListViewModel.cs" />
     <Compile Include="Models\RubricModelView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -272,6 +279,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\sortTable.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -362,6 +370,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202205090249213_add CanEdit property to RubricModelView.resx">
       <DependentUpon>202205090249213_add CanEdit property to RubricModelView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202205090446472_Add paging.resx">
+      <DependentUpon>202205090446472_Add paging.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

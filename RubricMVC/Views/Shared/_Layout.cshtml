@@ -82,8 +82,23 @@ c-48 24 -160 46 -325 63 -133 14 -689 21 -840 10z" />
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        @Html.ActionLink("Home", "RubricList", "Rubric", routeValues: null, htmlAttributes: new { @class = "nav-link" })
+                        @Html.ActionLink("Rubrics", "RubricList", "Rubric", routeValues: null, htmlAttributes: new { @class = "nav-link" })
                     </li>
+                    <li class="nav-item">
+                        @Html.ActionLink("Create New", "Create", "Rubric", null, new {@class = "nav-link" })
+                    </li>
+
+
+
+                    @if (User.IsInRole("Administrator"))
+                    {
+                        <li class="nav-item">
+                            @Html.ActionLink("Administration", "Index", "Admin", routeValues: null, htmlAttributes: new { @class = "nav-link" })
+                        </li>
+                    }
+
+
+
                 </ul>
 
                 <ul class="navbar-nav ms-auto">

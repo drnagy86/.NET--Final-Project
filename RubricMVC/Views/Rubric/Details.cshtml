@@ -79,12 +79,13 @@
             <td>
                 @*<button type="button" class="btn btn-outline-dark"><i class="bi bi-pencil"></i></button>*@
 
-                @if (Model.CanEdit)
-                {
+                    @if (Model.CanEdit)
+                    {
 
-                    @Html.ActionLink("Edit", "Edit", "Facet", new { rubricID = Model.RubricID, facetID = facet.Key.FacetID }, new { @class = "btn btn-outline-dark" })
-                    @Html.ActionLink("Delete", "Delete", "Facet", new { rubricID = Model.RubricID, facetID = facet.Key.FacetID }, new { @class = "btn btn-outline-danger", onclick = "return confirm('Are sure want to delete?');" })
-                }
+                        @Html.ActionLink("Edit", "Edit", "Facet", new { rubricID = Model.RubricID, facetID = facet.Key.FacetID }, new { @class = "btn btn-outline-dark" })
+                        @Html.ActionLink("Delete", "Delete", "Facet", new { rubricID = Model.RubricID, facetID = facet.Key.FacetID }, new { @class = "btn btn-outline-danger", onclick = "return confirm('Are sure want to delete?');" })
+                    }
+
 
             </td>
             </tr>

@@ -20,6 +20,7 @@ namespace RubricMVC
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/scripts").Include(
+                       "~/Scripts/sortTable.js",
                       "~/Scripts/index.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(

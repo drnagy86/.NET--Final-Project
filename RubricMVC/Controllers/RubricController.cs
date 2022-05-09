@@ -20,6 +20,7 @@ namespace RubricMVC.Controllers
         private RubricVM rubric = null;
         private RubricModelView rubricModelView = null;
 
+        public int _pageSize = 10;
 
         public RubricController(IRubricManager<RubricVM> rubricManager, IUserManager userManager, IScoreTypeManager scoreTypeManager)
         {
@@ -29,8 +30,10 @@ namespace RubricMVC.Controllers
         }
 
         // GET: Rubric
-        public ActionResult RubricList()
+        public ActionResult RubricList(int page = 1)
         {
+            RubricListViewModel model = null;
+
             try
             {
                 rubrics = _rubricVMManager.RetrieveActiveRubrics();
@@ -42,7 +45,21 @@ namespace RubricMVC.Controllers
                 rubrics = new List<RubricVM>();
             }
 
-            return View(rubrics);
+            model = new RubricListViewModel
+            {
+                Rubrics = rubrics
+                        .OrderBy(p => p.RubricID)
+                        .Skip((page - 1) * _pageSize)
+                        .Take(_pageSize),
+                PagingInfo = new PagingInfo
+                {
+                    CurrentPage = page,
+                    ItemsPerPage = _pageSize,
+                    TotalItems = rubrics.Count()
+                }
+            };
+
+            return View(model);
         }
 
         // GET: Rubric/Details/5
